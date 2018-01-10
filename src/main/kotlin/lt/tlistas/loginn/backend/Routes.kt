@@ -1,4 +1,4 @@
-package functional.web
+package lt.tlistas.loginn.backend
 
 import org.springframework.core.io.ClassPathResource
 import org.springframework.http.MediaType.APPLICATION_JSON

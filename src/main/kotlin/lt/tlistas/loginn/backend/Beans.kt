@@ -1,7 +1,5 @@
 package lt.tlistas.loginn.backend
 
-import functional.web.Routes
-import functional.web.UserHandler
 import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.context.support.beans
 import org.springframework.web.cors.CorsConfiguration

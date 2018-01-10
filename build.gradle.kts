@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
 	application
 	id("org.jetbrains.kotlin.jvm") version "1.1.61"
+	id ("com.github.johnrengelman.shadow") version "2.0.1"
 	id("io.spring.dependency-management") version "1.0.3.RELEASE"
 	id("org.junit.platform.gradle.plugin") version "1.0.2"
 }
@@ -13,7 +14,7 @@ repositories {
 }
 
 application {
-	mainClassName = "lt.tlistas.loginn.backend.Application"
+	mainClassName = "lt.tlistas.loginn.backend.ApplicationKt"
 }
 
 tasks {
