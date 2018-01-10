@@ -7,7 +7,7 @@ import org.springframework.web.cors.reactive.CorsWebFilter
 import org.springframework.web.reactive.function.server.RouterFunctions
 
 fun beans() = beans {
-	bean<UserHandler>()
+	bean<ProjectHandler>()
 	bean<Routes>()
 	bean("webHandler") {
 		RouterFunctions.toWebHandler(ref<Routes>().router())

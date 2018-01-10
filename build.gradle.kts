@@ -9,6 +9,7 @@ plugins {
 }
 
 repositories {
+	mavenLocal()
 	mavenCentral()
 	maven("https://repo.spring.io/milestone")
 }
@@ -33,6 +34,7 @@ dependencyManagement {
 }
 
 dependencies {
+	compile("lt.tlistas:core:1.1.1")
 	compile("org.jetbrains.kotlin:kotlin-stdlib-jre8")
 	compile("org.jetbrains.kotlin:kotlin-reflect")
 
