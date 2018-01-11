@@ -1,0 +1,45 @@
+apply from: 'aws-credentials.gradle'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url "https://repo.spring.io/milestone" }
+    repositories {
+        maven {
+            url 's3://repository.tlist.no/releases'
+            credentials(AwsCredentials) {
+                accessKey awsCredentials.AWSAccessKeyId
+                secretKey awsCredentials.AWSSecretKey
+            }
+        }
+    }
+}
+
+dependencyManagement {
+    imports {
+        mavenBom 'org.springframework.boot:spring-boot-dependencies:2.0.0.M7'
+    }
+}
+
+dependencies {
+    compile "lt.tlistas:core:1.1.1"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8"
+    compile "org.jetbrains.kotlin:kotlin-reflect"
+
+    compile "org.springframework:spring-webflux"
+    compile ("org.springframework:spring-context") {
+        exclude group: "spring-aop"
+    }
+    compile "io.projectreactor.ipc:reactor-netty"
+
+    compile "org.slf4j:slf4j-api"
+    compile "ch.qos.logback:logback-classic"
+
+    compile "com.fasterxml.jackson.module:jackson-module-kotlin"
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
+
+    testCompile "io.projectreactor:reactor-test"
+
+    testCompile "org.junit.jupiter:junit-jupiter-api"
+    testRuntime "org.junit.jupiter:junit-jupiter-engine"
+}
