@@ -1,3 +1,11 @@
+import com.amazonaws.auth.*
+
+buildscript {
+    dependencies {
+        classpath 'com.amazonaws:aws-java-sdk-core:1.11.261'
+    }
+}
+
 plugins {
     id 'org.jetbrains.kotlin.jvm'  version '1.1.61'
     id 'com.github.johnrengelman.shadow' version '2.0.1'
@@ -9,13 +17,6 @@ apply plugin: 'kotlin'
 apply plugin: 'application'
 apply plugin: 'maven-publish'
 
-
-repositories {
-    mavenLocal()
-    mavenCentral()
-    maven { url "https://repo.spring.io/milestone" }
-}
-
 mainClassName = 'lt.tlistas.loginn.backend.ApplicationKt'
 
 defaultTasks 'run'
@@ -26,6 +27,16 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
     }
 }
 
+def fetchAwsCredentials = {
+    try {
+        return DefaultAWSCredentialsProviderChain.getInstance().credentials
+    } catch (Exception e) {
+        println e
+        logger.error('Unable to retrieve AWS credentials from profile, publishing to S3 will not be available.', e)
+        return null
+    }
+}
+AWSCredentials awsCredentials = fetchAwsCredentials()
 repositories {
     mavenLocal()
     mavenCentral()
@@ -34,17 +45,8 @@ repositories {
         maven {
             url 's3://repository.tlist.no/releases'
             credentials(AwsCredentials) {
-                accessKey AWS_ACCESS_KEY
-                secretKey AWS_SECRET_KEY
-            }
-        }
-    }
-    repositories {
-        maven {
-            url 's3://repository.tlist.no/snapshots'
-            credentials(AwsCredentials) {
-                accessKey AWS_ACCESS_KEY
-                secretKey AWS_SECRET_KEY
+                accessKey awsCredentials.AWSAccessKeyId
+                secretKey awsCredentials.AWSSecretKey
             }
         }
     }
@@ -84,15 +86,15 @@ publishing {
         maven(MavenPublication) {
             groupId 'lt.tlistas.loginn'
             artifactId 'backend'
-            version '1.1.1-SNAPSHOT'
+            version '1.1.1-RELEASE'
             from components.java
 
             repositories {
                 maven {
                     url 's3://repository.tlist.no/releases'
                     credentials(AwsCredentials) {
-                        accessKey AWS_ACCESS_KEY
-                        secretKey AWS_SECRET_KEY
+                        accessKey = awsCredentials.AWSAccessKeyId
+                        secretKey = awsCredentials.AWSSecretKey
                     }
                 }
             }
