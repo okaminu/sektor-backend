@@ -20,10 +20,12 @@ fun beans() = beans {
 	bean("mongoTemplate") {
 		val mongoClient = MongoClient(ServerAddress(), object : ArrayList<MongoCredential>() {
 			init {
-				add(MongoCredential.createCredential("app", "admin", "GMB9T6j3Ld3sZ7hJYcB6URPYW".toCharArray()))
+				add(MongoCredential.createCredential(System.getenv("MONGODB_USERNAME"),
+                        System.getenv("MONGODB_AUTH_DATABASE"),
+                        System.getenv("MONGODB_PASSWORD").toCharArray()))
 			}
 		})
-		val mongoTemplate = MongoTemplate(SimpleMongoDbFactory(mongoClient, "dev"))
+		val mongoTemplate = MongoTemplate(SimpleMongoDbFactory(mongoClient, System.getenv("MONGODB_DATABASE")))
 		mongoTemplate.setWriteConcern(WriteConcern.ACKNOWLEDGED)
 		mongoTemplate
 	}
