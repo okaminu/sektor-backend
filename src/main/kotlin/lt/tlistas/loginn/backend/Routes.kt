@@ -9,6 +9,7 @@ class Routes(private val projectHandler: ProjectHandler) {
 		"/api".nest {
 			accept(APPLICATION_JSON).nest {
 				GET("/projects", projectHandler::findAll)
+				GET("/save", projectHandler::save)
 			}
 
 		}

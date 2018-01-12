@@ -1,6 +1,7 @@
 package lt.tlistas.loginn.backend
 
 import org.springframework.beans.factory.getBean
+import org.springframework.beans.factory.xml.XmlBeanDefinitionReader
 import org.springframework.context.support.GenericApplicationContext
 import org.springframework.http.server.reactive.ReactorHttpHandlerAdapter
 import org.springframework.web.cors.reactive.CorsWebFilter
@@ -10,10 +11,10 @@ import reactor.ipc.netty.http.server.HttpServer
 
 fun main(args: Array<String>) {
 
-    val context = GenericApplicationContext().apply {
-        beans().initialize(this)
-        refresh()
-    }
+    val context = GenericApplicationContext()
+    beans().initialize(context)
+    XmlBeanDefinitionReader(context).loadBeanDefinitions("classpath:context/context.xml")
+    context.refresh()
 
     val httpHandler = WebHttpHandlerBuilder
             .applicationContext(context)

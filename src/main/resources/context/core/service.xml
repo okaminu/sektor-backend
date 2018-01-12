@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-4.1.xsd"
+       default-lazy-init="true" default-autowire="constructor">
+
+    <bean id="validatorToExceptionConverter" class="lt.tlistas.core.exception.converter.ValidatorToExceptionConverter"/>
+    <bean id="companyService" class="lt.tlistas.core.service.CompanyService"/>
+    <bean id="countryService" class="lt.tlistas.core.service.CountryService"/>
+    <bean id="customerService" class="lt.tlistas.core.service.CustomerService"/>
+    <bean id="projectService" class="lt.tlistas.core.service.ProjectService"/>
+    <bean id="collaboratorService" class="lt.tlistas.core.service.CollaboratorService"/>
+    <bean id="userService" class="lt.tlistas.core.service.UserService"/>
+</beans>
+
