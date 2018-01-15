@@ -6,6 +6,8 @@ import com.mongodb.ServerAddress
 import com.mongodb.WriteConcern
 import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.context.support.beans
+import org.springframework.core.env.Environment
+import org.springframework.core.env.get
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory
 import org.springframework.web.cors.CorsConfiguration
@@ -18,16 +20,20 @@ fun beans() = beans {
 	bean<Routes>()
 
 	bean("mongoTemplate") {
-		val mongoClient = MongoClient(ServerAddress(), object : ArrayList<MongoCredential>() {
+		MongoTemplate(SimpleMongoDbFactory(ref(), ref<Environment>()["MONGODB_DATABASE"])).apply {
+			setWriteConcern(WriteConcern.ACKNOWLEDGED)
+		}
+	}
+
+	bean("mongoClient") {
+		val environment = ref<Environment>()
+		MongoClient(ServerAddress(), object : ArrayList<MongoCredential>() {
 			init {
-				add(MongoCredential.createCredential(System.getenv("MONGODB_USERNAME"),
-                        System.getenv("MONGODB_AUTH_DATABASE"),
-                        System.getenv("MONGODB_PASSWORD").toCharArray()))
+				add(MongoCredential.createCredential(environment["MONGODB_USERNAME"],
+						environment["MONGODB_AUTH_DATABASE"],
+						environment["MONGODB_PASSWORD"].toCharArray()))
 			}
 		})
-		val mongoTemplate = MongoTemplate(SimpleMongoDbFactory(mongoClient, System.getenv("MONGODB_DATABASE")))
-		mongoTemplate.setWriteConcern(WriteConcern.ACKNOWLEDGED)
-		mongoTemplate
 	}
 
 	bean("webHandler") {
