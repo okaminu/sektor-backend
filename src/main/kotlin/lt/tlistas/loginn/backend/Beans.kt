@@ -16,7 +16,7 @@ import org.springframework.web.reactive.function.server.RouterFunctions
 import java.util.*
 
 fun beans() = beans {
-	bean<ProjectHandler>()
+	bean<CollaboratorHandler>()
 	bean<Routes>()
 
 	bean("mongoTemplate") {
