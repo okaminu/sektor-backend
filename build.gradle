@@ -9,6 +9,7 @@ apply plugin: 'kotlin'
 apply plugin: 'application'
 apply from: 'dependencies.gradle'
 apply from: 'publish.gradle'
+apply plugin: "jacoco"
 
 mainClassName = 'lt.tlistas.loginn.backend.ApplicationKt'
 
@@ -17,5 +18,37 @@ defaultTasks 'run'
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+}
+
+jacocoTestReport {
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports after running tests."
+    additionalSourceDirs = files(sourceSets.main.allJava.srcDirs)
+}
+
+task applicationCodeCoverageReport(type:JacocoReport){
+    executionData run
+    sourceSets sourceSets.main
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        csv.enabled false
+        html.destination file("${buildDir}/jacocoHtml")
+    }
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            element = 'BUNDLE'
+
+            limit {
+                counter = 'INSTRUCTION'
+                minimum = 0.5
+            }
+        }
     }
 }
