@@ -13,6 +13,6 @@
     <import resource="core/repository.xml"/>
     <import resource="core/service.xml"/>
     <import resource="core/factory.xml"/>
-
+    <import resource="core/plugin/googleMaps.xml"/>
 
 </beans>

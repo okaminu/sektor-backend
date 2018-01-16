@@ -8,7 +8,7 @@ class Routes(private val collaboratorHandler: CollaboratorHandler) {
 	fun router() = router {
 		"/collaborator".nest {
 			accept(APPLICATION_JSON).nest {
-				GET("/worktime", collaboratorHandler::getWorkTime)
+				GET("/workTime", collaboratorHandler::getWorkTime)
 				POST("/logWorkByLocation", collaboratorHandler::logWorkByLocation)
 			}
 

@@ -14,10 +14,6 @@
     <bean id="userService" class="lt.tlistas.core.service.UserService"/>
     <bean id="workLogService" class="lt.tlistas.core.service.WorkLogService"/>
 
-
     <bean id="dateTimeWrapper" class="lt.tlistas.core.service.time.LocalDateTimeWrapper"/>
-    <bean id="dateTimeWrapper" class="lt.tlistas.core.google_maps.plugin.GoogleMapsGeocodingGatewayAdapter"/>
-    <bean id="dateTimeWrapper" class="lt.tlistas.core.google_maps.plugin.GoogleMapsGeocodingApi"/>
-    <bean id="dateTimeWrapper" class="lt.tlistas.core.google_maps.plugin.GoogleMapsApiContextFactory">
 </beans>
 
