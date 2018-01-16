@@ -21,7 +21,7 @@ class CollaboratorHandler(userService: UserService,
 
 	fun logWorkByLocation(req: ServerRequest): Mono<ServerResponse> {
 		req.bodyToMono<Location>()
-				.doOnNext({workLogService.logWorkByLocation(collaborator, it)})
+				.subscribe({workLogService.logWorkByLocation(collaborator, it)})
 		return ok().build()
 	}
 }
