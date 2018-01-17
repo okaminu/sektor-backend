@@ -43,6 +43,8 @@ dependencies {
 
     testCompile "io.projectreactor:reactor-test"
 
-    testCompile "org.junit.jupiter:junit-jupiter-api"
-    testRuntime "org.junit.jupiter:junit-jupiter-engine"
+    testCompile "junit:junit:4.12"
+    testCompile "org.jetbrains.kotlin:kotlin-test-junit"
+    testCompile "com.nhaarman:mockito-kotlin"
+    testCompile "org.mockito:mockito-core:2.1.0"
 }
