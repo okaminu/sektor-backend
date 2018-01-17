@@ -1,0 +1,36 @@
+apply plugin: "jacoco"
+jacoco {
+    toolVersion = "0.8.0"
+}
+
+def fileFilter = []
+def debugTree = fileTree(dir: "${buildDir}/classes/kotlin/main", excludes: fileFilter)
+def mainSrc = "${project.projectDir}/src/main/kotlin"
+
+jacocoTestReport {
+    reports {
+        html.enabled = true
+    }
+    sourceDirectories = files([mainSrc])
+    classDirectories = files([debugTree])
+    executionData = files("${buildDir}/jacoco/test.exec")
+}
+
+jacocoTestCoverageVerification {
+    sourceDirectories = files([mainSrc])
+    classDirectories = files([debugTree])
+    executionData = files("${buildDir}/jacoco/test.exec")
+
+    violationRules {
+        rule {
+            limit {
+                element = 'BUNDLE'
+                counter = "LINE"
+                minimum = 1
+            }
+        }
+    }
+}
+
+test { finalizedBy jacocoTestReport }
+check.dependsOn(jacocoTestCoverageVerification)
