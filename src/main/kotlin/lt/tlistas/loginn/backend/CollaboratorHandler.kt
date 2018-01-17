@@ -1,7 +1,7 @@
 package lt.tlistas.loginn.backend
 
+import lt.tlistas.core.service.LocationLoggingService
 import lt.tlistas.core.service.UserService
-import lt.tlistas.core.service.WorkLogService
 import lt.tlistas.core.type.Location
 import lt.tlistas.core.type.entity.Collaborator
 import org.springframework.web.reactive.function.BodyInserters.fromObject
@@ -13,7 +13,7 @@ import reactor.core.publisher.Mono
 
 @Suppress("UNUSED_PARAMETER")
 class CollaboratorHandler(userService: UserService,
-						  private var workLogService: WorkLogService) {
+						  private var locationLoggingService: LocationLoggingService) {
 
 	private val collaborator: Collaborator = userService.getByEmail("test@test.com")!!.company.collaborators.first()
 
@@ -21,7 +21,7 @@ class CollaboratorHandler(userService: UserService,
 
 	fun logWorkByLocation(req: ServerRequest): Mono<ServerResponse> {
 		req.bodyToMono<Location>()
-				.subscribe({workLogService.logWorkByLocation(collaborator, it)})
+				.subscribe({locationLoggingService.logWorkByLocation(collaborator, it)})
 		return ok().build()
 	}
 }
