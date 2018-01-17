@@ -14,6 +14,6 @@
     <bean id="userService" class="lt.tlistas.core.service.UserService"/>
     <bean id="workLogService" class="lt.tlistas.core.service.WorkLogService"/>
 
-    <bean id="dateTimeWrapper" class="lt.tlistas.core.service.time.LocalDateTimeWrapper"/>
+    <bean id="dateTimeProvider" class="lt.tlistas.core.service.time.LocalDateTimeProvider"/>
 </beans>
 
