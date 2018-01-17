@@ -20,7 +20,7 @@ fun beans() = beans {
 	bean<Routes>()
 
 	bean("mongoTemplate") {
-		MongoTemplate(SimpleMongoDbFactory(ref(), ref<Environment>()["MONGODB_DATABASE"])).apply {
+		MongoTemplate(SimpleMongoDbFactory(ref(), ref<Environment>()["MONGO_DATABASE"])).apply {
 			setWriteConcern(WriteConcern.ACKNOWLEDGED)
 		}
 	}
@@ -29,9 +29,9 @@ fun beans() = beans {
 		val environment = ref<Environment>()
 		MongoClient(ServerAddress(), object : ArrayList<MongoCredential>() {
 			init {
-				add(MongoCredential.createCredential(environment["MONGODB_USERNAME"],
-						environment["MONGODB_AUTH_DATABASE"],
-						environment["MONGODB_PASSWORD"].toCharArray()))
+				add(MongoCredential.createCredential(environment["MONGO_USERNAME"],
+						environment["MONGO_AUTH_DATABASE"],
+						environment["MONGO_PASSWORD"].toCharArray()))
 			}
 		})
 	}
