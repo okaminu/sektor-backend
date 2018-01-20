@@ -4,8 +4,8 @@ import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
+import lt.tlistas.core.service.LocationLoggingService
 import lt.tlistas.core.service.UserService
-import lt.tlistas.core.service.WorkLogService
 import lt.tlistas.core.type.entity.Collaborator
 import lt.tlistas.core.type.entity.Company
 import lt.tlistas.core.type.entity.User
@@ -21,7 +21,7 @@ class CollaboratorHandlerTest {
 	@Ignore
 	fun `Takes collaborator worktime`() {
 		val userServiceMock : UserService = mock()
-		val workLogServiceMock : WorkLogService= mock()
+		val locationLoggingService : LocationLoggingService= mock()
 
 		val timeRange = TimeRange(0, 1)
 		val user = User().apply {
@@ -32,7 +32,7 @@ class CollaboratorHandlerTest {
 		}
 		doReturn(user).`when`(userServiceMock).getByEmail(any())
 
-		val collaboratorHandler = CollaboratorHandler(userServiceMock, workLogServiceMock)
+		val collaboratorHandler = CollaboratorHandler(userServiceMock, locationLoggingService)
 		val response = collaboratorHandler.getWorkTime(mock())
 
 		verify(userServiceMock).getByEmail(any())
