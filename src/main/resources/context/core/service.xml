@@ -5,16 +5,15 @@
     http://www.springframework.org/schema/beans/spring-beans-4.1.xsd"
        default-lazy-init="true" default-autowire="constructor">
 
-    <bean id="validatorToExceptionConverter" class="lt.tlistas.core.exception.converter.ValidatorToExceptionConverter"/>
+    <bean id="collaboratorService" class="lt.tlistas.core.service.CollaboratorService"/>
     <bean id="companyService" class="lt.tlistas.core.service.CompanyService"/>
-    <bean id="countryService" class="lt.tlistas.core.service.CountryService"/>
     <bean id="customerService" class="lt.tlistas.core.service.CustomerService"/>
+    <bean id="countryService" class="lt.tlistas.core.service.CountryService"/>
+    <bean id="dateTimeProvider" class="lt.tlistas.core.service.time.LocalDateTimeProvider"/>
     <bean id="locationLoggingService" class="lt.tlistas.core.service.LocationLoggingService"/>
     <bean id="projectService" class="lt.tlistas.core.service.ProjectService"/>
-    <bean id="collaboratorService" class="lt.tlistas.core.service.CollaboratorService"/>
     <bean id="userService" class="lt.tlistas.core.service.UserService"/>
+    <bean id="validatorToExceptionConverter" class="lt.tlistas.core.exception.converter.ValidatorToExceptionConverter"/>
     <bean id="workLogService" class="lt.tlistas.core.service.WorkLogService"/>
-
-    <bean id="dateTimeProvider" class="lt.tlistas.core.service.time.LocalDateTimeProvider"/>
 </beans>
 
