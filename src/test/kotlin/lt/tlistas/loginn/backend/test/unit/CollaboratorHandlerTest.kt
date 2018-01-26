@@ -47,11 +47,11 @@ class CollaboratorHandlerTest {
     @Test
     fun `Takes collaborator worktime`() {
 
-        val timeRange = TimeRange(0, 1)
+        val workTime = TimeRange(0, 1)
         val user = User().apply {
             company = Company().apply {
                 addCollaborator(Collaborator()
-                        .apply { workTime = timeRange })
+                        .apply { this.workTime = workTime })
             }
         }
         doReturn(user).`when`(userServiceMock).getByEmail(any())
@@ -65,7 +65,7 @@ class CollaboratorHandlerTest {
                 .expectBody(TimeRange::class.java)
                 .returnResult()
 
-        assertEquals(timeRange, returnResult.responseBody)
+        assertEquals(workTime, returnResult.responseBody)
 
     }
 
