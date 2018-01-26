@@ -46,6 +46,10 @@ fun beans() = beans {
 		}
 	}
 
+	bean("exceptionHandler") {
+		ExceptionHandler()
+	}
+
 	profile("cors") {
 		bean("corsFilter") {
 			CorsWebFilter { CorsConfiguration().applyPermitDefaultValues() }

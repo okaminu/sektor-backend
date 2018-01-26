@@ -18,6 +18,7 @@ fun main(args: Array<String>) {
 
     val httpHandler = WebHttpHandlerBuilder
             .applicationContext(context)
+            .exceptionHandler(context.getBean())
             .apply { if (context.containsBean("corsFilter")) filter(context.getBean<CorsWebFilter>()) }
             .build()
 
