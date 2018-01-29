@@ -28,28 +28,26 @@ class ExceptionHandlerTest {
     }
 
     @Test
-    fun `Converts GeocodeGatewayException to response status`() {
-        val locationGatewayException = LocationGatewayException()
+    fun `Handles GeocodeGatewayException by setting http response status and returning response body`() {
         val serverWebExchangeMock = mock<ServerWebExchange>()
         val serverHttpResponseMock = mock<ServerHttpResponse>()
         doReturn(serverHttpResponseMock).`when`(serverWebExchangeMock).response
 
-        val handlingIsSuccessful = exceptionHandler.handle(serverWebExchangeMock, locationGatewayException)
+        val handleResult = exceptionHandler.handle(serverWebExchangeMock, LocationGatewayException())
 
-        assertEquals(Mono.empty(), handlingIsSuccessful)
+        assertEquals(Mono.empty(), handleResult)
         verify(serverHttpResponseMock).statusCode = eq(HttpStatus.INTERNAL_SERVER_ERROR)
     }
 
     @Test
-    fun `Converts LocationNotFoundException to response status`() {
-        val locationGatewayException = LocationByAddressNotFoundException()
+    fun `Handles LocationNotFoundException by setting http response status and returning response body`() {
         val serverWebExchangeMock = mock<ServerWebExchange>()
         val serverHttpResponseMock = mock<ServerHttpResponse>()
         doReturn(serverHttpResponseMock).`when`(serverWebExchangeMock).response
 
-        val handlingIsSuccessful = exceptionHandler.handle(serverWebExchangeMock, locationGatewayException)
+        val handleResult = exceptionHandler.handle(serverWebExchangeMock, LocationByAddressNotFoundException())
 
-        assertEquals(Mono.empty(), handlingIsSuccessful)
+        assertEquals(Mono.empty(), handleResult)
         verify(serverHttpResponseMock).statusCode = eq(HttpStatus.UNPROCESSABLE_ENTITY)
     }
 
