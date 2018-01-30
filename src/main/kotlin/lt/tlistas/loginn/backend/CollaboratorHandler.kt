@@ -18,7 +18,7 @@ class CollaboratorHandler(private val userService: UserService,
 
     fun logWorkByLocation(req: ServerRequest): Mono<ServerResponse> {
         return req.bodyToMono<Location>()
-                .doOnNext { locationLoggingService.logWorkByLocation(getCollaborator(), it) }
+                .doOnNext { locationLoggingService.logWork(getCollaborator(), it) }
                 .flatMap { ok().build() }
     }
 
