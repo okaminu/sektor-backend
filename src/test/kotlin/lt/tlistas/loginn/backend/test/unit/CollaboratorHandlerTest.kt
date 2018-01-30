@@ -86,7 +86,7 @@ class CollaboratorHandlerTest {
                 .body(location.toMono(), Location::class.java)
                 .exchange()
 
-        verify(locationLoggingServiceMock).logWorkByLocation(eq(collaborator), eq(location))
+        verify(locationLoggingServiceMock).logWork(eq(collaborator), eq(location))
 
     }
 }
