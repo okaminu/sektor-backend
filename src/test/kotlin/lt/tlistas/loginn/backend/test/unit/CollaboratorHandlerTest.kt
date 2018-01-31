@@ -4,9 +4,9 @@ import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.verify
+import lt.tlistas.core.api.type.Location
 import lt.tlistas.core.service.LocationLoggingService
 import lt.tlistas.core.service.UserService
-import lt.tlistas.core.type.Location
 import lt.tlistas.core.type.entity.Collaborator
 import lt.tlistas.core.type.entity.Company
 import lt.tlistas.core.type.entity.User

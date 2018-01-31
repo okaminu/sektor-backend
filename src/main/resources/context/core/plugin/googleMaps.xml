@@ -5,9 +5,7 @@
     http://www.springframework.org/schema/beans/spring-beans-4.1.xsd"
        default-lazy-init="true" default-autowire="constructor">
 
-    <bean id="googleMapsAdapter" class="lt.tlistas.core.google_maps.plugin.GoogleMapsGeocodingGatewayAdapter"/>
-    <bean id="googleMapsContextFactory" class="lt.tlistas.core.google_maps.plugin.GoogleMapsApiContextFactory"/>
-    <bean id="googleMapsApi" class="lt.tlistas.core.google_maps.plugin.GoogleMapsGeocodingApi"/>
-    <bean id="context" class="com.google.maps.GeoApiContext.Builder"/>
+    <bean id="googleMapsAdapter" class="lt.tlistas.core.plugin.googlemaps.GoogleMapsGeocodeGatewayAdapter"/>
+    <bean id="addressToGeocodeConverter" class="lt.tlistas.core.plugin.googlemaps.AddressToGeocodeConverter"/>
 
 </beans>

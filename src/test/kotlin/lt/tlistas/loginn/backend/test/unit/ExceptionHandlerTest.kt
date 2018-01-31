@@ -4,8 +4,8 @@ import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
-import lt.tlistas.core.exception.LocationByAddressNotFoundException
-import lt.tlistas.core.exception.LocationGatewayException
+import lt.tlistas.core.api.exception.GeocodeGatewayException
+import lt.tlistas.core.api.exception.LocationNotFoundException
 import lt.tlistas.loginn.backend.ExceptionHandler
 import org.junit.Before
 import org.junit.Test
@@ -33,7 +33,7 @@ class ExceptionHandlerTest {
         val serverHttpResponseMock = mock<ServerHttpResponse>()
         doReturn(serverHttpResponseMock).`when`(serverWebExchangeMock).response
 
-        val handleResult = exceptionHandler.handle(serverWebExchangeMock, LocationGatewayException())
+        val handleResult = exceptionHandler.handle(serverWebExchangeMock, GeocodeGatewayException("message"))
 
         assertEquals(Mono.empty(), handleResult)
         verify(serverHttpResponseMock).statusCode = eq(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -45,7 +45,7 @@ class ExceptionHandlerTest {
         val serverHttpResponseMock = mock<ServerHttpResponse>()
         doReturn(serverHttpResponseMock).`when`(serverWebExchangeMock).response
 
-        val handleResult = exceptionHandler.handle(serverWebExchangeMock, LocationByAddressNotFoundException())
+        val handleResult = exceptionHandler.handle(serverWebExchangeMock, LocationNotFoundException("message"))
 
         assertEquals(Mono.empty(), handleResult)
         verify(serverHttpResponseMock).statusCode = eq(HttpStatus.UNPROCESSABLE_ENTITY)

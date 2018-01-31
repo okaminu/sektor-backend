@@ -1,8 +1,8 @@
 package lt.tlistas.loginn.backend
 
+import lt.tlistas.core.api.type.Location
 import lt.tlistas.core.service.LocationLoggingService
 import lt.tlistas.core.service.UserService
-import lt.tlistas.core.type.Location
 import org.springframework.web.reactive.function.BodyInserters.fromObject
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
