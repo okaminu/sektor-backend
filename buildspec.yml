@@ -4,3 +4,8 @@ phases:
   build:
     commands:
       - ./gradlew publish
+artifacts:
+  files:
+    - 'build/libs/Loginn_Backend.jar'
+    - 'codedeploy/*'
+  discard-paths: yes
