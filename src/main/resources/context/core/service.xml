@@ -10,7 +10,7 @@
     <bean id="customerService" class="lt.tlistas.core.service.CustomerService"/>
     <bean id="countryService" class="lt.tlistas.core.service.CountryService"/>
     <bean id="dateTimeProvider" class="lt.tlistas.core.service.time.LocalDateTimeProvider"/>
-    <bean id="locationLoggingService" class="lt.tlistas.core.service.LocationLoggingService"/>
+    <bean id="locationWorkLogService" class="lt.tlistas.core.service.LocationWorkLogService"/>
     <bean id="projectService" class="lt.tlistas.core.service.ProjectService"/>
     <bean id="userService" class="lt.tlistas.core.service.UserService"/>
     <bean id="validatorToExceptionConverter" class="lt.tlistas.core.exception.converter.ValidatorToExceptionConverter"/>

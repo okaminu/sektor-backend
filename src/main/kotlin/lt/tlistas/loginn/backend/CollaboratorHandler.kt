@@ -1,7 +1,7 @@
 package lt.tlistas.loginn.backend
 
 import lt.tlistas.core.api.type.Location
-import lt.tlistas.core.service.LocationLoggingService
+import lt.tlistas.core.service.LocationWorkLogService
 import lt.tlistas.core.service.UserService
 import org.springframework.web.reactive.function.BodyInserters.fromObject
 import org.springframework.web.reactive.function.server.ServerRequest
@@ -12,13 +12,13 @@ import reactor.core.publisher.Mono
 
 @Suppress("UNUSED_PARAMETER")
 class CollaboratorHandler(private val userService: UserService,
-                          private val locationLoggingService: LocationLoggingService) {
+                          private val locationWorkLogService: LocationWorkLogService) {
 
     fun getWorkTime(req: ServerRequest): Mono<ServerResponse> = ok().body(fromObject(getCollaborator().workTime))
 
     fun logWorkByLocation(req: ServerRequest): Mono<ServerResponse> {
         return req.bodyToMono<Location>()
-                .doOnNext { locationLoggingService.logWork(getCollaborator(), it) }
+                .doOnNext { locationWorkLogService.logWork(getCollaborator(), it) }
                 .flatMap { ok().build() }
     }
 

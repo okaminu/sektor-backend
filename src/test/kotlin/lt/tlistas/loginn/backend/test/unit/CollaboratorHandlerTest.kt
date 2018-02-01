@@ -5,7 +5,7 @@ import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.verify
 import lt.tlistas.core.api.type.Location
-import lt.tlistas.core.service.LocationLoggingService
+import lt.tlistas.core.service.LocationWorkLogService
 import lt.tlistas.core.service.UserService
 import lt.tlistas.core.type.entity.Collaborator
 import lt.tlistas.core.type.entity.Company
@@ -31,7 +31,7 @@ class CollaboratorHandlerTest {
     private lateinit var userServiceMock: UserService
 
     @Mock
-    private lateinit var locationLoggingServiceMock: LocationLoggingService
+    private lateinit var locationWorkLogServiceMock: LocationWorkLogService
 
     private lateinit var collaboratorHandler: CollaboratorHandler
 
@@ -41,7 +41,7 @@ class CollaboratorHandlerTest {
 
     @Before
     fun setUp() {
-        collaboratorHandler = CollaboratorHandler(userServiceMock, locationLoggingServiceMock)
+        collaboratorHandler = CollaboratorHandler(userServiceMock, locationWorkLogServiceMock)
     }
 
     @Test
@@ -86,7 +86,7 @@ class CollaboratorHandlerTest {
                 .body(location.toMono(), Location::class.java)
                 .exchange()
 
-        verify(locationLoggingServiceMock).logWork(eq(collaborator), eq(location))
+        verify(locationWorkLogServiceMock).logWork(eq(collaborator), eq(location))
 
     }
 }
