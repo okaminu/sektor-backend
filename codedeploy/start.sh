@@ -1,2 +1,2 @@
 #!/bin/bash
-nohup java -jar /srv/loginn/backend/Loginn_Backend-all.jar &>/dev/null &
+nohup java -jar /srv/loginn/backend/loginn-backend-all.jar &>/dev/null &

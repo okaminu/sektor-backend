@@ -6,6 +6,6 @@ phases:
       - ./gradlew build publish
 artifacts:
   files:
-    - 'build/libs/loginn-backend.jar'
+    - 'build/libs/loginn-backend-all.jar'
     - 'codedeploy/*'
   discard-paths: yes
