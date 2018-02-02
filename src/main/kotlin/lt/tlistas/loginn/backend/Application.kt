@@ -22,5 +22,5 @@ fun main(args: Array<String>) {
             .apply { if (context.containsBean("corsFilter")) filter(context.getBean<CorsWebFilter>()) }
             .build()
 
-    HttpServer.create(8080).startAndAwait(ReactorHttpHandlerAdapter(httpHandler))
+    HttpServer.create(8090).startAndAwait(ReactorHttpHandlerAdapter(httpHandler))
 }

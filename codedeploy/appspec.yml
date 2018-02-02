@@ -3,3 +3,8 @@ os: linux
 files:
   - source: /
     destination: /srv/loginn/backend/
+hooks:
+  ApplicationStart:
+    - location: start.sh
+      timeout: 300
+      runas: ubuntu
