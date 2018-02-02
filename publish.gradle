@@ -3,11 +3,11 @@ apply from: 'aws-credentials.gradle'
 
 publishing {
     publications {
-        maven(MavenPublication) {
+        shadow(MavenPublication) { publication ->
             groupId 'lt.tlistas.loginn'
-            artifactId 'backend'
-            version '1.1.1-RELEASE'
-            from components.java
+            artifactId = 'backend'
+            version '1.1.1'
+            project.shadow.component(publication)
 
             repositories {
                 maven {
