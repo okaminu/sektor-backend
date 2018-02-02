@@ -4,7 +4,7 @@ phases:
   build:
     commands:
       - ./gradlew build -x test
-      - ls
+      - ls build
 artifacts:
   files:
     - 'build/libs/Loginn_Backend-all.jar'
