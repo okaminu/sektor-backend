@@ -3,9 +3,9 @@ version: 0.1
 phases:
   build:
     commands:
-      - ./gradlew build -x test
+      - ./gradlew build publish
 artifacts:
   files:
-    - 'build/libs/*'
+    - 'build/libs/loginn-backend.jar'
     - 'codedeploy/*'
   discard-paths: yes
