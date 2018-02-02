@@ -3,7 +3,8 @@ version: 0.1
 phases:
   build:
     commands:
-      - ./gradlew build publish
+      - ./gradlew build -x test
+      - ls
 artifacts:
   files:
     - 'build/libs/Loginn_Backend-all.jar'
