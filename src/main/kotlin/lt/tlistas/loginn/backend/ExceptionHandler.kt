@@ -3,6 +3,7 @@ package lt.tlistas.loginn.backend
 import com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER
 import lt.tlistas.core.api.exception.GeocodeGatewayException
 import lt.tlistas.core.api.exception.LocationNotFoundException
+import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.http.HttpStatus
 import org.springframework.web.server.ServerWebExchange
 import org.springframework.web.server.WebExceptionHandler
@@ -19,6 +20,9 @@ class ExceptionHandler : WebExceptionHandler {
             is LocationNotFoundException -> {
                 LOGGER.log(Level.WARNING, ex.message)
                 exchange!!.response.statusCode = HttpStatus.UNPROCESSABLE_ENTITY
+            }
+            is EmptyResultDataAccessException -> {
+                exchange!!.response.statusCode = HttpStatus.NOT_FOUND
             }
         }
         return Mono.empty()

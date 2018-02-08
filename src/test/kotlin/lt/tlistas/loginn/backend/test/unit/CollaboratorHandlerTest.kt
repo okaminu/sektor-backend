@@ -5,6 +5,7 @@ import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.verify
 import lt.tlistas.core.api.type.Location
+import lt.tlistas.core.service.CollaboratorService
 import lt.tlistas.core.service.LocationWorkLogService
 import lt.tlistas.core.service.UserService
 import lt.tlistas.core.type.entity.Collaborator
@@ -14,9 +15,7 @@ import lt.tlistas.core.type.value_object.TimeRange
 import lt.tlistas.loginn.backend.CollaboratorHandler
 import lt.tlistas.loginn.backend.Routes
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
@@ -33,15 +32,14 @@ class CollaboratorHandlerTest {
     @Mock
     private lateinit var locationWorkLogServiceMock: LocationWorkLogService
 
-    private lateinit var collaboratorHandler: CollaboratorHandler
+    @Mock
+    private lateinit var collaboratorServiceMock: CollaboratorService
 
-    @Rule
-    @JvmField
-    val expectedException = ExpectedException.none()!!
+    private lateinit var collaboratorHandler: CollaboratorHandler
 
     @Before
     fun setUp() {
-        collaboratorHandler = CollaboratorHandler(userServiceMock, locationWorkLogServiceMock)
+        collaboratorHandler = CollaboratorHandler(userServiceMock, locationWorkLogServiceMock, collaboratorServiceMock)
     }
 
     @Test
@@ -87,6 +85,20 @@ class CollaboratorHandlerTest {
                 .exchange()
 
         verify(locationWorkLogServiceMock).logWork(eq(collaborator), eq(location))
+    }
 
+    @Test
+    fun `Sends confirmation code`() {
+        val phoneNumber = "+37012345678"
+        val collaborator = Collaborator().apply {
+            mobileNumber = phoneNumber
+        }
+
+        doReturn(collaborator).`when`(collaboratorServiceMock).getByMobileNumber(any())
+        val webTestClient = WebTestClient.bindToRouterFunction(Routes(collaboratorHandler).router()).build()
+        webTestClient.post().uri("/collaborator/sendConfirmationCode/$phoneNumber")
+                .exchange()
+
+        verify(collaboratorServiceMock).getByMobileNumber(phoneNumber)
     }
 }
