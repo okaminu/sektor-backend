@@ -5,7 +5,9 @@ import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import lt.tlistas.core.api.exception.GeocodeGatewayException
+import lt.tlistas.core.api.exception.InvalidMobileNumberException
 import lt.tlistas.core.api.exception.LocationNotFoundException
+import lt.tlistas.core.api.exception.SmsGatewayException
 import lt.tlistas.loginn.backend.ExceptionHandler
 import org.junit.Before
 import org.junit.Test
@@ -62,6 +64,30 @@ class ExceptionHandlerTest {
 
         assertEquals(Mono.empty(), handleResult)
         verify(serverHttpResponseMock).statusCode = eq(HttpStatus.NOT_FOUND)
+    }
+
+    @Test
+    fun `Handles SmsGatewayException by setting http response status and returning response body`() {
+        val serverWebExchangeMock = mock<ServerWebExchange>()
+        val serverHttpResponseMock = mock<ServerHttpResponse>()
+        doReturn(serverHttpResponseMock).`when`(serverWebExchangeMock).response
+
+        val handleResult = exceptionHandler.handle(serverWebExchangeMock, mock<SmsGatewayException>())
+
+        assertEquals(Mono.empty(), handleResult)
+        verify(serverHttpResponseMock).statusCode = eq(HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+
+    @Test
+    fun `Handles InvalidMobileNumberException by setting http response status and returning response body`() {
+        val serverWebExchangeMock = mock<ServerWebExchange>()
+        val serverHttpResponseMock = mock<ServerHttpResponse>()
+        doReturn(serverHttpResponseMock).`when`(serverWebExchangeMock).response
+
+        val handleResult = exceptionHandler.handle(serverWebExchangeMock, mock<InvalidMobileNumberException>())
+
+        assertEquals(Mono.empty(), handleResult)
+        verify(serverHttpResponseMock).statusCode = eq(HttpStatus.NOT_ACCEPTABLE)
     }
 
 }
