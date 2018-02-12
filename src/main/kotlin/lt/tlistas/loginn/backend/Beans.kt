@@ -17,6 +17,7 @@ import java.util.*
 
 fun beans() = beans {
 	bean<CollaboratorHandler>()
+	bean<ConfirmationHandler>()
 	bean<Routes>()
 
 	bean("mongoTemplate") {

@@ -31,7 +31,7 @@ dependencies {
 
     compile "org.springframework:spring-webflux"
     compile "org.springframework.data:spring-data-mongodb"
-    compile ("org.springframework:spring-context") {
+    compile("org.springframework:spring-context") {
         exclude group: "spring-aop"
     }
     compile "io.projectreactor.ipc:reactor-netty"
@@ -41,6 +41,8 @@ dependencies {
 
     compile "com.fasterxml.jackson.module:jackson-module-kotlin"
     compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
+
+    compile "org.mockito:mockito-core:2.13.0"
 
     testCompile "org.springframework:spring-test"
     testCompile "junit:junit:4.12"

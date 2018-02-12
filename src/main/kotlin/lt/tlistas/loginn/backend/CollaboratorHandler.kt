@@ -1,7 +1,6 @@
 package lt.tlistas.loginn.backend
 
 import lt.tlistas.core.api.type.Location
-import lt.tlistas.core.service.CollaboratorService
 import lt.tlistas.core.service.LocationWorkLogService
 import lt.tlistas.core.service.UserService
 import org.springframework.web.reactive.function.BodyInserters.fromObject
@@ -13,20 +12,13 @@ import reactor.core.publisher.Mono
 
 @Suppress("UNUSED_PARAMETER")
 class CollaboratorHandler(private val userService: UserService,
-                          private val locationWorkLogService: LocationWorkLogService,
-                          private val collaboratorService: CollaboratorService) {
+                          private val locationWorkLogService: LocationWorkLogService) {
 
     fun getWorkTime(req: ServerRequest): Mono<ServerResponse> = ok().body(fromObject(getCollaborator().workTime))
 
     fun logWorkByLocation(req: ServerRequest): Mono<ServerResponse> {
         return req.bodyToMono<Location>()
                 .doOnNext { locationWorkLogService.logWork(getCollaborator(), it) }
-                .flatMap { ok().build() }
-    }
-
-    fun sendConfirmationCode(req: ServerRequest): Mono<ServerResponse> {
-        return Mono.just(req.pathVariable("mobileNumber"))
-                .doOnNext { collaboratorService.getByMobileNumber(it) }
                 .flatMap { ok().build() }
     }
 

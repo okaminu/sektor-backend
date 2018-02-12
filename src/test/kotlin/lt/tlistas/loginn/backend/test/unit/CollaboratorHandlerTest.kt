@@ -1,11 +1,7 @@
 package lt.tlistas.loginn.backend.test.unit
 
-import com.nhaarman.mockito_kotlin.any
-import com.nhaarman.mockito_kotlin.doReturn
-import com.nhaarman.mockito_kotlin.eq
-import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockito_kotlin.*
 import lt.tlistas.core.api.type.Location
-import lt.tlistas.core.service.CollaboratorService
 import lt.tlistas.core.service.LocationWorkLogService
 import lt.tlistas.core.service.UserService
 import lt.tlistas.core.type.entity.Collaborator
@@ -32,14 +28,11 @@ class CollaboratorHandlerTest {
     @Mock
     private lateinit var locationWorkLogServiceMock: LocationWorkLogService
 
-    @Mock
-    private lateinit var collaboratorServiceMock: CollaboratorService
-
     private lateinit var collaboratorHandler: CollaboratorHandler
 
     @Before
     fun setUp() {
-        collaboratorHandler = CollaboratorHandler(userServiceMock, locationWorkLogServiceMock, collaboratorServiceMock)
+        collaboratorHandler = CollaboratorHandler(userServiceMock, locationWorkLogServiceMock)
     }
 
     @Test
@@ -54,7 +47,7 @@ class CollaboratorHandlerTest {
         }
         doReturn(user).`when`(userServiceMock).getByEmail(any())
 
-        val routerFunction = Routes(collaboratorHandler).router()
+        val routerFunction = Routes(collaboratorHandler, mock()).router()
         val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
         val returnResult = webTestClient.get().uri("/collaborator/workTime")
                 .exchange()
@@ -79,26 +72,11 @@ class CollaboratorHandlerTest {
         }
         doReturn(user).`when`(userServiceMock).getByEmail(any())
 
-        val webTestClient = WebTestClient.bindToRouterFunction(Routes(collaboratorHandler).router()).build()
+        val webTestClient = WebTestClient.bindToRouterFunction(Routes(collaboratorHandler, mock()).router()).build()
         webTestClient.post().uri("/collaborator/logWorkByLocation")
                 .body(location.toMono(), Location::class.java)
                 .exchange()
 
         verify(locationWorkLogServiceMock).logWork(eq(collaborator), eq(location))
-    }
-
-    @Test
-    fun `Sends confirmation code`() {
-        val phoneNumber = "+37012345678"
-        val collaborator = Collaborator().apply {
-            mobileNumber = phoneNumber
-        }
-
-        doReturn(collaborator).`when`(collaboratorServiceMock).getByMobileNumber(any())
-        val webTestClient = WebTestClient.bindToRouterFunction(Routes(collaboratorHandler).router()).build()
-        webTestClient.post().uri("/collaborator/sendConfirmationCode/$phoneNumber")
-                .exchange()
-
-        verify(collaboratorServiceMock).getByMobileNumber(phoneNumber)
     }
 }
