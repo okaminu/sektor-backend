@@ -11,11 +11,7 @@ class ConfirmationHandler(private val collaboratorService: CollaboratorService,
 
     fun sendConfirmationCode(req: ServerRequest): Mono<ServerResponse> {
         return Mono.just(req.pathVariable("mobileNumber"))
-                .doOnNext {
-                    val code = confirmationCodeService.generate()
-                    confirmationCodeService.storeCodeForCollaborator(collaboratorService.getByMobileNumber(it), code)
-                    confirmationCodeService.sendCodeByNumber(it, code)
-                }
+                .doOnNext { confirmationCodeService.sendCodeToCollaborator(collaboratorService.getByMobileNumber(it)) }
                 .flatMap { ServerResponse.ok().build() }
     }
 }

@@ -1,6 +1,7 @@
 package lt.tlistas.loginn.backend
 
 import com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER
+import lt.tlistas.core.api.SmsGateway
 import lt.tlistas.core.api.exception.GeocodeGatewayException
 import lt.tlistas.core.api.exception.LocationNotFoundException
 import org.springframework.dao.EmptyResultDataAccessException

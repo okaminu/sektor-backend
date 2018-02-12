@@ -34,21 +34,17 @@ class ConfirmationHandlerTest {
 
     @Test
     fun `Sends confirmation code`() {
-        val number = "+37012345678"
         val collaborator = Collaborator().apply {
-            mobileNumber = number
+            mobileNumber = "+37012345678"
         }
         doReturn(collaborator).`when`(collaboratorServiceMock).getByMobileNumber(any())
-        doReturn(number).`when`(confirmationCodeServiceMock).generate()
 
         val webTestClient = WebTestClient.bindToRouterFunction(Routes(mock(), confirmationHandler)
                 .router()).build()
-        webTestClient.post().uri("/collaborator/sendConfirmationCode/$number")
+        webTestClient.post().uri("/collaborator/sendConfirmationCode/${collaborator.mobileNumber}")
                 .exchange()
 
-        verify(collaboratorServiceMock).getByMobileNumber(number)
-        verify(confirmationCodeServiceMock).generate()
-        verify(confirmationCodeServiceMock).storeCodeForCollaborator(any(), any())
-        verify(confirmationCodeServiceMock).sendCodeByNumber(any(), any())
+        verify(collaboratorServiceMock).getByMobileNumber(collaborator.mobileNumber)
+        verify(confirmationCodeServiceMock).sendCodeToCollaborator(collaborator)
     }
 }
