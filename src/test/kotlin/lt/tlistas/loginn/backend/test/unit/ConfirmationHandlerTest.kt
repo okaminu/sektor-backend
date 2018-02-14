@@ -4,9 +4,8 @@ import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
-import lt.tlistas.core.service.CollaboratorService
+import lt.tlistas.core.service.confirmation.AuthenticationTokenService
 import lt.tlistas.core.service.confirmation.ConfirmationCodeService
-import lt.tlistas.core.type.entity.Collaborator
 import lt.tlistas.loginn.backend.ConfirmationHandler
 import lt.tlistas.loginn.backend.Routes
 import org.junit.Before
@@ -15,12 +14,13 @@ import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 import org.springframework.test.web.reactive.server.WebTestClient
+import kotlin.test.assertFalse
 
 @RunWith(MockitoJUnitRunner::class)
 class ConfirmationHandlerTest {
 
     @Mock
-    private lateinit var collaboratorServiceMock: CollaboratorService
+    private lateinit var tokenServiceMock: AuthenticationTokenService
 
     @Mock
     private lateinit var confirmationCodeServiceMock: ConfirmationCodeService
@@ -29,46 +29,41 @@ class ConfirmationHandlerTest {
 
     @Before
     fun setUp() {
-        confirmationHandler = ConfirmationHandler(collaboratorServiceMock, confirmationCodeServiceMock)
+        confirmationHandler = ConfirmationHandler(confirmationCodeServiceMock, tokenServiceMock)
     }
 
     @Test
     fun `Sends confirmation code to collaborator`() {
-        val collaborator = Collaborator().apply {
-            mobileNumber = "+37012345678"
-        }
-        doReturn(collaborator).`when`(collaboratorServiceMock).getByMobileNumber(any())
+        val mobileNumber = "+37012345678"
 
         val webTestClient = WebTestClient.bindToRouterFunction(Routes(mock(), confirmationHandler)
                 .router()).build()
-        webTestClient.post().uri("/collaborator/confirmationCode/number/${collaborator.mobileNumber}")
+        webTestClient.post().uri("/confirmation/confirm/number/$mobileNumber")
                 .exchange()
                 .expectStatus()
                 .isOk
                 .expectBody().isEmpty
 
-        verify(confirmationCodeServiceMock).sendCodeToCollaborator(collaborator.mobileNumber)
+        verify(confirmationCodeServiceMock).sendCodeToCollaborator(mobileNumber)
     }
 
-      /*@Test
-      fun `Sends confirmation token to collaborator`() {
-          val confirmationCode = ConfirmationCode().apply {
-              confirmationCode = "123546"
-          }
-          doReturn(confirmationCode).`when`(confirmationCodeServiceMock).getByConfirmationCode(any())
+    @Test
+    fun `Sends confirmation token to collaborator`() {
+        val confirmationCode = "123456"
+        val token = "5s4f65asd4f"
+        doReturn(token).`when`(tokenServiceMock).getAuthorizationToken(any())
 
-          val webTestClient = WebTestClient.bindToRouterFunction(Routes(mock(), confirmationHandler)
-                  .router()).build()
-          val returnResult = webTestClient.post()
-                  .uri("/confirmationToken/code/$confirmationCode")
-                  .exchange()
-                  .expectStatus()
-                  .isOk
-                  .expectBody(String::class.java)
-                  .returnResult()
+        val webTestClient = WebTestClient.bindToRouterFunction(Routes(mock(), confirmationHandler)
+                .router()).build()
+        val returnResult = webTestClient.post()
+                .uri("confirmation/authenticate/code/$confirmationCode")
+                .exchange()
+                .expectStatus()
+                .isOk
+                .expectBody(String::class.java)
+                .returnResult()
 
-          verify(confirmationCodeServiceMock).getByConfirmationCode(confirmationCode.confirmationCode)
-          verify(confirmationCodeServiceMock).sendTokenToCollaborator(confirmationCode.collaborator)
-          assertTrue(returnResult.responseBody.length == 6)
-      }*/
+        verify(tokenServiceMock).getAuthorizationToken(confirmationCode)
+        assertFalse(returnResult.responseBody.isEmpty())
+    }
 }

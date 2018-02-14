@@ -2,7 +2,6 @@ package lt.tlistas.loginn.backend
 
 import com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER
 import lt.tlistas.core.api.exception.*
-import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.http.HttpStatus
 import org.springframework.web.server.ServerWebExchange
 import org.springframework.web.server.WebExceptionHandler
@@ -20,9 +19,6 @@ class ExceptionHandler : WebExceptionHandler {
                 LOGGER.log(Level.WARNING, ex.message)
                 exchange!!.response.statusCode = HttpStatus.UNPROCESSABLE_ENTITY
             }
-            is EmptyResultDataAccessException -> {
-                exchange!!.response.statusCode = HttpStatus.NOT_FOUND
-            }
             is SmsGatewayException -> {
                 LOGGER.log(Level.WARNING, ex.message)
                 exchange!!.response.statusCode = HttpStatus.INTERNAL_SERVER_ERROR
@@ -31,7 +27,7 @@ class ExceptionHandler : WebExceptionHandler {
                 LOGGER.log(Level.WARNING, ex.message)
                 exchange!!.response.statusCode = HttpStatus.NOT_ACCEPTABLE
             }
-            is InvalidCodeException -> {
+            is InvalidConfirmationCodeException -> {
                 exchange!!.response.statusCode = HttpStatus.BAD_REQUEST
             }
         }

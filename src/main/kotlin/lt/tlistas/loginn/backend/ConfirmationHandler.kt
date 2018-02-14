@@ -1,14 +1,13 @@
 package lt.tlistas.loginn.backend
 
-import lt.tlistas.core.service.CollaboratorService
-import lt.tlistas.core.service.confirmation.ConfirmationCodeService
+import org.springframework.web.reactive.function.BodyInserters.fromObject
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
 import org.springframework.web.reactive.function.server.ServerResponse.ok
 import reactor.core.publisher.Mono
 
-class ConfirmationHandler(private val collaboratorService: CollaboratorService,
-                          private val confirmationCodeService: ConfirmationCodeService) {
+class ConfirmationHandler(private val confirmationCodeService: ConfirmationCodeService,
+                          private val tokenService: AuthenticationTokenService) {
 
     fun sendConfirmationCode(req: ServerRequest): Mono<ServerResponse> {
         return Mono.just(confirmationCodeService
@@ -16,8 +15,8 @@ class ConfirmationHandler(private val collaboratorService: CollaboratorService,
                 .flatMap { ok().build() }
     }
 
-    fun sendToken(req: ServerRequest): Mono<ServerResponse> {
-        return Mono.just((confirmationCodeService.confirmationCodeExists(req.pathVariable("confirmationCode"))))
-                .flatMap { ok().build() }
+    fun authorize(req: ServerRequest): Mono<ServerResponse> {
+        return Mono.just(tokenService.getAuthorizationToken(req.pathVariable("code")))
+                .flatMap { ok().body(fromObject(it)) }
     }
 }

@@ -10,7 +10,6 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
-import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.http.HttpStatus
 import org.springframework.http.server.reactive.ServerHttpResponse
 import org.springframework.web.server.ServerWebExchange
@@ -49,18 +48,6 @@ class ExceptionHandlerTest {
 
         assertEquals(Mono.empty(), handleResult)
         verify(serverHttpResponseMock).statusCode = eq(HttpStatus.UNPROCESSABLE_ENTITY)
-    }
-
-    @Test
-    fun `Handles EmptyResultDataAccessException by setting http response status and returning response body`() {
-        val serverWebExchangeMock = mock<ServerWebExchange>()
-        val serverHttpResponseMock = mock<ServerHttpResponse>()
-        doReturn(serverHttpResponseMock).`when`(serverWebExchangeMock).response
-
-        val handleResult = exceptionHandler.handle(serverWebExchangeMock, mock<EmptyResultDataAccessException>())
-
-        assertEquals(Mono.empty(), handleResult)
-        verify(serverHttpResponseMock).statusCode = eq(HttpStatus.NOT_FOUND)
     }
 
     @Test
