@@ -34,11 +34,6 @@ class ExceptionHandler : WebExceptionHandler {
             is InvalidCodeException -> {
                 exchange!!.response.statusCode = HttpStatus.BAD_REQUEST
             }
-            is Exception ->
-            {
-                println ("klaida "+ex.javaClass.canonicalName)
-            }
-
         }
         return Mono.empty()
     }

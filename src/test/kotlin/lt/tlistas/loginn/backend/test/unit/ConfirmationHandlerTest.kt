@@ -47,29 +47,28 @@ class ConfirmationHandlerTest {
                 .isOk
                 .expectBody().isEmpty
 
-        verify(collaboratorServiceMock).getByMobileNumber(collaborator.mobileNumber)
-        verify(confirmationCodeServiceMock).sendCodeToCollaborator(collaborator)
+        verify(confirmationCodeServiceMock).sendCodeToCollaborator(collaborator.mobileNumber)
     }
 
-  /*  @Test
-    fun `Sends confirmation token to collaborator`() {
-        val confirmationCode = ConfirmationCode().apply {
-            confirmationCode = "123546"
-        }
-        doReturn(confirmationCode).`when`(confirmationCodeServiceMock).getByConfirmationCode(any())
+      /*@Test
+      fun `Sends confirmation token to collaborator`() {
+          val confirmationCode = ConfirmationCode().apply {
+              confirmationCode = "123546"
+          }
+          doReturn(confirmationCode).`when`(confirmationCodeServiceMock).getByConfirmationCode(any())
 
-        val webTestClient = WebTestClient.bindToRouterFunction(Routes(mock(), confirmationHandler)
-                .router()).build()
-        val returnResult = webTestClient.post()
-                .uri("/confirmationToken/code/$confirmationCode")
-                .exchange()
-                .expectStatus()
-                .isOk
-                .expectBody(String::class.java)
-                .returnResult()
+          val webTestClient = WebTestClient.bindToRouterFunction(Routes(mock(), confirmationHandler)
+                  .router()).build()
+          val returnResult = webTestClient.post()
+                  .uri("/confirmationToken/code/$confirmationCode")
+                  .exchange()
+                  .expectStatus()
+                  .isOk
+                  .expectBody(String::class.java)
+                  .returnResult()
 
-        verify(confirmationCodeServiceMock).getByConfirmationCode(confirmationCode.confirmationCode)
-        verify(confirmationCodeServiceMock).sendTokenToCollaborator(confirmationCode.collaborator)
-        assertTrue(returnResult.responseBody.length == 6)
-    }*/
+          verify(confirmationCodeServiceMock).getByConfirmationCode(confirmationCode.confirmationCode)
+          verify(confirmationCodeServiceMock).sendTokenToCollaborator(confirmationCode.collaborator)
+          assertTrue(returnResult.responseBody.length == 6)
+      }*/
 }

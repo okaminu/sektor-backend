@@ -17,10 +17,7 @@ class ConfirmationHandler(private val collaboratorService: CollaboratorService,
     }
 
     fun sendToken(req: ServerRequest): Mono<ServerResponse> {
-        return Mono.just(confirmationCodeService.removeIfCodeIsValid(req.pathVariable("confirmationCode")))
-                /*confirmationCodeService
-                .sendTokenToCollaborator(confirmationCodeService
-                        .getByConfirmationCode(req.pathVariable("confirmationCode"))?.collaborator))*/
+        return Mono.just((confirmationCodeService.confirmationCodeExists(req.pathVariable("confirmationCode"))))
                 .flatMap { ok().build() }
     }
 }
