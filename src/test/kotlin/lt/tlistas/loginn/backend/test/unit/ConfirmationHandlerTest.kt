@@ -33,7 +33,7 @@ class ConfirmationHandlerTest {
     }
 
     @Test
-    fun `Sends confirmation code`() {
+    fun `Sends confirmation code to collaborator`() {
         val collaborator = Collaborator().apply {
             mobileNumber = "+37012345678"
         }
@@ -41,10 +41,35 @@ class ConfirmationHandlerTest {
 
         val webTestClient = WebTestClient.bindToRouterFunction(Routes(mock(), confirmationHandler)
                 .router()).build()
-        webTestClient.post().uri("/collaborator/sendConfirmationCode/${collaborator.mobileNumber}")
+        webTestClient.post().uri("/collaborator/confirmationCode/number/${collaborator.mobileNumber}")
                 .exchange()
+                .expectStatus()
+                .isOk
+                .expectBody().isEmpty
 
         verify(collaboratorServiceMock).getByMobileNumber(collaborator.mobileNumber)
         verify(confirmationCodeServiceMock).sendCodeToCollaborator(collaborator)
     }
+
+  /*  @Test
+    fun `Sends confirmation token to collaborator`() {
+        val confirmationCode = ConfirmationCode().apply {
+            confirmationCode = "123546"
+        }
+        doReturn(confirmationCode).`when`(confirmationCodeServiceMock).getByConfirmationCode(any())
+
+        val webTestClient = WebTestClient.bindToRouterFunction(Routes(mock(), confirmationHandler)
+                .router()).build()
+        val returnResult = webTestClient.post()
+                .uri("/confirmationToken/code/$confirmationCode")
+                .exchange()
+                .expectStatus()
+                .isOk
+                .expectBody(String::class.java)
+                .returnResult()
+
+        verify(confirmationCodeServiceMock).getByConfirmationCode(confirmationCode.confirmationCode)
+        verify(confirmationCodeServiceMock).sendTokenToCollaborator(confirmationCode.collaborator)
+        assertTrue(returnResult.responseBody.length == 6)
+    }*/
 }

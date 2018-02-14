@@ -76,6 +76,9 @@ class CollaboratorHandlerTest {
         webTestClient.post().uri("/collaborator/logWorkByLocation")
                 .body(location.toMono(), Location::class.java)
                 .exchange()
+                .expectStatus()
+                .isOk
+                .expectBody().isEmpty
 
         verify(locationWorkLogServiceMock).logWork(eq(collaborator), eq(location))
     }

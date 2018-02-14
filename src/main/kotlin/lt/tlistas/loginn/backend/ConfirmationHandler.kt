@@ -12,7 +12,15 @@ class ConfirmationHandler(private val collaboratorService: CollaboratorService,
 
     fun sendConfirmationCode(req: ServerRequest): Mono<ServerResponse> {
         return Mono.just(confirmationCodeService
-                .sendCodeToCollaborator(collaboratorService.getByMobileNumber(req.pathVariable("mobileNumber"))))
+                .sendCodeToCollaborator(req.pathVariable("mobileNumber")))
+                .flatMap { ok().build() }
+    }
+
+    fun sendToken(req: ServerRequest): Mono<ServerResponse> {
+        return Mono.just(confirmationCodeService.removeIfCodeIsValid(req.pathVariable("confirmationCode")))
+                /*confirmationCodeService
+                .sendTokenToCollaborator(confirmationCodeService
+                        .getByConfirmationCode(req.pathVariable("confirmationCode"))?.collaborator))*/
                 .flatMap { ok().build() }
     }
 }

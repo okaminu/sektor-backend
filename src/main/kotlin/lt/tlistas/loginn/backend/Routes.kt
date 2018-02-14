@@ -11,7 +11,8 @@ class Routes(private val collaboratorHandler: CollaboratorHandler,
             accept(APPLICATION_JSON).nest {
                 GET("/workTime", collaboratorHandler::getWorkTime)
                 POST("/logWorkByLocation", collaboratorHandler::logWorkByLocation)
-                POST("/sendConfirmationCode/{mobileNumber}", confirmationHandler::sendConfirmationCode)
+                POST("/confirmationCode/number/{mobileNumber}", confirmationHandler::sendConfirmationCode)
+                POST("/confirmationToken/code/{confirmationCode}", confirmationHandler::sendToken)
             }
         }
     }

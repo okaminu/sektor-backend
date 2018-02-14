@@ -4,10 +4,7 @@ import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
-import lt.tlistas.core.api.exception.GeocodeGatewayException
-import lt.tlistas.core.api.exception.InvalidMobileNumberException
-import lt.tlistas.core.api.exception.LocationNotFoundException
-import lt.tlistas.core.api.exception.SmsGatewayException
+import lt.tlistas.core.api.exception.*
 import lt.tlistas.loginn.backend.ExceptionHandler
 import org.junit.Before
 import org.junit.Test
@@ -88,6 +85,18 @@ class ExceptionHandlerTest {
 
         assertEquals(Mono.empty(), handleResult)
         verify(serverHttpResponseMock).statusCode = eq(HttpStatus.NOT_ACCEPTABLE)
+    }
+
+    @Test
+    fun `Handles InvalidCodeNumberException by setting http response status and returning response body`() {
+        val serverWebExchangeMock = mock<ServerWebExchange>()
+        val serverHttpResponseMock = mock<ServerHttpResponse>()
+        doReturn(serverHttpResponseMock).`when`(serverWebExchangeMock).response
+
+        val handleResult = exceptionHandler.handle(serverWebExchangeMock, mock<InvalidCodeException>())
+
+        assertEquals(Mono.empty(), handleResult)
+        verify(serverHttpResponseMock).statusCode = eq(HttpStatus.BAD_REQUEST)
     }
 
 }

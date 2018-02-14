@@ -1,10 +1,7 @@
 package lt.tlistas.loginn.backend
 
 import com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER
-import lt.tlistas.core.api.exception.GeocodeGatewayException
-import lt.tlistas.core.api.exception.InvalidMobileNumberException
-import lt.tlistas.core.api.exception.LocationNotFoundException
-import lt.tlistas.core.api.exception.SmsGatewayException
+import lt.tlistas.core.api.exception.*
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.http.HttpStatus
 import org.springframework.web.server.ServerWebExchange
@@ -33,6 +30,13 @@ class ExceptionHandler : WebExceptionHandler {
             is InvalidMobileNumberException -> {
                 LOGGER.log(Level.WARNING, ex.message)
                 exchange!!.response.statusCode = HttpStatus.NOT_ACCEPTABLE
+            }
+            is InvalidCodeException -> {
+                exchange!!.response.statusCode = HttpStatus.BAD_REQUEST
+            }
+            is Exception ->
+            {
+                println ("klaida "+ex.javaClass.canonicalName)
             }
 
         }
