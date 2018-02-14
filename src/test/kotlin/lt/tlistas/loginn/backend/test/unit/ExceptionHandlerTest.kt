@@ -86,4 +86,17 @@ class ExceptionHandlerTest {
         verify(serverHttpResponseMock).statusCode = eq(HttpStatus.BAD_REQUEST)
     }
 
+    @Test
+    fun `Handles Authentication by setting http response status and returning response body`() {
+        val serverWebExchangeMock = mock<ServerWebExchange>()
+        val serverHttpResponseMock = mock<ServerHttpResponse>()
+        doReturn(serverHttpResponseMock).`when`(serverWebExchangeMock).response
+
+        val handleResult = exceptionHandler.handle(serverWebExchangeMock, mock<AuthenticationException>())
+
+        assertEquals(Mono.empty(), handleResult)
+        verify(serverHttpResponseMock).statusCode = eq(HttpStatus.UNAUTHORIZED)
+    }
+
+
 }

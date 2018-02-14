@@ -8,7 +8,7 @@ import reactor.core.publisher.Mono
 
 class AuthenticationHandler(private val authService: AuthenticationService) {
 
-    fun authorize(req: ServerRequest): Mono<ServerResponse> {
+    fun authenticate(req: ServerRequest): Mono<ServerResponse> {
         return Mono.just(authService.getAuthenticationToken(req.pathVariable("code")))
                 .flatMap { ServerResponse.ok().body(BodyInserters.fromObject(it)) }
     }

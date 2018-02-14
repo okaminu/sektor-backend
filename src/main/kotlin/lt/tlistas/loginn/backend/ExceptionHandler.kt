@@ -30,6 +30,10 @@ class ExceptionHandler : WebExceptionHandler {
             is InvalidConfirmationCodeException -> {
                 exchange!!.response.statusCode = HttpStatus.BAD_REQUEST
             }
+            is AuthenticationException -> {
+                exchange!!.response.statusCode = HttpStatus.UNAUTHORIZED
+            }
+
         }
         return Mono.empty()
     }

@@ -3,10 +3,8 @@ package lt.tlistas.loginn.backend.test.unit.handler
 import com.nhaarman.mockito_kotlin.*
 import lt.tlistas.core.api.type.Location
 import lt.tlistas.core.service.LocationWorkLogService
-import lt.tlistas.core.service.UserService
+import lt.tlistas.core.service.confirmation.AuthenticationService
 import lt.tlistas.core.type.entity.Collaborator
-import lt.tlistas.core.type.entity.Company
-import lt.tlistas.core.type.entity.User
 import lt.tlistas.core.type.value_object.TimeRange
 import lt.tlistas.loginn.backend.Routes
 import lt.tlistas.loginn.backend.handler.CollaboratorHandler
@@ -23,33 +21,29 @@ import kotlin.test.assertEquals
 class CollaboratorHandlerTest {
 
     @Mock
-    private lateinit var userServiceMock: UserService
+    private lateinit var locationWorkLogServiceMock: LocationWorkLogService
 
     @Mock
-    private lateinit var locationWorkLogServiceMock: LocationWorkLogService
+    private lateinit var authServiceMock: AuthenticationService
 
     private lateinit var collaboratorHandler: CollaboratorHandler
 
     @Before
     fun setUp() {
-        collaboratorHandler = CollaboratorHandler(userServiceMock, locationWorkLogServiceMock)
+        collaboratorHandler = CollaboratorHandler(locationWorkLogServiceMock, authServiceMock)
     }
 
     @Test
-    fun `Takes collaborator worktime`() {
-
+    fun `Takes collaborator work time`() {
         val workTime = TimeRange(0, 1)
-        val user = User().apply {
-            company = Company().apply {
-                addCollaborator(Collaborator()
-                        .apply { this.workTime = workTime })
-            }
-        }
-        doReturn(user).`when`(userServiceMock).getByEmail(any())
+
+        doReturn(Collaborator().apply { this.workTime = workTime })
+                .`when`(authServiceMock).getCollaboratorByToken(any())
 
         val routerFunction = Routes(collaboratorHandler, mock(), mock()).router()
         val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
         val returnResult = webTestClient.get().uri("/collaborator/workTime")
+                .header("auth-token", "asda454s6d")
                 .exchange()
                 .expectStatus()
                 .isOk
@@ -65,16 +59,13 @@ class CollaboratorHandlerTest {
 
         val location = Location(1.1, 1.2)
         val collaborator = Collaborator()
-        val user = User().apply {
-            company = Company().apply {
-                addCollaborator(collaborator)
-            }
-        }
-        doReturn(user).`when`(userServiceMock).getByEmail(any())
+
+        doReturn(collaborator).`when`(authServiceMock).getCollaboratorByToken(any())
 
         val webTestClient = WebTestClient
                 .bindToRouterFunction(Routes(collaboratorHandler, mock(), mock()).router()).build()
         webTestClient.post().uri("/collaborator/logWorkByLocation")
+                .header("auth-token", "asda454s6d")
                 .body(location.toMono(), Location::class.java)
                 .exchange()
                 .expectStatus()
