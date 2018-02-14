@@ -80,7 +80,7 @@ class ExceptionHandlerTest {
         val serverHttpResponseMock = mock<ServerHttpResponse>()
         doReturn(serverHttpResponseMock).`when`(serverWebExchangeMock).response
 
-        val handleResult = exceptionHandler.handle(serverWebExchangeMock, mock<InvalidCodeException>())
+        val handleResult = exceptionHandler.handle(serverWebExchangeMock, mock<InvalidConfirmationCodeException>())
 
         assertEquals(Mono.empty(), handleResult)
         verify(serverHttpResponseMock).statusCode = eq(HttpStatus.BAD_REQUEST)

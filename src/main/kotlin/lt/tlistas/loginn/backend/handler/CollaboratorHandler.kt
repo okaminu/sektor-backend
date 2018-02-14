@@ -1,4 +1,4 @@
-package lt.tlistas.loginn.backend
+package lt.tlistas.loginn.backend.handler
 
 import lt.tlistas.core.api.type.Location
 import lt.tlistas.core.service.LocationWorkLogService

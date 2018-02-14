@@ -4,6 +4,9 @@ import com.mongodb.MongoClient
 import com.mongodb.MongoCredential
 import com.mongodb.ServerAddress
 import com.mongodb.WriteConcern
+import lt.tlistas.loginn.backend.handler.AuthenticationHandler
+import lt.tlistas.loginn.backend.handler.CollaboratorHandler
+import lt.tlistas.loginn.backend.handler.ConfirmationHandler
 import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.context.support.beans
 import org.springframework.core.env.Environment
@@ -18,6 +21,7 @@ import java.util.*
 fun beans() = beans {
 	bean<CollaboratorHandler>()
 	bean<ConfirmationHandler>()
+	bean<AuthenticationHandler>()
 	bean<Routes>()
 
 	bean("mongoTemplate") {

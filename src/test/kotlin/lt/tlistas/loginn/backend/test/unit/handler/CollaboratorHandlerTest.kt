@@ -1,4 +1,4 @@
-package lt.tlistas.loginn.backend.test.unit
+package lt.tlistas.loginn.backend.test.unit.handler
 
 import com.nhaarman.mockito_kotlin.*
 import lt.tlistas.core.api.type.Location
@@ -8,8 +8,8 @@ import lt.tlistas.core.type.entity.Collaborator
 import lt.tlistas.core.type.entity.Company
 import lt.tlistas.core.type.entity.User
 import lt.tlistas.core.type.value_object.TimeRange
-import lt.tlistas.loginn.backend.CollaboratorHandler
 import lt.tlistas.loginn.backend.Routes
+import lt.tlistas.loginn.backend.handler.CollaboratorHandler
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -47,7 +47,7 @@ class CollaboratorHandlerTest {
         }
         doReturn(user).`when`(userServiceMock).getByEmail(any())
 
-        val routerFunction = Routes(collaboratorHandler, mock()).router()
+        val routerFunction = Routes(collaboratorHandler, mock(), mock()).router()
         val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
         val returnResult = webTestClient.get().uri("/collaborator/workTime")
                 .exchange()
@@ -72,7 +72,8 @@ class CollaboratorHandlerTest {
         }
         doReturn(user).`when`(userServiceMock).getByEmail(any())
 
-        val webTestClient = WebTestClient.bindToRouterFunction(Routes(collaboratorHandler, mock()).router()).build()
+        val webTestClient = WebTestClient
+                .bindToRouterFunction(Routes(collaboratorHandler, mock(), mock()).router()).build()
         webTestClient.post().uri("/collaborator/logWorkByLocation")
                 .body(location.toMono(), Location::class.java)
                 .exchange()
