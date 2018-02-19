@@ -4,8 +4,13 @@ import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
-import lt.tlistas.core.api.exception.*
+import lt.tlistas.core.api.exception.GeocodeGatewayException
+import lt.tlistas.core.api.exception.LocationNotFoundException
 import lt.tlistas.loginn.backend.ExceptionHandler
+import lt.tlistas.mobile.number.confirmation.exception.AuthenticationException
+import lt.tlistas.mobile.number.confirmation.exception.InvalidConfirmationCodeException
+import lt.tlistas.mobile.number.confirmation.exception.InvalidMobileNumberException
+import lt.tlistas.mobile.number.confirmation.exception.SmsGatewayException
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -75,7 +80,7 @@ class ExceptionHandlerTest {
     }
 
     @Test
-    fun `Handles InvalidCodeNumberException by setting http response status and returning response body`() {
+    fun `Handles InvalidConfirmationCodeException by setting http response status and returning response body`() {
         val serverWebExchangeMock = mock<ServerWebExchange>()
         val serverHttpResponseMock = mock<ServerHttpResponse>()
         doReturn(serverHttpResponseMock).`when`(serverWebExchangeMock).response

@@ -1,6 +1,6 @@
 package lt.tlistas.loginn.backend.handler
 
-import lt.tlistas.core.service.confirmation.AuthenticationService
+import lt.tlistas.mobile.number.confirmation.service.AuthenticationService
 import org.springframework.web.reactive.function.BodyInserters
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse

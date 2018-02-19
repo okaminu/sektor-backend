@@ -2,9 +2,9 @@ package lt.tlistas.loginn.backend.test.unit.handler
 
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
-import lt.tlistas.core.service.confirmation.ConfirmationService
 import lt.tlistas.loginn.backend.Routes
 import lt.tlistas.loginn.backend.handler.ConfirmationHandler
+import lt.tlistas.mobile.number.confirmation.service.ConfirmationService
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock

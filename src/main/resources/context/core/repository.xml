@@ -8,4 +8,5 @@
           class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
 
     <mongo:repositories base-package="lt.tlistas.core.repository"/>
+    <mongo:repositories base-package="lt.tlistas.mobile.number.confirmation.repository"/>
 </beans>

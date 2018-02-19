@@ -4,9 +4,9 @@ import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
-import lt.tlistas.core.service.confirmation.AuthenticationService
 import lt.tlistas.loginn.backend.Routes
 import lt.tlistas.loginn.backend.handler.AuthenticationHandler
+import lt.tlistas.mobile.number.confirmation.service.AuthenticationService
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock

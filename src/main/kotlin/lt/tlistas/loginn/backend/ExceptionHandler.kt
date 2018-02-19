@@ -2,6 +2,10 @@ package lt.tlistas.loginn.backend
 
 import com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER
 import lt.tlistas.core.api.exception.*
+import lt.tlistas.mobile.number.confirmation.exception.AuthenticationException
+import lt.tlistas.mobile.number.confirmation.exception.InvalidConfirmationCodeException
+import lt.tlistas.mobile.number.confirmation.exception.InvalidMobileNumberException
+import lt.tlistas.mobile.number.confirmation.exception.SmsGatewayException
 import org.springframework.http.HttpStatus
 import org.springframework.web.server.ServerWebExchange
 import org.springframework.web.server.WebExceptionHandler
