@@ -18,7 +18,6 @@ open class CollaboratorHandler(private val collaboratorService: CollaboratorServ
     open fun getWorkTime(req: ServerRequest): Mono<ServerResponse> =
             ok().body(fromObject(getCollaborator(req).workTime))
 
-
     open fun logWorkByLocation(req: ServerRequest): Mono<ServerResponse> =
             req.bodyToMono<Location>()
                     .doOnNext { locationWorkLogService.logWork(getCollaborator(req), it) }

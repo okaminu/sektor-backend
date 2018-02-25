@@ -40,7 +40,6 @@ dependencies {
     compile("org.springframework:spring-context") {
         exclude group: "spring-aop"
     }
-
     compile "io.projectreactor.ipc:reactor-netty"
 
     compile "org.slf4j:slf4j-api"
@@ -48,8 +47,6 @@ dependencies {
 
     compile "com.fasterxml.jackson.module:jackson-module-kotlin"
     compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
-
-    compile "org.mockito:mockito-core:2.13.0"
 
     testCompile "org.springframework:spring-test"
     testCompile "junit:junit:4.12"

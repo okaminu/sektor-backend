@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
     http://www.springframework.org/schema/beans/spring-beans-4.1.xsd"
        default-lazy-init="true" default-autowire="constructor">
 
     <bean id="collaboratorService" class="lt.tlistas.core.service.CollaboratorService"/>
-    <bean id="confirmationCodeService" class="lt.tlistas.mobile.number.confirmation.service.ConfirmationService"/>
-    <bean id="authTokenService" class="lt.tlistas.mobile.number.confirmation.service.AuthenticationService"/>
+    <bean id="confirmationService" class="lt.tlistas.mobile.number.confirmation.service.ConfirmationService"/>
+    <bean id="authenticationServiceService" class="lt.tlistas.mobile.number.confirmation.service.AuthenticationService"/>
     <bean id="companyService" class="lt.tlistas.core.service.CompanyService"/>
     <bean id="customerService" class="lt.tlistas.core.service.CustomerService"/>
     <bean id="countryService" class="lt.tlistas.core.service.CountryService"/>

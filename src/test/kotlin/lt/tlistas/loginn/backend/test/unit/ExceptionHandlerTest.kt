@@ -112,6 +112,4 @@ class ExceptionHandlerTest {
         assertEquals(Mono.empty(), handleResult)
         verify(serverHttpResponseMock).statusCode = eq(HttpStatus.NOT_FOUND)
     }
-
-
 }
