@@ -40,16 +40,15 @@ class CollaboratorHandlerTest {
     @Test
     fun `Takes collaborator work time`() {
         val workTime = TimeRange(0, 1)
-
-        doReturn("userId")
+        doReturn(USER_ID)
                 .`when`(authServiceMock).getUserId(any())
         doReturn(Collaborator().apply { this.workTime = workTime })
-                .`when`(collaboratorServiceMock).getById("userId")
+                .`when`(collaboratorServiceMock).getById(USER_ID)
 
         val routerFunction = Routes(collaboratorHandler, mock(), mock()).router()
         val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
         val returnResult = webTestClient.get().uri("/collaborator/workTime")
-                .header("auth-token", "asda454s6d")
+                .header("auth-token", AUTH_TOKEN)
                 .exchange()
                 .expectStatus()
                 .isOk
@@ -62,19 +61,17 @@ class CollaboratorHandlerTest {
 
     @Test
     fun `Logs work by given location`() {
-
         val location = Location(1.1, 1.2)
         val collaborator = Collaborator()
-
-        doReturn("userId")
+        doReturn(USER_ID)
                 .`when`(authServiceMock).getUserId(any())
         doReturn(collaborator)
-                .`when`(collaboratorServiceMock).getById("userId")
+                .`when`(collaboratorServiceMock).getById(USER_ID)
 
         val webTestClient = WebTestClient
                 .bindToRouterFunction(Routes(collaboratorHandler, mock(), mock()).router()).build()
         webTestClient.post().uri("/collaborator/logWorkByLocation")
-                .header("auth-token", "asda454s6d")
+                .header("auth-token", AUTH_TOKEN)
                 .body(location.toMono(), Location::class.java)
                 .exchange()
                 .expectStatus()
@@ -82,5 +79,10 @@ class CollaboratorHandlerTest {
                 .expectBody().isEmpty
 
         verify(locationWorkLogServiceMock).logWork(eq(collaborator), eq(location))
+    }
+
+    companion object {
+        private const val USER_ID = "userId"
+        private const val AUTH_TOKEN = "asda454s6d"
     }
 }

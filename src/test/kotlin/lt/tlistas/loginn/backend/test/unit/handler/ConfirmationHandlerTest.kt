@@ -3,9 +3,8 @@ package lt.tlistas.loginn.backend.test.unit.handler
 import com.nhaarman.mockito_kotlin.*
 import lt.tlistas.core.service.CollaboratorService
 import lt.tlistas.core.type.entity.Collaborator
-import lt.tlistas.loginn.backend.ExceptionHandler
 import lt.tlistas.loginn.backend.Routes
-import lt.tlistas.loginn.backend.exception.CollaboratorDoesntExistException
+import lt.tlistas.loginn.backend.exception.CollaboratorNotFoundException
 import lt.tlistas.loginn.backend.handler.ConfirmationHandler
 import lt.tlistas.mobile.number.confirmation.service.ConfirmationService
 import org.junit.Rule
@@ -42,7 +41,7 @@ class ConfirmationHandlerTest {
         val webTestClient = WebTestClient
                 .bindToRouterFunction(Routes(mock(), handler, mock())
                         .router()).build()
-        webTestClient.post().uri("/confirmation/confirm/number/${collaborator.mobileNumber}")
+        webTestClient.post().uri("mobile/register/mobileNumber/${collaborator.mobileNumber}")
                 .exchange()
                 .expectStatus()
                 .isOk
@@ -54,9 +53,10 @@ class ConfirmationHandlerTest {
 
     @Test
     fun `Throw exception when collaborator not found`() {
-        expectedException.expect(CollaboratorDoesntExistException::class.java)
+        expectedException.expect(CollaboratorNotFoundException::class.java)
         val mobileNumber = "+0000000"
         doReturn(false).`when`(collaboratorServiceMock).existsByMobileNumber(mobileNumber)
+
         ConfirmationHandler(collaboratorServiceMock, confirmationCodeServiceMock).getCollaboratorIfExists(mobileNumber)
     }
 }

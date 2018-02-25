@@ -8,29 +8,23 @@ import lt.tlistas.loginn.backend.Routes
 import lt.tlistas.loginn.backend.handler.AuthenticationHandler
 import lt.tlistas.mobile.number.confirmation.service.AuthenticationService
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.junit.MockitoJUnitRunner
 import org.springframework.test.web.reactive.server.WebTestClient
 import kotlin.test.assertEquals
 
-@RunWith(MockitoJUnitRunner::class)
 class AuthenticationHandlerTest {
-
-    @Mock
-    private lateinit var authServiceMock: AuthenticationService
 
     @Test
     fun `Sends token to collaborator`() {
+        val authServiceMock = mock<AuthenticationService>()
         val confirmationCode = "123456"
-        val token = "5s4f65asd4f"
-        doReturn(token).`when`(authServiceMock).getAuthenticationToken(any())
+        val authenticationToken = "5s4f65asd4f"
+        doReturn(authenticationToken).`when`(authServiceMock).getAuthenticationToken(any())
 
         val webTestClient = WebTestClient
                 .bindToRouterFunction(Routes(mock(), mock(), AuthenticationHandler(authServiceMock))
                         .router()).build()
         val returnResult = webTestClient.post()
-                .uri("confirmation/authenticate/code/$confirmationCode")
+                .uri("mobile/confirm/code/$confirmationCode")
                 .exchange()
                 .expectStatus()
                 .isOk
@@ -38,7 +32,7 @@ class AuthenticationHandlerTest {
                 .returnResult()
 
         verify(authServiceMock).getAuthenticationToken(confirmationCode)
-        assertEquals(token, returnResult.responseBody)
+        assertEquals(authenticationToken, returnResult.responseBody)
     }
 
 }

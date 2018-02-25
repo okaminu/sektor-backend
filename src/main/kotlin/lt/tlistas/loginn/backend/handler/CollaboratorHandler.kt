@@ -12,18 +12,17 @@ import org.springframework.web.reactive.function.server.bodyToMono
 import reactor.core.publisher.Mono
 
 open class CollaboratorHandler(private val collaboratorService: CollaboratorService,
-                          private val locationWorkLogService: LocationWorkLogService,
-                          private val authenticationService: AuthenticationService) {
+                               private val locationWorkLogService: LocationWorkLogService,
+                               private val authenticationService: AuthenticationService) {
 
-    open fun getWorkTime(req: ServerRequest): Mono<ServerResponse> {
-        return ok().body(fromObject(getCollaborator(req).workTime))
-    }
+    open fun getWorkTime(req: ServerRequest): Mono<ServerResponse> =
+            ok().body(fromObject(getCollaborator(req).workTime))
 
-    open fun logWorkByLocation(req: ServerRequest): Mono<ServerResponse> {
-        return req.bodyToMono<Location>()
-                .doOnNext { locationWorkLogService.logWork(getCollaborator(req), it) }
-                .flatMap { ok().build() }
-    }
+
+    open fun logWorkByLocation(req: ServerRequest): Mono<ServerResponse> =
+            req.bodyToMono<Location>()
+                    .doOnNext { locationWorkLogService.logWork(getCollaborator(req), it) }
+                    .flatMap { ok().build() }
 
     private fun getCollaborator(req: ServerRequest) = collaboratorService.getById(getUserId(req)!!)
 

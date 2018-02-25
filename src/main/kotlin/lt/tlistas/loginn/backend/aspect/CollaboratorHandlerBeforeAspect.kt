@@ -7,7 +7,7 @@ import org.springframework.web.reactive.function.server.ServerRequest
 import org.aspectj.lang.annotation.Before
 
 @Aspect
-class BeforeAuthenticationAspect(private val authenticationService: AuthenticationService) {
+class CollaboratorHandlerBeforeAspect(private val authenticationService: AuthenticationService) {
 
     @Before("execution(* lt.tlistas.loginn.backend.handler.CollaboratorHandler.*(..))&& args(req)")
     fun authenticate(req: ServerRequest) {

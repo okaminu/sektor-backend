@@ -7,10 +7,8 @@ import com.nhaarman.mockito_kotlin.verify
 import lt.tlistas.core.api.exception.GeocodeGatewayException
 import lt.tlistas.core.api.exception.LocationNotFoundException
 import lt.tlistas.loginn.backend.ExceptionHandler
-import lt.tlistas.mobile.number.confirmation.api.exception.AuthenticationException
-import lt.tlistas.mobile.number.confirmation.api.exception.InvalidConfirmationCodeException
-import lt.tlistas.mobile.number.confirmation.api.exception.InvalidMobileNumberException
-import lt.tlistas.mobile.number.confirmation.api.exception.ConfirmationMessageGatewayException
+import lt.tlistas.loginn.backend.exception.CollaboratorNotFoundException
+import lt.tlistas.mobile.number.confirmation.api.exception.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -56,7 +54,7 @@ class ExceptionHandlerTest {
     }
 
     @Test
-    fun `Handles SmsGatewayException by setting http response status and returning response body`() {
+    fun `Handles ConfirmationMessageGatewayException by setting http response status and returning response body`() {
         val serverWebExchangeMock = mock<ServerWebExchange>()
         val serverHttpResponseMock = mock<ServerHttpResponse>()
         doReturn(serverHttpResponseMock).`when`(serverWebExchangeMock).response
@@ -68,31 +66,31 @@ class ExceptionHandlerTest {
     }
 
     @Test
-    fun `Handles InvalidMobileNumberException by setting http response status and returning response body`() {
+    fun `Handles InvalidAddressException by setting http response status and returning response body`() {
         val serverWebExchangeMock = mock<ServerWebExchange>()
         val serverHttpResponseMock = mock<ServerHttpResponse>()
         doReturn(serverHttpResponseMock).`when`(serverWebExchangeMock).response
 
-        val handleResult = exceptionHandler.handle(serverWebExchangeMock, mock<InvalidMobileNumberException>())
+        val handleResult = exceptionHandler.handle(serverWebExchangeMock, mock<InvalidAddressException>())
 
         assertEquals(Mono.empty(), handleResult)
         verify(serverHttpResponseMock).statusCode = eq(HttpStatus.NOT_ACCEPTABLE)
     }
 
     @Test
-    fun `Handles InvalidConfirmationCodeException by setting http response status and returning response body`() {
+    fun `Handles ConfirmationCodeNotFoundException by setting http response status and returning response body`() {
         val serverWebExchangeMock = mock<ServerWebExchange>()
         val serverHttpResponseMock = mock<ServerHttpResponse>()
         doReturn(serverHttpResponseMock).`when`(serverWebExchangeMock).response
 
-        val handleResult = exceptionHandler.handle(serverWebExchangeMock, mock<InvalidConfirmationCodeException>())
+        val handleResult = exceptionHandler.handle(serverWebExchangeMock, mock<ConfirmationCodeNotFoundException>())
 
         assertEquals(Mono.empty(), handleResult)
         verify(serverHttpResponseMock).statusCode = eq(HttpStatus.BAD_REQUEST)
     }
 
     @Test
-    fun `Handles Authentication by setting http response status and returning response body`() {
+    fun `Handles AuthenticationException by setting http response status and returning response body`() {
         val serverWebExchangeMock = mock<ServerWebExchange>()
         val serverHttpResponseMock = mock<ServerHttpResponse>()
         doReturn(serverHttpResponseMock).`when`(serverWebExchangeMock).response
@@ -101,6 +99,18 @@ class ExceptionHandlerTest {
 
         assertEquals(Mono.empty(), handleResult)
         verify(serverHttpResponseMock).statusCode = eq(HttpStatus.UNAUTHORIZED)
+    }
+
+    @Test
+    fun `Handles CollaboratorNotFoundException by setting http response status and returning response body`() {
+        val serverWebExchangeMock = mock<ServerWebExchange>()
+        val serverHttpResponseMock = mock<ServerHttpResponse>()
+        doReturn(serverHttpResponseMock).`when`(serverWebExchangeMock).response
+
+        val handleResult = exceptionHandler.handle(serverWebExchangeMock, mock<CollaboratorNotFoundException>())
+
+        assertEquals(Mono.empty(), handleResult)
+        verify(serverHttpResponseMock).statusCode = eq(HttpStatus.NOT_FOUND)
     }
 
 

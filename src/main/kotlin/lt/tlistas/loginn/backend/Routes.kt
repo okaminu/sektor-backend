@@ -18,10 +18,10 @@ class Routes(private val collaboratorHandler: CollaboratorHandler,
 
             }
         }
-        "/confirmation".nest {
+        "/mobile".nest {
             accept(APPLICATION_JSON).nest {
-                POST("/confirm/number/{mobileNumber}", confirmationHandler::sendConfirmationCode)
-                POST("/authenticate/code/{code}", authenticationHandler::authenticate)
+                POST("/register/mobileNumber/{mobileNumber}", confirmationHandler::sendConfirmationCode)
+                POST("/confirm/code/{confirmationCode}", authenticationHandler::authenticate)
             }
         }
     }

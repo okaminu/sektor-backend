@@ -2,7 +2,7 @@ package lt.tlistas.loginn.backend.handler
 
 import lt.tlistas.core.service.CollaboratorService
 import lt.tlistas.core.type.entity.Collaborator
-import lt.tlistas.loginn.backend.exception.CollaboratorDoesntExistException
+import lt.tlistas.loginn.backend.exception.CollaboratorNotFoundException
 import lt.tlistas.mobile.number.confirmation.service.ConfirmationService
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
@@ -21,7 +21,7 @@ class ConfirmationHandler(private val collaboratorService: CollaboratorService,
 
     internal fun getCollaboratorIfExists(number: String): Collaborator {
         if (!collaboratorService.existsByMobileNumber(number))
-            throw CollaboratorDoesntExistException()
+            throw CollaboratorNotFoundException()
 
         return collaboratorService.getByMobileNumber(number)
     }

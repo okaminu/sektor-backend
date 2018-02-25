@@ -2,11 +2,11 @@ package lt.tlistas.loginn.backend
 
 import com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER
 import lt.tlistas.core.api.exception.*
-import lt.tlistas.loginn.backend.exception.CollaboratorDoesntExistException
+import lt.tlistas.loginn.backend.exception.CollaboratorNotFoundException
 import lt.tlistas.mobile.number.confirmation.api.exception.AuthenticationException
-import lt.tlistas.mobile.number.confirmation.api.exception.InvalidConfirmationCodeException
-import lt.tlistas.mobile.number.confirmation.api.exception.InvalidMobileNumberException
+import lt.tlistas.mobile.number.confirmation.api.exception.ConfirmationCodeNotFoundException
 import lt.tlistas.mobile.number.confirmation.api.exception.ConfirmationMessageGatewayException
+import lt.tlistas.mobile.number.confirmation.api.exception.InvalidAddressException
 import org.springframework.http.HttpStatus
 import org.springframework.web.server.ServerWebExchange
 import org.springframework.web.server.WebExceptionHandler
@@ -28,22 +28,21 @@ class ExceptionHandler : WebExceptionHandler {
                 LOGGER.log(Level.WARNING, ex.message)
                 exchange!!.response.statusCode = HttpStatus.INTERNAL_SERVER_ERROR
             }
-            is InvalidMobileNumberException -> {
+            is InvalidAddressException -> {
                 LOGGER.log(Level.WARNING, ex.message)
                 exchange!!.response.statusCode = HttpStatus.NOT_ACCEPTABLE
             }
-            is InvalidConfirmationCodeException -> {
+            is ConfirmationCodeNotFoundException -> {
                 exchange!!.response.statusCode = HttpStatus.BAD_REQUEST
             }
             is AuthenticationException -> {
                 exchange!!.response.statusCode = HttpStatus.UNAUTHORIZED
             }
-            is CollaboratorDoesntExistException -> {
+            is CollaboratorNotFoundException -> {
                 exchange!!.response.statusCode = HttpStatus.NOT_FOUND
             }
 
         }
-        println("klaida "+ex.javaClass.canonicalName)
         return Mono.empty()
     }
 }
