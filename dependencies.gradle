@@ -26,7 +26,6 @@ dependencies {
     compile "lt.tlistas:core-api:1.1.1"
     runtime "lt.tlistas:core-google-maps-plugin:1.1.1"
 
-
     compile "lt.tlistas:mobile-number-confirmation:1.1.1"
     compile "lt.tlistas:mobile-number-confirmation-api:1.1.1"
     runtime "lt.tlistas:mobile-number-confirmation-aws-sns-plugin:1.1.1"
@@ -35,11 +34,13 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 
+    compile "org.springframework:spring-aspects"
     compile "org.springframework:spring-webflux"
     compile "org.springframework.data:spring-data-mongodb"
     compile("org.springframework:spring-context") {
         exclude group: "spring-aop"
     }
+
     compile "io.projectreactor.ipc:reactor-netty"
 
     compile "org.slf4j:slf4j-api"

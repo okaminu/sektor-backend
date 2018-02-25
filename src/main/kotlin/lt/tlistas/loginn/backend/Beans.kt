@@ -4,6 +4,7 @@ import com.mongodb.MongoClient
 import com.mongodb.MongoCredential
 import com.mongodb.ServerAddress
 import com.mongodb.WriteConcern
+import lt.tlistas.loginn.backend.aspect.BeforeAuthenticationAspect
 import lt.tlistas.loginn.backend.handler.AuthenticationHandler
 import lt.tlistas.loginn.backend.handler.CollaboratorHandler
 import lt.tlistas.loginn.backend.handler.ConfirmationHandler
@@ -22,6 +23,8 @@ fun beans() = beans {
 	bean<CollaboratorHandler>()
 	bean<ConfirmationHandler>()
 	bean<AuthenticationHandler>()
+	bean<BeforeAuthenticationAspect>()
+	bean<ExceptionHandler>()
 	bean<Routes>()
 
 	bean("mongoTemplate") {
@@ -49,10 +52,6 @@ fun beans() = beans {
 			setBasename("messages")
 			setDefaultEncoding("UTF-8")
 		}
-	}
-
-	bean("exceptionHandler") {
-		ExceptionHandler()
 	}
 
 	profile("cors") {

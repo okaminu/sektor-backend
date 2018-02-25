@@ -7,10 +7,10 @@ import com.nhaarman.mockito_kotlin.verify
 import lt.tlistas.core.api.exception.GeocodeGatewayException
 import lt.tlistas.core.api.exception.LocationNotFoundException
 import lt.tlistas.loginn.backend.ExceptionHandler
-import lt.tlistas.mobile.number.confirmation.exception.AuthenticationException
-import lt.tlistas.mobile.number.confirmation.exception.InvalidConfirmationCodeException
-import lt.tlistas.mobile.number.confirmation.exception.InvalidMobileNumberException
-import lt.tlistas.mobile.number.confirmation.exception.SmsGatewayException
+import lt.tlistas.mobile.number.confirmation.api.exception.AuthenticationException
+import lt.tlistas.mobile.number.confirmation.api.exception.InvalidConfirmationCodeException
+import lt.tlistas.mobile.number.confirmation.api.exception.InvalidMobileNumberException
+import lt.tlistas.mobile.number.confirmation.api.exception.ConfirmationMessageGatewayException
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -61,7 +61,7 @@ class ExceptionHandlerTest {
         val serverHttpResponseMock = mock<ServerHttpResponse>()
         doReturn(serverHttpResponseMock).`when`(serverWebExchangeMock).response
 
-        val handleResult = exceptionHandler.handle(serverWebExchangeMock, mock<SmsGatewayException>())
+        val handleResult = exceptionHandler.handle(serverWebExchangeMock, mock<ConfirmationMessageGatewayException>())
 
         assertEquals(Mono.empty(), handleResult)
         verify(serverHttpResponseMock).statusCode = eq(HttpStatus.INTERNAL_SERVER_ERROR)

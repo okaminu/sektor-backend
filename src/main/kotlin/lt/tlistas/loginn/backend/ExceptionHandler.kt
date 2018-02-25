@@ -2,10 +2,11 @@ package lt.tlistas.loginn.backend
 
 import com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER
 import lt.tlistas.core.api.exception.*
-import lt.tlistas.mobile.number.confirmation.exception.AuthenticationException
-import lt.tlistas.mobile.number.confirmation.exception.InvalidConfirmationCodeException
-import lt.tlistas.mobile.number.confirmation.exception.InvalidMobileNumberException
-import lt.tlistas.mobile.number.confirmation.exception.SmsGatewayException
+import lt.tlistas.loginn.backend.exception.CollaboratorDoesntExistException
+import lt.tlistas.mobile.number.confirmation.api.exception.AuthenticationException
+import lt.tlistas.mobile.number.confirmation.api.exception.InvalidConfirmationCodeException
+import lt.tlistas.mobile.number.confirmation.api.exception.InvalidMobileNumberException
+import lt.tlistas.mobile.number.confirmation.api.exception.ConfirmationMessageGatewayException
 import org.springframework.http.HttpStatus
 import org.springframework.web.server.ServerWebExchange
 import org.springframework.web.server.WebExceptionHandler
@@ -23,7 +24,7 @@ class ExceptionHandler : WebExceptionHandler {
                 LOGGER.log(Level.WARNING, ex.message)
                 exchange!!.response.statusCode = HttpStatus.UNPROCESSABLE_ENTITY
             }
-            is SmsGatewayException -> {
+            is ConfirmationMessageGatewayException -> {
                 LOGGER.log(Level.WARNING, ex.message)
                 exchange!!.response.statusCode = HttpStatus.INTERNAL_SERVER_ERROR
             }
@@ -37,8 +38,12 @@ class ExceptionHandler : WebExceptionHandler {
             is AuthenticationException -> {
                 exchange!!.response.statusCode = HttpStatus.UNAUTHORIZED
             }
+            is CollaboratorDoesntExistException -> {
+                exchange!!.response.statusCode = HttpStatus.NOT_FOUND
+            }
 
         }
+        println("klaida "+ex.javaClass.canonicalName)
         return Mono.empty()
     }
 }

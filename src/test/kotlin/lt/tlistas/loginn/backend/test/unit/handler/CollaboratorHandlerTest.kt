@@ -2,6 +2,7 @@ package lt.tlistas.loginn.backend.test.unit.handler
 
 import com.nhaarman.mockito_kotlin.*
 import lt.tlistas.core.api.type.Location
+import lt.tlistas.core.service.CollaboratorService
 import lt.tlistas.core.service.LocationWorkLogService
 import lt.tlistas.core.type.entity.Collaborator
 import lt.tlistas.core.type.value_object.TimeRange
@@ -24,21 +25,26 @@ class CollaboratorHandlerTest {
     private lateinit var locationWorkLogServiceMock: LocationWorkLogService
 
     @Mock
+    private lateinit var collaboratorServiceMock: CollaboratorService
+
+    @Mock
     private lateinit var authServiceMock: AuthenticationService
 
     private lateinit var collaboratorHandler: CollaboratorHandler
 
     @Before
     fun setUp() {
-        collaboratorHandler = CollaboratorHandler(locationWorkLogServiceMock, authServiceMock)
+        collaboratorHandler = CollaboratorHandler(collaboratorServiceMock, locationWorkLogServiceMock, authServiceMock)
     }
 
     @Test
     fun `Takes collaborator work time`() {
         val workTime = TimeRange(0, 1)
 
+        doReturn("userId")
+                .`when`(authServiceMock).getUserId(any())
         doReturn(Collaborator().apply { this.workTime = workTime })
-                .`when`(authServiceMock).getCollaboratorByToken(any())
+                .`when`(collaboratorServiceMock).getById("userId")
 
         val routerFunction = Routes(collaboratorHandler, mock(), mock()).router()
         val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
@@ -60,7 +66,10 @@ class CollaboratorHandlerTest {
         val location = Location(1.1, 1.2)
         val collaborator = Collaborator()
 
-        doReturn(collaborator).`when`(authServiceMock).getCollaboratorByToken(any())
+        doReturn("userId")
+                .`when`(authServiceMock).getUserId(any())
+        doReturn(collaborator)
+                .`when`(collaboratorServiceMock).getById("userId")
 
         val webTestClient = WebTestClient
                 .bindToRouterFunction(Routes(collaboratorHandler, mock(), mock()).router()).build()
