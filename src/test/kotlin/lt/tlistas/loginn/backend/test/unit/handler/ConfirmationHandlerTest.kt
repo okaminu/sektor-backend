@@ -37,7 +37,6 @@ class ConfirmationHandlerTest {
         }
         val handler = ConfirmationHandler(collaboratorServiceMock, confirmationCodeServiceMock)
         doReturn(collaborator).`when`(collaboratorServiceMock).getByMobileNumber(collaborator.mobileNumber)
-        doReturn(true).`when`(collaboratorServiceMock).existsByMobileNumber(collaborator.mobileNumber)
 
         val webTestClient = WebTestClient
                 .bindToRouterFunction(Routes(mock(), handler, mock())
