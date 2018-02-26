@@ -1,10 +1,11 @@
 package lt.tlistas.loginn.backend.test.unit.handler
 
-import com.nhaarman.mockito_kotlin.*
+import com.nhaarman.mockito_kotlin.doReturn
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.verify
 import lt.tlistas.core.service.CollaboratorService
 import lt.tlistas.core.type.entity.Collaborator
 import lt.tlistas.loginn.backend.Routes
-import lt.tlistas.loginn.backend.exception.CollaboratorNotFoundException
 import lt.tlistas.loginn.backend.handler.ConfirmationHandler
 import lt.tlistas.mobile.number.confirmation.service.ConfirmationService
 import org.junit.Rule
@@ -47,16 +48,7 @@ class ConfirmationHandlerTest {
                 .isOk
                 .expectBody().isEmpty
 
-        verify(collaboratorServiceMock).existsByMobileNumber(collaborator.mobileNumber)
+        verify(collaboratorServiceMock).getByMobileNumber(collaborator.mobileNumber)
         verify(confirmationCodeServiceMock).sendConfirmation(collaborator.mobileNumber, collaborator.id!!)
-    }
-
-    @Test
-    fun `Throw exception when collaborator not found`() {
-        expectedException.expect(CollaboratorNotFoundException::class.java)
-        val mobileNumber = "+0000000"
-        doReturn(false).`when`(collaboratorServiceMock).existsByMobileNumber(mobileNumber)
-
-        ConfirmationHandler(collaboratorServiceMock, confirmationCodeServiceMock).getCollaboratorIfExists(mobileNumber)
     }
 }

@@ -4,7 +4,8 @@ import com.mongodb.MongoClient
 import com.mongodb.MongoCredential
 import com.mongodb.ServerAddress
 import com.mongodb.WriteConcern
-import lt.tlistas.loginn.backend.aspect.CollaboratorHandlerBeforeAspect
+import lt.tlistas.loginn.backend.aspect.CollaboratorAspect
+import lt.tlistas.loginn.backend.aspect.CollaboratorHandlerAspect
 import lt.tlistas.loginn.backend.handler.AuthenticationHandler
 import lt.tlistas.loginn.backend.handler.CollaboratorHandler
 import lt.tlistas.loginn.backend.handler.ConfirmationHandler
@@ -23,7 +24,8 @@ fun beans() = beans {
 	bean<CollaboratorHandler>()
 	bean<ConfirmationHandler>()
 	bean<AuthenticationHandler>()
-	bean<CollaboratorHandlerBeforeAspect>()
+	bean<CollaboratorHandlerAspect>()
+	bean<CollaboratorAspect>()
 	bean<ExceptionHandler>()
 	bean<Routes>()
 

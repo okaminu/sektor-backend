@@ -2,7 +2,7 @@ package lt.tlistas.loginn.backend.test.unit.aspect
 
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.verify
-import lt.tlistas.loginn.backend.aspect.CollaboratorHandlerBeforeAspect
+import lt.tlistas.loginn.backend.aspect.CollaboratorHandlerAspect
 import lt.tlistas.mobile.number.confirmation.api.exception.AuthenticationException
 import lt.tlistas.mobile.number.confirmation.service.AuthenticationService
 import org.junit.Before
@@ -15,26 +15,25 @@ import org.mockito.junit.MockitoJUnitRunner
 import org.springframework.web.reactive.function.server.ServerRequest
 
 @RunWith(MockitoJUnitRunner::class)
-class CollaboratorHandlerBeforeAspectTest {
+class CollaboratorHandlerAspectTest {
 
+    @Mock
+    private lateinit var headersMock: ServerRequest.Headers
     @Mock
     private lateinit var authenticationServiceMock: AuthenticationService
 
     @Mock
     private lateinit var serverRequestMock: ServerRequest
 
-    @Mock
-    private lateinit var headersMock: ServerRequest.Headers
-
     @Rule
     @JvmField
     val expectedException = ExpectedException.none()!!
 
-    private lateinit var beforeAuthenticationAspect: CollaboratorHandlerBeforeAspect
+    private lateinit var collaboratorHandlerAspect: CollaboratorHandlerAspect
 
     @Before
     fun `Set up`() {
-        beforeAuthenticationAspect = CollaboratorHandlerBeforeAspect(authenticationServiceMock)
+        collaboratorHandlerAspect = CollaboratorHandlerAspect(authenticationServiceMock)
     }
 
     @Test
@@ -42,7 +41,7 @@ class CollaboratorHandlerBeforeAspectTest {
         mockHeaderResponse()
         doReturn(true).`when`(authenticationServiceMock).tokenExists(HEADER_LIST[0])
 
-        beforeAuthenticationAspect.authenticate(serverRequestMock)
+        collaboratorHandlerAspect.authenticate(serverRequestMock)
 
         verify(authenticationServiceMock).tokenExists(HEADER_LIST[0])
     }
@@ -53,7 +52,7 @@ class CollaboratorHandlerBeforeAspectTest {
         mockHeaderResponse()
         doReturn(false).`when`(authenticationServiceMock).tokenExists(HEADER_LIST[0])
 
-        beforeAuthenticationAspect.authenticate(serverRequestMock)
+        collaboratorHandlerAspect.authenticate(serverRequestMock)
     }
 
     private fun mockHeaderResponse() {
