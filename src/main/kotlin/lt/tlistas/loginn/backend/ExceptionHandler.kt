@@ -30,10 +30,10 @@ class ExceptionHandler : WebExceptionHandler {
             }
             is InvalidAddressException -> {
                 LOGGER.log(Level.WARNING, ex.message)
-                exchange!!.response.statusCode = HttpStatus.NOT_ACCEPTABLE
+                exchange!!.response.statusCode = HttpStatus.UNPROCESSABLE_ENTITY
             }
             is ConfirmationCodeNotFoundException -> {
-                exchange!!.response.statusCode = HttpStatus.BAD_REQUEST
+                exchange!!.response.statusCode = HttpStatus.NOT_FOUND
             }
             is AuthenticationException -> {
                 exchange!!.response.statusCode = HttpStatus.UNAUTHORIZED

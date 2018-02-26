@@ -74,7 +74,7 @@ class ExceptionHandlerTest {
         val handleResult = exceptionHandler.handle(serverWebExchangeMock, mock<InvalidAddressException>())
 
         assertEquals(Mono.empty(), handleResult)
-        verify(serverHttpResponseMock).statusCode = eq(HttpStatus.NOT_ACCEPTABLE)
+        verify(serverHttpResponseMock).statusCode = eq(HttpStatus.UNPROCESSABLE_ENTITY)
     }
 
     @Test
@@ -86,7 +86,7 @@ class ExceptionHandlerTest {
         val handleResult = exceptionHandler.handle(serverWebExchangeMock, mock<ConfirmationCodeNotFoundException>())
 
         assertEquals(Mono.empty(), handleResult)
-        verify(serverHttpResponseMock).statusCode = eq(HttpStatus.BAD_REQUEST)
+        verify(serverHttpResponseMock).statusCode = eq(HttpStatus.NOT_FOUND)
     }
 
     @Test
