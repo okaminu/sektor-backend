@@ -5,7 +5,7 @@
     http://www.springframework.org/schema/beans/spring-beans-4.1.xsd"
        default-lazy-init="true" default-autowire="constructor">
 
-    <bean id="awsSmsAdapter" class="lt.tlistas.mobile.number.confirmation.plugin.aws.sns.AwsSmsGatewayAdapter"/>
-    <bean id="snsClientBuilder" class="lt.tlistas.mobile.number.confirmation.plugin.aws.sns.SnsClientBuilder"/>
+    <bean id="awsSmsAdapter" class="lt.tlistas.crowbar.plugin.aws.sns.AwsSmsGatewayAdapter"/>
+    <bean id="snsClientBuilder" class="lt.tlistas.crowbar.plugin.aws.sns.SnsClientBuilder"/>
 
 </beans>

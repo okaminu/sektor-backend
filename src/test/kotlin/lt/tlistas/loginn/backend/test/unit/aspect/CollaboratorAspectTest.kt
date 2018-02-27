@@ -3,9 +3,9 @@ package lt.tlistas.loginn.backend.test.unit.aspect
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.verify
 import lt.tlistas.core.service.CollaboratorService
+import lt.tlistas.crowbar.service.AuthenticationService
 import lt.tlistas.loginn.backend.aspect.CollaboratorAspect
 import lt.tlistas.loginn.backend.exception.CollaboratorNotFoundException
-import lt.tlistas.mobile.number.confirmation.service.AuthenticationService
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

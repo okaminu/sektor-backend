@@ -6,9 +6,9 @@ import lt.tlistas.core.service.CollaboratorService
 import lt.tlistas.core.service.LocationWorkLogService
 import lt.tlistas.core.type.entity.Collaborator
 import lt.tlistas.core.type.value_object.TimeRange
+import lt.tlistas.crowbar.service.AuthenticationService
 import lt.tlistas.loginn.backend.Routes
 import lt.tlistas.loginn.backend.handler.CollaboratorHandler
-import lt.tlistas.mobile.number.confirmation.service.AuthenticationService
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

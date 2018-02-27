@@ -1,8 +1,8 @@
 package lt.tlistas.loginn.backend.aspect
 
 import lt.tlistas.core.service.CollaboratorService
+import lt.tlistas.crowbar.service.AuthenticationService
 import lt.tlistas.loginn.backend.exception.CollaboratorNotFoundException
-import lt.tlistas.mobile.number.confirmation.service.AuthenticationService
 import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.annotation.Before
 import org.springframework.core.annotation.Order

@@ -6,8 +6,8 @@
        default-lazy-init="true" default-autowire="constructor">
 
     <bean id="collaboratorService" class="lt.tlistas.core.service.CollaboratorService"/>
-    <bean id="confirmationService" class="lt.tlistas.mobile.number.confirmation.service.ConfirmationService"/>
-    <bean id="authenticationServiceService" class="lt.tlistas.mobile.number.confirmation.service.AuthenticationService"/>
+    <bean id="confirmationService" class="lt.tlistas.crowbar.service.ConfirmationService"/>
+    <bean id="authenticationServiceService" class="lt.tlistas.crowbar.service.AuthenticationService"/>
     <bean id="companyService" class="lt.tlistas.core.service.CompanyService"/>
     <bean id="customerService" class="lt.tlistas.core.service.CustomerService"/>
     <bean id="countryService" class="lt.tlistas.core.service.CountryService"/>

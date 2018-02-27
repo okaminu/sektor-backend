@@ -6,9 +6,12 @@ import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import lt.tlistas.core.api.exception.GeocodeGatewayException
 import lt.tlistas.core.api.exception.LocationNotFoundException
+import lt.tlistas.crowbar.api.exception.AuthenticationException
+import lt.tlistas.crowbar.api.exception.ConfirmationCodeNotFoundException
+import lt.tlistas.crowbar.api.exception.ConfirmationMessageGatewayException
+import lt.tlistas.crowbar.api.exception.InvalidAddressException
 import lt.tlistas.loginn.backend.ExceptionHandler
 import lt.tlistas.loginn.backend.exception.CollaboratorNotFoundException
-import lt.tlistas.mobile.number.confirmation.api.exception.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

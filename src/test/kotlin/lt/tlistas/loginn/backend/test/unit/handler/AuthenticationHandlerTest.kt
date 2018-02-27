@@ -4,9 +4,9 @@ import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
+import lt.tlistas.crowbar.service.AuthenticationService
 import lt.tlistas.loginn.backend.Routes
 import lt.tlistas.loginn.backend.handler.AuthenticationHandler
-import lt.tlistas.mobile.number.confirmation.service.AuthenticationService
 import org.junit.Test
 import org.springframework.test.web.reactive.server.WebTestClient
 import kotlin.test.assertEquals

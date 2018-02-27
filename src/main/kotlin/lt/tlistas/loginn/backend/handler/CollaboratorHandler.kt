@@ -3,7 +3,7 @@ package lt.tlistas.loginn.backend.handler
 import lt.tlistas.core.api.type.Location
 import lt.tlistas.core.service.CollaboratorService
 import lt.tlistas.core.service.LocationWorkLogService
-import lt.tlistas.mobile.number.confirmation.service.AuthenticationService
+import lt.tlistas.crowbar.service.AuthenticationService
 import org.springframework.web.reactive.function.BodyInserters.fromObject
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse

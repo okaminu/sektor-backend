@@ -5,9 +5,9 @@ import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import lt.tlistas.core.service.CollaboratorService
 import lt.tlistas.core.type.entity.Collaborator
+import lt.tlistas.crowbar.service.ConfirmationService
 import lt.tlistas.loginn.backend.Routes
 import lt.tlistas.loginn.backend.handler.ConfirmationHandler
-import lt.tlistas.mobile.number.confirmation.service.ConfirmationService
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.ExpectedException

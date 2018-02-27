@@ -1,7 +1,7 @@
 package lt.tlistas.loginn.backend.repository
 
-import lt.tlistas.mobile.number.confirmation.repository.ConfirmationRepository
-import lt.tlistas.mobile.number.confirmation.type.entity.Confirmation
+import lt.tlistas.crowbar.repository.ConfirmationRepository
+import lt.tlistas.crowbar.type.entity.Confirmation
 import org.springframework.data.mongodb.repository.MongoRepository
 
 interface ConfirmationMongoRepository : ConfirmationRepository, MongoRepository<Confirmation, String> {
