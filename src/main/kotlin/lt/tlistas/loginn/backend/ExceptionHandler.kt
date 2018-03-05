@@ -2,10 +2,10 @@ package lt.tlistas.loginn.backend
 
 import com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER
 import lt.tlistas.core.api.exception.*
-import lt.tlistas.crowbar.api.exception.AuthenticationException
 import lt.tlistas.crowbar.api.exception.ConfirmationCodeNotFoundException
 import lt.tlistas.crowbar.api.exception.ConfirmationMessageGatewayException
 import lt.tlistas.crowbar.api.exception.InvalidAddressException
+import lt.tlistas.loginn.backend.exception.AuthenticationException
 import lt.tlistas.loginn.backend.exception.CollaboratorNotFoundException
 import org.springframework.http.HttpStatus
 import org.springframework.web.server.ServerWebExchange

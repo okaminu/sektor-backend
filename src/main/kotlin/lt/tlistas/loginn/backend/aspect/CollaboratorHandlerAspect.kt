@@ -1,7 +1,7 @@
 package lt.tlistas.loginn.backend.aspect
 
-import lt.tlistas.crowbar.api.exception.AuthenticationException
 import lt.tlistas.crowbar.service.AuthenticationService
+import lt.tlistas.loginn.backend.exception.AuthenticationException
 import org.aspectj.lang.annotation.Aspect
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.aspectj.lang.annotation.Before
