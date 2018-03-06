@@ -4,7 +4,7 @@ import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.verify
 import lt.tlistas.crowbar.service.AuthenticationService
 import lt.tlistas.loginn.backend.aspect.CollaboratorHandlerAspect
-import lt.tlistas.loginn.backend.exception.AuthenticationException
+import lt.tlistas.loginn.backend.exception.IncorrectTokenException
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -48,9 +48,18 @@ class CollaboratorHandlerAspectTest {
 
     @Test
     fun `Throws exception when user is unauthenticated`() {
-        expectedException.expect(AuthenticationException::class.java)
+        expectedException.expect(IncorrectTokenException::class.java)
         mockHeaderResponse()
         doReturn(false).`when`(authenticationServiceMock).tokenExists(HEADER_LIST[0])
+
+        collaboratorHandlerAspect.authenticate(serverRequestMock)
+    }
+
+    @Test
+    fun `Throws exception when token is not provided`() {
+        expectedException.expect(IncorrectTokenException::class.java)
+        doReturn(headersMock).`when`(serverRequestMock).headers()
+        doReturn(emptyList<String>()).`when`(headersMock).header("auth-token")
 
         collaboratorHandlerAspect.authenticate(serverRequestMock)
     }
