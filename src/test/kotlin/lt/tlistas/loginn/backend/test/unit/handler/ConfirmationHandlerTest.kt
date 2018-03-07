@@ -39,7 +39,7 @@ class ConfirmationHandlerTest {
         doReturn(collaborator).`when`(collaboratorServiceMock).getByMobileNumber(collaborator.mobileNumber)
 
         val webTestClient = WebTestClient
-                .bindToRouterFunction(Routes(mock(), handler, mock())
+                .bindToRouterFunction(Routes(mock(), handler, mock(), mock())
                         .router()).build()
         webTestClient.post().uri("mobile/register/mobileNumber/${collaborator.mobileNumber}")
                 .exchange()
