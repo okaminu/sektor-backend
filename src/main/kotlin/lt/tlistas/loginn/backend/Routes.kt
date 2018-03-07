@@ -14,7 +14,7 @@ class Routes(private val collaboratorHandler: CollaboratorHandler,
         "/collaborator".nest {
             accept(APPLICATION_JSON).nest {
                 GET("/workTime", collaboratorHandler::getWorkTime)
-                POST("/logWorkByLocation", collaboratorHandler::logWorkByLocation)
+                POST("/update", collaboratorHandler::logWorkByLocation)
             }
         }
         "/mobile".nest {

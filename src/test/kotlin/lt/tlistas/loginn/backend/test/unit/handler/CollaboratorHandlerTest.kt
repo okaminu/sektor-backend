@@ -70,7 +70,7 @@ class CollaboratorHandlerTest {
 
         val webTestClient = WebTestClient
                 .bindToRouterFunction(Routes(collaboratorHandler, mock(), mock()).router()).build()
-        webTestClient.post().uri("/collaborator/logWorkByLocation")
+        webTestClient.post().uri("/collaborator/update")
                 .header("auth-token", AUTH_TOKEN)
                 .body(location.toMono(), Location::class.java)
                 .exchange()
