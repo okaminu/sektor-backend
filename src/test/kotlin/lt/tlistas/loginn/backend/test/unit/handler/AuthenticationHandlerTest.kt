@@ -21,7 +21,7 @@ class AuthenticationHandlerTest {
         doReturn(authenticationToken).`when`(authServiceMock).getAuthenticationToken(any())
 
         val webTestClient = WebTestClient
-                .bindToRouterFunction(Routes(mock(), mock(), AuthenticationHandler(authServiceMock))
+                .bindToRouterFunction(Routes(mock(), mock(), mock(), AuthenticationHandler(authServiceMock))
                         .router()).build()
         val returnResult = webTestClient.post()
                 .uri("mobile/confirm/code/$confirmationCode")
