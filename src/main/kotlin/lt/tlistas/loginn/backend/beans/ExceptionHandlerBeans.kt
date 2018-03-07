@@ -4,7 +4,7 @@ import lt.tlistas.loginn.backend.exception.handler.*
 import org.springframework.context.support.beans
 import org.springframework.web.server.handler.ExceptionHandlingWebHandler
 
-fun exceptionBeans() = beans {
+fun exceptionHandlerBeans() = beans {
     bean<CollaboratorNotFoundExceptionHandler>()
     bean<ConfirmationCodeNotFoundExceptionHandler>()
     bean<GeocodeGatewayExceptionHandler>()

@@ -1,7 +1,7 @@
 package lt.tlistas.loginn.backend
 
 import lt.tlistas.loginn.backend.beans.beans
-import lt.tlistas.loginn.backend.beans.exceptionBeans
+import lt.tlistas.loginn.backend.beans.exceptionHandlerBeans
 import lt.tlistas.loginn.backend.exception.handler.*
 import org.springframework.beans.factory.getBean
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader
@@ -17,7 +17,7 @@ fun main(args: Array<String>) {
 
     val context = GenericApplicationContext()
     beans().initialize(context)
-    exceptionBeans().initialize(context)
+    exceptionHandlerBeans().initialize(context)
     XmlBeanDefinitionReader(context).loadBeanDefinitions("classpath:context/context.xml")
     context.refresh()
 
