@@ -1,21 +1,21 @@
 package lt.tlistas.loginn.backend.aspect
 
-import lt.tlistas.crowbar.service.AuthenticationService
+import lt.tlistas.crowbar.service.ConfirmationService
 import lt.tlistas.loginn.backend.exception.IncorrectTokenException
 import org.aspectj.lang.annotation.Aspect
-import org.springframework.web.reactive.function.server.ServerRequest
 import org.aspectj.lang.annotation.Before
 import org.springframework.core.annotation.Order
+import org.springframework.web.reactive.function.server.ServerRequest
 
 @Aspect
 @Order(0)
-class CollaboratorHandlerAspect(private val authenticationService: AuthenticationService) {
+class CollaboratorHandlerAspect(private val confirmationService: ConfirmationService) {
 
     @Before("execution(* lt.tlistas.loginn.backend.handler.CollaboratorHandler.*(..))&& args(req)")
     fun authenticate(req: ServerRequest) {
         val header = getHeader(req)
 
-        if (header.isEmpty() || !authenticationService.tokenExists(header[0]))
+        if (header.isEmpty() || !confirmationService.tokenExists(header[0]))
             throw IncorrectTokenException()
     }
 

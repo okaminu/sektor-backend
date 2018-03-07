@@ -9,7 +9,6 @@ import lt.tlistas.loginn.backend.aspect.CollaboratorAspect
 import lt.tlistas.loginn.backend.aspect.CollaboratorHandlerAspect
 import lt.tlistas.loginn.backend.handler.AuthenticationHandler
 import lt.tlistas.loginn.backend.handler.CollaboratorHandler
-import lt.tlistas.loginn.backend.handler.ConfirmationHandler
 import lt.tlistas.loginn.backend.handler.WorkLogHandler
 import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.context.support.beans
@@ -24,7 +23,6 @@ import java.util.*
 
 fun beans() = beans {
     bean<CollaboratorHandler>()
-    bean<ConfirmationHandler>()
     bean<WorkLogHandler>()
     bean<AuthenticationHandler>()
 

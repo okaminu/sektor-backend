@@ -6,11 +6,9 @@ import org.springframework.data.mongodb.repository.MongoRepository
 
 interface ConfirmationMongoRepository : ConfirmationRepository, MongoRepository<Confirmation, String> {
 
-    override fun save(confirmation: Confirmation)
+    override fun save(authentication: Confirmation)
 
-    override fun delete(confirmation: Confirmation)
+    override fun existsByToken(token: String): Boolean
 
-    override fun existsByCode(confirmationCode: String): Boolean
-
-    override fun findByCode(confirmationCode: String): Confirmation
+    override fun findByToken(token: String): Confirmation
 }

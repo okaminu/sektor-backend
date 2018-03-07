@@ -1,16 +1,30 @@
 package lt.tlistas.loginn.backend.handler
 
-import lt.tlistas.crowbar.service.AuthenticationService
+import lt.tlistas.core.service.CollaboratorService
+import lt.tlistas.crowbar.service.ConfirmationService
+import lt.tlistas.crowbar.service.RequestService
 import org.springframework.web.reactive.function.BodyInserters
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
 import org.springframework.web.reactive.function.server.ServerResponse.ok
 import reactor.core.publisher.Mono
 
-class AuthenticationHandler(private val authService: AuthenticationService) {
+open class AuthenticationHandler(private val requestService: RequestService,
+                                 private val confirmationService: ConfirmationService,
+                                 private val collaboratorService: CollaboratorService) {
 
-    fun authenticate(req: ServerRequest): Mono<ServerResponse> =
-            Mono.just(authService.getAuthenticationToken(req.pathVariable("confirmationCode")))
+    open fun requestConfirmationCode(req: ServerRequest): Mono<ServerResponse> {
+        val mobileNumber = req.pathVariable("mobileNumber")
+        return Mono.just(requestService
+                .sendConfirmation(mobileNumber, getCollaborator(mobileNumber).id!!))
+                .flatMap { ok().build() }
+    }
+
+    open fun confirmCode(req: ServerRequest): Mono<ServerResponse> =
+            Mono.just(confirmationService.confirmCode(req.pathVariable("code")))
                     .flatMap { ok().body(BodyInserters.fromObject(it)) }
+
+
+    private fun getCollaborator(mobileNumber: String) = collaboratorService.getByMobileNumber(mobileNumber)
 
 }

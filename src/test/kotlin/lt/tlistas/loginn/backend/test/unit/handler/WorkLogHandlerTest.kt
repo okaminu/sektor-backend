@@ -5,7 +5,7 @@ import lt.tlistas.core.api.type.Location
 import lt.tlistas.core.service.CollaboratorService
 import lt.tlistas.core.service.LocationWorkLogService
 import lt.tlistas.core.type.entity.Collaborator
-import lt.tlistas.crowbar.service.AuthenticationService
+import lt.tlistas.crowbar.service.ConfirmationService
 import lt.tlistas.loginn.backend.Routes
 import lt.tlistas.loginn.backend.handler.WorkLogHandler
 import org.junit.Before
@@ -26,24 +26,24 @@ class WorkLogHandlerTest {
     private lateinit var collaboratorServiceMock: CollaboratorService
 
     @Mock
-    private lateinit var authServiceMock: AuthenticationService
+    private lateinit var confirmationServiceMock: ConfirmationService
 
     private lateinit var workLogHandler: WorkLogHandler
 
     @Before
     fun setUp() {
-        workLogHandler = WorkLogHandler(collaboratorServiceMock, locationWorkLogServiceMock, authServiceMock)
+        workLogHandler = WorkLogHandler(collaboratorServiceMock, locationWorkLogServiceMock, confirmationServiceMock)
     }
 
     @Test
     fun `Logs work by given location`() {
         val location = Location(1.1, 1.2)
         val collaborator = Collaborator()
-        doReturn(USER_ID).`when`(authServiceMock).getUserId(any())
+        doReturn(USER_ID).`when`(confirmationServiceMock).getUserId(any())
         doReturn(collaborator).`when`(collaboratorServiceMock).getById(USER_ID)
 
         val webTestClient = WebTestClient
-                .bindToRouterFunction(Routes(mock(), mock(), workLogHandler, mock()).router()).build()
+                .bindToRouterFunction(Routes(mock(), workLogHandler, mock()).router()).build()
         webTestClient.post().uri("/worklog/log-by-location")
                 .header("auth-token", AUTH_TOKEN)
                 .body(location.toMono(), Location::class.java)

@@ -2,7 +2,7 @@ package lt.tlistas.loginn.backend.test.unit.aspect
 
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.verify
-import lt.tlistas.crowbar.service.AuthenticationService
+import lt.tlistas.crowbar.service.ConfirmationService
 import lt.tlistas.loginn.backend.aspect.CollaboratorHandlerAspect
 import lt.tlistas.loginn.backend.exception.IncorrectTokenException
 import org.junit.Before
@@ -20,7 +20,7 @@ class CollaboratorHandlerAspectTest {
     @Mock
     private lateinit var headersMock: ServerRequest.Headers
     @Mock
-    private lateinit var authenticationServiceMock: AuthenticationService
+    private lateinit var confirmationServiceMock: ConfirmationService
 
     @Mock
     private lateinit var serverRequestMock: ServerRequest
@@ -33,24 +33,24 @@ class CollaboratorHandlerAspectTest {
 
     @Before
     fun `Set up`() {
-        collaboratorHandlerAspect = CollaboratorHandlerAspect(authenticationServiceMock)
+        collaboratorHandlerAspect = CollaboratorHandlerAspect(confirmationServiceMock)
     }
 
     @Test
     fun `Checks if user is authenticated`() {
         mockHeaderResponse()
-        doReturn(true).`when`(authenticationServiceMock).tokenExists(HEADER_LIST[0])
+        doReturn(true).`when`(confirmationServiceMock).tokenExists(HEADER_LIST[0])
 
         collaboratorHandlerAspect.authenticate(serverRequestMock)
 
-        verify(authenticationServiceMock).tokenExists(HEADER_LIST[0])
+        verify(confirmationServiceMock).tokenExists(HEADER_LIST[0])
     }
 
     @Test
     fun `Throws exception when user is unauthenticated`() {
         expectedException.expect(IncorrectTokenException::class.java)
         mockHeaderResponse()
-        doReturn(false).`when`(authenticationServiceMock).tokenExists(HEADER_LIST[0])
+        doReturn(false).`when`(confirmationServiceMock).tokenExists(HEADER_LIST[0])
 
         collaboratorHandlerAspect.authenticate(serverRequestMock)
     }
