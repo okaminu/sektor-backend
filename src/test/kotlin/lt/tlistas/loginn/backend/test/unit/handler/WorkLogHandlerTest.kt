@@ -44,7 +44,7 @@ class WorkLogHandlerTest {
 
         val webTestClient = WebTestClient
                 .bindToRouterFunction(Routes(mock(), mock(), workLogHandler, mock()).router()).build()
-        webTestClient.post().uri("/workLog/log-by-location")
+        webTestClient.post().uri("/worklog/log-by-location")
                 .header("auth-token", AUTH_TOKEN)
                 .body(location.toMono(), Location::class.java)
                 .exchange()
