@@ -24,7 +24,6 @@ open class AuthenticationHandler(private val requestService: RequestService,
             Mono.just(confirmationService.confirmCode(req.pathVariable("code")))
                     .flatMap { ok().body(BodyInserters.fromObject(it)) }
 
-
     private fun getCollaborator(mobileNumber: String) = collaboratorService.getByMobileNumber(mobileNumber)
 
 }
