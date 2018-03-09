@@ -1,6 +1,9 @@
 package lt.tlistas.loginn.backend.test.unit.handler
 
-import com.nhaarman.mockito_kotlin.*
+import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.doReturn
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.verify
 import lt.tlistas.core.api.type.Location
 import lt.tlistas.core.service.CollaboratorService
 import lt.tlistas.core.service.LocationWorkLogService
@@ -52,7 +55,7 @@ class WorkLogHandlerTest {
                 .isOk
                 .expectBody().isEmpty
 
-        verify(locationWorkLogServiceMock).logWork(eq(collaborator), eq(location))
+        verify(locationWorkLogServiceMock).logWork(collaborator, location)
     }
 
     companion object {

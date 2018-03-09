@@ -4,7 +4,6 @@ import lt.tlistas.core.api.exception.LocationNotFoundException
 import org.springframework.http.HttpStatus
 import org.springframework.web.server.ServerWebExchange
 
-
 class LocationNotFoundExceptionHandler : TemplateExceptionHandler() {
 
     override fun canHandle(ex: Throwable?) = ex is LocationNotFoundException
