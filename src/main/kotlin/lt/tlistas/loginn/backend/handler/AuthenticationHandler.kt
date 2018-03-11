@@ -16,7 +16,7 @@ open class AuthenticationHandler(private val requestService: RequestService,
     open fun requestConfirmationCode(req: ServerRequest): Mono<ServerResponse> {
         val mobileNumber = req.pathVariable("mobileNumber")
         return Mono.just(requestService
-                .sendConfirmation(getCollaborator(mobileNumber).id!!, mobileNumber))
+                .sendConfirmation(mobileNumber, getCollaborator(mobileNumber).id!!))
                 .flatMap { ok().build() }
     }
 

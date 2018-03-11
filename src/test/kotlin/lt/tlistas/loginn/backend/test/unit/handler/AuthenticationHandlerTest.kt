@@ -34,7 +34,8 @@ class AuthenticationHandlerTest {
 
     @Before
     fun `Set up`() {
-        authenticationHandler = AuthenticationHandler(requestServiceMock, confirmationServiceMock, collaboratorServiceMock)
+        authenticationHandler = AuthenticationHandler(requestServiceMock, confirmationServiceMock,
+                collaboratorServiceMock)
     }
 
     @Test
