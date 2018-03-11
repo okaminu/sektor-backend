@@ -6,6 +6,5 @@
        default-lazy-init="true" default-autowire="constructor">
 
     <bean id="awsSmsAdapter" class="lt.tlistas.crowbar.plugin.aws.sns.AwsSnsMessageGatewayAdapter"/>
-    <bean id="snsClientBuilder" class="lt.tlistas.crowbar.plugin.aws.sns.SnsClientBuilder"/>
 
 </beans>
