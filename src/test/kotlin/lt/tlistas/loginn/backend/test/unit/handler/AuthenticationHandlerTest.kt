@@ -57,7 +57,7 @@ class AuthenticationHandlerTest {
                 .expectBody().isEmpty
 
         verify(collaboratorServiceMock).getByMobileNumber(collaborator.mobileNumber)
-        verify(requestServiceMock).sendConfirmation(collaborator.mobileNumber, collaborator.id!!)
+        verify(requestServiceMock).sendConfirmation(collaborator.id!!, collaborator.mobileNumber)
     }
 
     @Test
