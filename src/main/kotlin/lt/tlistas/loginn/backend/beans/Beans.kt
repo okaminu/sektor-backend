@@ -4,12 +4,13 @@ import com.mongodb.MongoClient
 import com.mongodb.MongoCredential
 import com.mongodb.ServerAddress
 import com.mongodb.WriteConcern
-import lt.tlistas.loginn.backend.Routes
 import lt.tlistas.loginn.backend.aspect.CollaboratorExistenceAspect
 import lt.tlistas.loginn.backend.aspect.TokenExistenceAspect
 import lt.tlistas.loginn.backend.handler.AuthenticationHandler
 import lt.tlistas.loginn.backend.handler.CollaboratorHandler
 import lt.tlistas.loginn.backend.handler.WorkLogHandler
+import lt.tlistas.loginn.backend.route.CollaboratorRoutes
+import lt.tlistas.loginn.backend.route.WorkLogRoutes
 import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.context.support.beans
 import org.springframework.core.env.Environment
@@ -29,7 +30,8 @@ fun beans() = beans {
     bean<TokenExistenceAspect>()
     bean<CollaboratorExistenceAspect>()
 
-    bean<Routes>()
+    bean<CollaboratorRoutes>()
+    bean<WorkLogRoutes>()
 
     bean("mongoTemplate") {
         MongoTemplate(SimpleMongoDbFactory(ref(), ref<Environment>()["MONGO_DATABASE"])).apply {
@@ -49,8 +51,10 @@ fun beans() = beans {
     }
 
     bean("webHandler") {
-        RouterFunctions.toWebHandler(ref<Routes>().router())
+        RouterFunctions.toWebHandler(ref<CollaboratorRoutes>().router()
+                .and(ref<WorkLogRoutes>().router()))
     }
+
     bean("messageSource") {
         ReloadableResourceBundleMessageSource().apply {
             setBasename("messages")

@@ -11,7 +11,8 @@ import org.springframework.web.reactive.function.server.ServerRequest
 @Order(0)
 class TokenExistenceAspect(private val confirmationService: ConfirmationService) {
 
-    @Before("execution(* lt.tlistas.loginn.backend.handler.CollaboratorHandler.*(..))&& args(req)")
+    @Before("execution(* lt.tlistas.loginn.backend.handler.CollaboratorHandler.*(..)) && args(req) || " +
+            "execution(* lt.tlistas.loginn.backend.handler.WorkLogHandler.*(..)) && args(req)")
     fun tokenExistsAdvise(req: ServerRequest) {
         val header = getHeader(req)
 

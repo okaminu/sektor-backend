@@ -1,14 +1,12 @@
-package lt.tlistas.loginn.backend
+package lt.tlistas.loginn.backend.route
 
 import lt.tlistas.loginn.backend.handler.AuthenticationHandler
 import lt.tlistas.loginn.backend.handler.CollaboratorHandler
-import lt.tlistas.loginn.backend.handler.WorkLogHandler
 import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.web.reactive.function.server.router
 
-class Routes(private val collaboratorHandler: CollaboratorHandler,
-             private val workLogHandler: WorkLogHandler,
-             private val authenticationHandler: AuthenticationHandler) {
+class CollaboratorRoutes(private val collaboratorHandler: CollaboratorHandler,
+                         private val authenticationHandler: AuthenticationHandler) {
 
     fun router() = router {
         "/collaborator".nest {
@@ -22,11 +20,6 @@ class Routes(private val collaboratorHandler: CollaboratorHandler,
                         POST("/confirm/{code}", authenticationHandler::confirmCode)
                     }
                 }
-            }
-        }
-        "/worklog".nest {
-            accept(APPLICATION_JSON).nest {
-                POST("/log-by-location", workLogHandler::logByLocation)
             }
         }
     }

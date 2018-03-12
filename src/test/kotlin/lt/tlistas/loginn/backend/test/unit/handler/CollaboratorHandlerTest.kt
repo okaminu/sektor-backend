@@ -7,8 +7,8 @@ import lt.tlistas.core.service.CollaboratorService
 import lt.tlistas.core.type.entity.Collaborator
 import lt.tlistas.core.type.value_object.TimeRange
 import lt.tlistas.crowbar.service.ConfirmationService
-import lt.tlistas.loginn.backend.Routes
 import lt.tlistas.loginn.backend.handler.CollaboratorHandler
+import lt.tlistas.loginn.backend.route.CollaboratorRoutes
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -39,7 +39,7 @@ class CollaboratorHandlerTest {
         doReturn(USER_ID).`when`(confirmationServiceMock).getUserId(any())
         doReturn(Collaborator().apply { this.workTime = workTime }).`when`(collaboratorServiceMock).getById(USER_ID)
 
-        val routerFunction = Routes(collaboratorHandler, mock(), mock()).router()
+        val routerFunction = CollaboratorRoutes(collaboratorHandler, mock()).router()
         val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
         val returnResult = webTestClient.get()
                 .uri("/collaborator/workTime")

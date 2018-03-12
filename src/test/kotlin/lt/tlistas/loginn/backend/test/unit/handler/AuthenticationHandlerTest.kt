@@ -8,8 +8,8 @@ import lt.tlistas.core.service.CollaboratorService
 import lt.tlistas.core.type.entity.Collaborator
 import lt.tlistas.crowbar.service.ConfirmationService
 import lt.tlistas.crowbar.service.RequestService
-import lt.tlistas.loginn.backend.Routes
 import lt.tlistas.loginn.backend.handler.AuthenticationHandler
+import lt.tlistas.loginn.backend.route.CollaboratorRoutes
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -47,7 +47,7 @@ class AuthenticationHandlerTest {
         doReturn(collaborator).`when`(collaboratorServiceMock).getByMobileNumber(collaborator.mobileNumber)
 
         val webTestClient = WebTestClient
-                .bindToRouterFunction(Routes(mock(), mock(), authenticationHandler)
+                .bindToRouterFunction(CollaboratorRoutes(mock(), authenticationHandler)
                         .router()).build()
         webTestClient.post()
                 .uri("collaborator/authentication/code/request/${collaborator.mobileNumber}")
@@ -67,7 +67,7 @@ class AuthenticationHandlerTest {
         doReturn(authenticationToken).`when`(confirmationServiceMock).confirmCode(any())
 
         val webTestClient = WebTestClient
-                .bindToRouterFunction(Routes(mock(), mock(), authenticationHandler)
+                .bindToRouterFunction(CollaboratorRoutes(mock(), authenticationHandler)
                         .router()).build()
         val returnResult = webTestClient.post()
                 .uri("collaborator/authentication/code/confirm/$confirmationCode")
