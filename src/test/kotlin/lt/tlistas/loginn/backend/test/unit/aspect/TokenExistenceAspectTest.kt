@@ -2,7 +2,7 @@ package lt.tlistas.loginn.backend.test.unit.aspect
 
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.verify
-import lt.tlistas.crowbar.service.ConfirmationService
+import lt.tlistas.crowbar.service.TokenService
 import lt.tlistas.loginn.backend.aspect.TokenExistenceAspect
 import lt.tlistas.loginn.backend.exception.IncorrectTokenException
 import org.junit.Before
@@ -20,7 +20,7 @@ class TokenExistenceAspectTest {
     @Mock
     private lateinit var headersMock: ServerRequest.Headers
     @Mock
-    private lateinit var confirmationServiceMock: ConfirmationService
+    private lateinit var tokenServiceMock: TokenService
 
     @Mock
     private lateinit var serverRequestMock: ServerRequest
@@ -33,24 +33,24 @@ class TokenExistenceAspectTest {
 
     @Before
     fun `Set up`() {
-        collaboratorHandlerAspect = TokenExistenceAspect(confirmationServiceMock)
+        collaboratorHandlerAspect = TokenExistenceAspect(tokenServiceMock)
     }
 
     @Test
     fun `Checks if authentication token exists`() {
         mockHeaderResponse()
-        doReturn(true).`when`(confirmationServiceMock).tokenExists(HEADER_LIST[0])
+        doReturn(true).`when`(tokenServiceMock).tokenExists(HEADER_LIST[0])
 
         collaboratorHandlerAspect.tokenExistsAdvise(serverRequestMock)
 
-        verify(confirmationServiceMock).tokenExists(HEADER_LIST[0])
+        verify(tokenServiceMock).tokenExists(HEADER_LIST[0])
     }
 
     @Test
     fun `Throws exception when authentication token is not found`() {
         expectedException.expect(IncorrectTokenException::class.java)
         mockHeaderResponse()
-        doReturn(false).`when`(confirmationServiceMock).tokenExists(HEADER_LIST[0])
+        doReturn(false).`when`(tokenServiceMock).tokenExists(HEADER_LIST[0])
 
         collaboratorHandlerAspect.tokenExistsAdvise(serverRequestMock)
     }

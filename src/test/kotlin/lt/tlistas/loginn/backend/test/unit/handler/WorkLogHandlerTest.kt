@@ -7,7 +7,7 @@ import lt.tlistas.core.api.type.Location
 import lt.tlistas.core.service.CollaboratorService
 import lt.tlistas.core.service.LocationWorkLogService
 import lt.tlistas.core.type.entity.Collaborator
-import lt.tlistas.crowbar.service.ConfirmationService
+import lt.tlistas.crowbar.service.TokenService
 import lt.tlistas.loginn.backend.handler.WorkLogHandler
 import lt.tlistas.loginn.backend.route.WorkLogRoutes
 import org.junit.Before
@@ -28,20 +28,20 @@ class WorkLogHandlerTest {
     private lateinit var collaboratorServiceMock: CollaboratorService
 
     @Mock
-    private lateinit var confirmationServiceMock: ConfirmationService
+    private lateinit var tokenServiceMock: TokenService
 
     private lateinit var workLogHandler: WorkLogHandler
 
     @Before
     fun setUp() {
-        workLogHandler = WorkLogHandler(collaboratorServiceMock, locationWorkLogServiceMock, confirmationServiceMock)
+        workLogHandler = WorkLogHandler(collaboratorServiceMock, locationWorkLogServiceMock, tokenServiceMock)
     }
 
     @Test
     fun `Logs work by given location`() {
         val location = Location(1.1, 1.2)
         val collaborator = Collaborator()
-        doReturn(USER_ID).`when`(confirmationServiceMock).getUserId(any())
+        doReturn(USER_ID).`when`(tokenServiceMock).getUserId(any())
         doReturn(collaborator).`when`(collaboratorServiceMock).getById(USER_ID)
 
         val webTestClient = WebTestClient

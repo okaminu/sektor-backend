@@ -6,8 +6,8 @@ import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import lt.tlistas.core.service.CollaboratorService
 import lt.tlistas.core.type.entity.Collaborator
-import lt.tlistas.crowbar.service.ConfirmationService
 import lt.tlistas.crowbar.service.RequestService
+import lt.tlistas.crowbar.service.TokenService
 import lt.tlistas.loginn.backend.handler.AuthenticationHandler
 import lt.tlistas.loginn.backend.route.CollaboratorRoutes
 import org.junit.Before
@@ -22,7 +22,7 @@ import kotlin.test.assertEquals
 class AuthenticationHandlerTest {
 
     @Mock
-    private lateinit var confirmationServiceMock: ConfirmationService
+    private lateinit var tokenServiceMock: TokenService
 
     @Mock
     private lateinit var collaboratorServiceMock: CollaboratorService
@@ -34,7 +34,7 @@ class AuthenticationHandlerTest {
 
     @Before
     fun `Set up`() {
-        authenticationHandler = AuthenticationHandler(requestServiceMock, confirmationServiceMock,
+        authenticationHandler = AuthenticationHandler(requestServiceMock, tokenServiceMock,
                 collaboratorServiceMock)
     }
 
@@ -64,7 +64,7 @@ class AuthenticationHandlerTest {
     fun `Confirms collaborator and returns token`() {
         val confirmationCode = "123456"
         val authenticationToken = "5s4f65asd4f"
-        doReturn(authenticationToken).`when`(confirmationServiceMock).confirmCode(any())
+        doReturn(authenticationToken).`when`(tokenServiceMock).confirmCode(any())
 
         val webTestClient = WebTestClient
                 .bindToRouterFunction(CollaboratorRoutes(mock(), authenticationHandler)
@@ -77,7 +77,7 @@ class AuthenticationHandlerTest {
                 .expectBody(String::class.java)
                 .returnResult()
 
-        verify(confirmationServiceMock).confirmCode(confirmationCode)
+        verify(tokenServiceMock).confirmCode(confirmationCode)
         assertEquals(authenticationToken, returnResult.responseBody)
     }
 

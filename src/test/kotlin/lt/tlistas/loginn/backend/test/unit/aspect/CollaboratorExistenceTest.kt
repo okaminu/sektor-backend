@@ -3,7 +3,7 @@ package lt.tlistas.loginn.backend.test.unit.aspect
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.verify
 import lt.tlistas.core.service.CollaboratorService
-import lt.tlistas.crowbar.service.ConfirmationService
+import lt.tlistas.crowbar.service.TokenService
 import lt.tlistas.loginn.backend.aspect.CollaboratorExistenceAspect
 import lt.tlistas.loginn.backend.exception.CollaboratorNotFoundException
 import org.junit.Before
@@ -22,7 +22,7 @@ class CollaboratorExistenceTest {
     private lateinit var collaboratorServiceMock: CollaboratorService
 
     @Mock
-    private lateinit var confirmationServiceMock: ConfirmationService
+    private lateinit var tokenServiceMock: TokenService
 
     @Mock
     private lateinit var serverRequestMock: ServerRequest
@@ -38,7 +38,7 @@ class CollaboratorExistenceTest {
 
     @Before
     fun `Set up`() {
-        collaboratorAspect = CollaboratorExistenceAspect(collaboratorServiceMock, confirmationServiceMock)
+        collaboratorAspect = CollaboratorExistenceAspect(collaboratorServiceMock, tokenServiceMock)
     }
 
     @Test
@@ -82,7 +82,7 @@ class CollaboratorExistenceTest {
     private fun mockHeaderResponse() {
         doReturn(headersMock).`when`(serverRequestMock).headers()
         doReturn(HEADER_LIST).`when`(headersMock).header("auth-token")
-        doReturn(COLLABORATOR_ID).`when`(confirmationServiceMock).getUserId(HEADER_LIST[0])
+        doReturn(COLLABORATOR_ID).`when`(tokenServiceMock).getUserId(HEADER_LIST[0])
     }
 
     companion object {
