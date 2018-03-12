@@ -1,14 +1,9 @@
-package lt.tlistas.loginn.backend.beans
+package lt.tlistas.loginn.backend
 
 import com.mongodb.MongoClient
 import com.mongodb.MongoCredential
 import com.mongodb.ServerAddress
 import com.mongodb.WriteConcern
-import lt.tlistas.loginn.backend.aspect.CollaboratorExistenceAspect
-import lt.tlistas.loginn.backend.aspect.TokenExistenceAspect
-import lt.tlistas.loginn.backend.handler.AuthenticationHandler
-import lt.tlistas.loginn.backend.handler.CollaboratorHandler
-import lt.tlistas.loginn.backend.handler.WorkLogHandler
 import lt.tlistas.loginn.backend.route.CollaboratorRoutes
 import lt.tlistas.loginn.backend.route.WorkLogRoutes
 import org.springframework.context.support.ReloadableResourceBundleMessageSource
@@ -23,15 +18,6 @@ import org.springframework.web.reactive.function.server.RouterFunctions
 import java.util.*
 
 fun beans() = beans {
-    bean<CollaboratorHandler>()
-    bean<WorkLogHandler>()
-    bean<AuthenticationHandler>()
-
-    bean<TokenExistenceAspect>()
-    bean<CollaboratorExistenceAspect>()
-
-    bean<CollaboratorRoutes>()
-    bean<WorkLogRoutes>()
 
     bean("mongoTemplate") {
         MongoTemplate(SimpleMongoDbFactory(ref(), ref<Environment>()["MONGO_DATABASE"])).apply {
