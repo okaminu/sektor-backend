@@ -8,7 +8,7 @@ import lt.tlistas.core.service.CollaboratorService
 import lt.tlistas.core.type.entity.Collaborator
 import lt.tlistas.crowbar.service.RequestService
 import lt.tlistas.crowbar.service.TokenService
-import lt.tlistas.loginn.backend.handler.AuthenticationHandler
+import lt.tlistas.loginn.backend.handler.IdentityConfirmationHandler
 import lt.tlistas.loginn.backend.route.CollaboratorRoutes
 import org.junit.Before
 import org.junit.Test
@@ -19,7 +19,7 @@ import org.springframework.test.web.reactive.server.WebTestClient
 import kotlin.test.assertEquals
 
 @RunWith(MockitoJUnitRunner::class)
-class AuthenticationHandlerTest {
+class IdentityConfirmationHandlerTest {
 
     @Mock
     private lateinit var tokenServiceMock: TokenService
@@ -30,11 +30,11 @@ class AuthenticationHandlerTest {
     @Mock
     private lateinit var requestServiceMock: RequestService
 
-    private lateinit var authenticationHandler: AuthenticationHandler
+    private lateinit var identityConfirmationHandler: IdentityConfirmationHandler
 
     @Before
     fun `Set up`() {
-        authenticationHandler = AuthenticationHandler(requestServiceMock, tokenServiceMock,
+        identityConfirmationHandler = IdentityConfirmationHandler(requestServiceMock, tokenServiceMock,
                 collaboratorServiceMock)
     }
 
@@ -47,7 +47,7 @@ class AuthenticationHandlerTest {
         doReturn(collaborator).`when`(collaboratorServiceMock).getByMobileNumber(collaborator.mobileNumber)
 
         val webTestClient = WebTestClient
-                .bindToRouterFunction(CollaboratorRoutes(mock(), authenticationHandler)
+                .bindToRouterFunction(CollaboratorRoutes(mock(), identityConfirmationHandler)
                         .router()).build()
         webTestClient.post()
                 .uri("collaborator/authentication/code/request/${collaborator.mobileNumber}")
@@ -67,7 +67,7 @@ class AuthenticationHandlerTest {
         doReturn(authenticationToken).`when`(tokenServiceMock).confirmCode(any())
 
         val webTestClient = WebTestClient
-                .bindToRouterFunction(CollaboratorRoutes(mock(), authenticationHandler)
+                .bindToRouterFunction(CollaboratorRoutes(mock(), identityConfirmationHandler)
                         .router()).build()
         val returnResult = webTestClient.post()
                 .uri("collaborator/authentication/code/confirm/$confirmationCode")

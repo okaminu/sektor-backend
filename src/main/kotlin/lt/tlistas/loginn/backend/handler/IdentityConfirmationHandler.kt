@@ -9,9 +9,9 @@ import org.springframework.web.reactive.function.server.ServerResponse
 import org.springframework.web.reactive.function.server.ServerResponse.ok
 import reactor.core.publisher.Mono
 
-open class AuthenticationHandler(private val requestService: RequestService,
-                                 private val tokenService: TokenService,
-                                 private val collaboratorService: CollaboratorService) {
+open class IdentityConfirmationHandler(private val requestService: RequestService,
+                                       private val tokenService: TokenService,
+                                       private val collaboratorService: CollaboratorService) {
 
     open fun requestCode(req: ServerRequest): Mono<ServerResponse> =
             Mono.just(req.pathVariable("mobileNumber"))
