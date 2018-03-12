@@ -14,9 +14,9 @@ open class CollaboratorHandler(private val collaboratorService: CollaboratorServ
     open fun getWorkTime(req: ServerRequest): Mono<ServerResponse> =
             ok().body(fromObject(getCollaborator(req).workTime))
 
-    private fun getCollaborator(req: ServerRequest) = collaboratorService.getById(getUserId(req)!!)
+    private fun getCollaborator(req: ServerRequest) = collaboratorService.getById(getCollaboratorId(req)!!)
 
-    private fun getUserId(req: ServerRequest) = confirmationService.getUserId(getToken(req))
+    private fun getCollaboratorId(req: ServerRequest) = confirmationService.getUserId(getToken(req))
 
     private fun getToken(req: ServerRequest) = req.headers().header("auth-token")[0]
 }

@@ -6,6 +6,7 @@ import lt.tlistas.core.service.LocationWorkLogService
 import lt.tlistas.crowbar.service.ConfirmationService
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
+import org.springframework.web.reactive.function.server.ServerResponse.ok
 import org.springframework.web.reactive.function.server.bodyToMono
 import reactor.core.publisher.Mono
 
@@ -16,7 +17,7 @@ open class WorkLogHandler(private val collaboratorService: CollaboratorService,
     open fun logByLocation(req: ServerRequest): Mono<ServerResponse> =
             req.bodyToMono<Location>()
                     .doOnNext { locationWorkLogService.logWork(getCollaborator(req), it) }
-                    .flatMap { ServerResponse.ok().build() }
+                    .flatMap { ok().build() }
 
     private fun getCollaborator(req: ServerRequest) = collaboratorService.getById(getUserId(req)!!)
 
