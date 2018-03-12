@@ -6,9 +6,9 @@ import org.springframework.web.server.ServerWebExchange
 
 class ConfirmationCodeNotFoundExceptionHandler : TemplateExceptionHandler() {
 
-    override fun canHandle(ex: Throwable?) = ex is ConfirmationCodeNotFoundException
+    override fun canHandle(ex: Throwable) = ex is ConfirmationCodeNotFoundException
 
-    override fun handleException(exchange: ServerWebExchange?, ex: Throwable?) {
-        exchange!!.response.statusCode = HttpStatus.NOT_FOUND
+    override fun handleException(exchange: ServerWebExchange, ex: Throwable) {
+        exchange.response.statusCode = HttpStatus.NOT_FOUND
     }
 }

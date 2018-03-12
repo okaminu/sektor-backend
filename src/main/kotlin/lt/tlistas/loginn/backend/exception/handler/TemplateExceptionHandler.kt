@@ -4,10 +4,9 @@ import org.springframework.web.server.ServerWebExchange
 import org.springframework.web.server.WebExceptionHandler
 import reactor.core.publisher.Mono
 
-@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 abstract class TemplateExceptionHandler : WebExceptionHandler {
 
-    final override fun handle(exchange: ServerWebExchange?, ex: Throwable?): Mono<Void> {
+    final override fun handle(exchange: ServerWebExchange, ex: Throwable): Mono<Void> {
         if (canHandle(ex)) {
             handleException(exchange, ex)
             return Mono.empty()
@@ -15,8 +14,8 @@ abstract class TemplateExceptionHandler : WebExceptionHandler {
         return Mono.error(ex)
     }
 
-    abstract fun canHandle(ex: Throwable?): Boolean
+    abstract fun canHandle(ex: Throwable): Boolean
 
-    abstract fun handleException(exchange: ServerWebExchange?, ex: Throwable?)
+    abstract fun handleException(exchange: ServerWebExchange, ex: Throwable)
 
 }

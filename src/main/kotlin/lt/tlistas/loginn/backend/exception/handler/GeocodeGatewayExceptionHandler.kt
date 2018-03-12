@@ -6,9 +6,9 @@ import org.springframework.web.server.ServerWebExchange
 
 class GeocodeGatewayExceptionHandler : TemplateExceptionHandler() {
 
-    override fun canHandle(ex: Throwable?) = ex is GeocodeGatewayException
+    override fun canHandle(ex: Throwable) = ex is GeocodeGatewayException
 
-    override fun handleException(exchange: ServerWebExchange?, ex: Throwable?) {
-        exchange!!.response.statusCode = HttpStatus.INTERNAL_SERVER_ERROR
+    override fun handleException(exchange: ServerWebExchange, ex: Throwable) {
+        exchange.response.statusCode = HttpStatus.INTERNAL_SERVER_ERROR
     }
 }

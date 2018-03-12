@@ -6,9 +6,9 @@ import org.springframework.web.server.ServerWebExchange
 
 class IncorrectTokenExceptionHandler : TemplateExceptionHandler() {
 
-    override fun canHandle(ex: Throwable?) = ex is IncorrectTokenException
+    override fun canHandle(ex: Throwable) = ex is IncorrectTokenException
 
-    override fun handleException(exchange: ServerWebExchange?, ex: Throwable?) {
-        exchange!!.response.statusCode = HttpStatus.UNAUTHORIZED
+    override fun handleException(exchange: ServerWebExchange, ex: Throwable) {
+        exchange.response.statusCode = HttpStatus.UNAUTHORIZED
     }
 }

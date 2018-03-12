@@ -6,10 +6,10 @@ import org.springframework.web.server.ServerWebExchange
 
 class LocationNotFoundExceptionHandler : TemplateExceptionHandler() {
 
-    override fun canHandle(ex: Throwable?) = ex is LocationNotFoundException
+    override fun canHandle(ex: Throwable) = ex is LocationNotFoundException
 
-    override fun handleException(exchange: ServerWebExchange?, ex: Throwable?) {
-        exchange!!.response.statusCode = HttpStatus.UNPROCESSABLE_ENTITY
+    override fun handleException(exchange: ServerWebExchange, ex: Throwable) {
+        exchange.response.statusCode = HttpStatus.UNPROCESSABLE_ENTITY
     }
 
 }
