@@ -15,7 +15,7 @@ open class IdentityConfirmationHandler(private val confirmationCodeSender: Confi
 
     open fun requestCode(req: ServerRequest): Mono<ServerResponse> =
             Mono.just(req.pathVariable("mobileNumber"))
-                    .doOnNext { confirmationCodeSender.sendConfirmation(getCollaborator(it).id!!, it) }
+                    .doOnNext { confirmationCodeSender.send(getCollaborator(it).id!!, it) }
                     .flatMap { ok().build() }
 
 
