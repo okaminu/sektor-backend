@@ -15,20 +15,24 @@ import reactor.ipc.netty.http.server.HttpServer
 
 fun main(args: Array<String>) {
 
-    val context = GenericApplicationContext()
+    val context = getApplicationContext()
     beans().initialize(context)
     exceptionHandlerBeans().initialize(context)
     XmlBeanDefinitionReader(context).loadBeanDefinitions("classpath:context/context.xml")
     context.refresh()
 
-    val httpHandler = WebHttpHandlerBuilder
-            .applicationContext(context)
-            .exceptionHandler(*getExceptionHandlers(context))
-            .apply { if (context.containsBean("corsFilter")) filter(context.getBean<CorsWebFilter>()) }
-            .build()
+    val httpHandler = getWebHttpHandler(context)
 
     HttpServer.create(8090).startAndAwait(ReactorHttpHandlerAdapter(httpHandler))
 }
+
+private fun getApplicationContext() = GenericApplicationContext()
+
+private fun getWebHttpHandler(context: GenericApplicationContext) = WebHttpHandlerBuilder
+        .applicationContext(context)
+        .exceptionHandler(*getExceptionHandlers(context))
+        .apply { if (context.containsBean("corsFilter")) filter(context.getBean<CorsWebFilter>()) }
+        .build()
 
 private fun getExceptionHandlers(context: GenericApplicationContext) =
         arrayOf<WebExceptionHandler>(
