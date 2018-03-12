@@ -3,7 +3,7 @@ package lt.tlistas.loginn.backend.test.unit.aspect
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.verify
 import lt.tlistas.crowbar.service.ConfirmationService
-import lt.tlistas.loginn.backend.aspect.CollaboratorAuthenticationAspect
+import lt.tlistas.loginn.backend.aspect.TokenExistenceAspect
 import lt.tlistas.loginn.backend.exception.IncorrectTokenException
 import org.junit.Before
 import org.junit.Rule
@@ -15,7 +15,7 @@ import org.mockito.junit.MockitoJUnitRunner
 import org.springframework.web.reactive.function.server.ServerRequest
 
 @RunWith(MockitoJUnitRunner::class)
-class CollaboratorAuthenticationAspectTest {
+class TokenExistenceAspectTest {
 
     @Mock
     private lateinit var headersMock: ServerRequest.Headers
@@ -29,39 +29,39 @@ class CollaboratorAuthenticationAspectTest {
     @JvmField
     val expectedException = ExpectedException.none()!!
 
-    private lateinit var collaboratorHandlerAspect: CollaboratorAuthenticationAspect
+    private lateinit var collaboratorHandlerAspect: TokenExistenceAspect
 
     @Before
     fun `Set up`() {
-        collaboratorHandlerAspect = CollaboratorAuthenticationAspect(confirmationServiceMock)
+        collaboratorHandlerAspect = TokenExistenceAspect(confirmationServiceMock)
     }
 
     @Test
-    fun `Checks if user is authenticated`() {
+    fun `Checks if authentication token exists`() {
         mockHeaderResponse()
         doReturn(true).`when`(confirmationServiceMock).tokenExists(HEADER_LIST[0])
 
-        collaboratorHandlerAspect.authenticate(serverRequestMock)
+        collaboratorHandlerAspect.tokenExistsAdvise(serverRequestMock)
 
         verify(confirmationServiceMock).tokenExists(HEADER_LIST[0])
     }
 
     @Test
-    fun `Throws exception when user is unauthenticated`() {
+    fun `Throws exception when authentication token is not found`() {
         expectedException.expect(IncorrectTokenException::class.java)
         mockHeaderResponse()
         doReturn(false).`when`(confirmationServiceMock).tokenExists(HEADER_LIST[0])
 
-        collaboratorHandlerAspect.authenticate(serverRequestMock)
+        collaboratorHandlerAspect.tokenExistsAdvise(serverRequestMock)
     }
 
     @Test
-    fun `Throws exception when token is not provided`() {
+    fun `Throws exception when authentication token is not provided`() {
         expectedException.expect(IncorrectTokenException::class.java)
         doReturn(headersMock).`when`(serverRequestMock).headers()
         doReturn(emptyList<String>()).`when`(headersMock).header("auth-token")
 
-        collaboratorHandlerAspect.authenticate(serverRequestMock)
+        collaboratorHandlerAspect.tokenExistsAdvise(serverRequestMock)
     }
 
     private fun mockHeaderResponse() {

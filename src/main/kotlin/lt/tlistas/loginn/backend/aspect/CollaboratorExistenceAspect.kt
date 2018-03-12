@@ -14,14 +14,14 @@ class CollaboratorExistenceAspect(private val collaboratorService: CollaboratorS
                                   private val confirmationService: ConfirmationService) {
 
     @Before("execution(* lt.tlistas.loginn.backend.handler.AuthenticationHandler.requestConfirmationCode(..)) && args(req)")
-    fun collaboratorExistsByMobileNumber(req: ServerRequest) {
+    fun collaboratorExistsByMobileNumberAdvise(req: ServerRequest) {
         if (!collaboratorService.existsByMobileNumber(req.pathVariable("mobileNumber")))
             throw CollaboratorNotFoundException()
     }
 
     @Before("execution(* lt.tlistas.loginn.backend.handler.CollaboratorHandler.*(..)) && args(req) || " +
             "execution(* lt.tlistas.loginn.backend.handler.WorkLogHandler.*(..)) && args(req)")
-    fun collaboratorExistsById(req: ServerRequest) {
+    fun collaboratorExistsByIdAdvise(req: ServerRequest) {
         if (!collaboratorService.existsById(getUserId(req)!!))
             throw CollaboratorNotFoundException()
     }

@@ -46,7 +46,7 @@ class CollaboratorExistenceTest {
         doReturn(MOBILE_NUMBER).`when`(serverRequestMock).pathVariable("mobileNumber")
         doReturn(true).`when`(collaboratorServiceMock).existsByMobileNumber(MOBILE_NUMBER)
 
-        collaboratorAspect.collaboratorExistsByMobileNumber(serverRequestMock)
+        collaboratorAspect.collaboratorExistsByMobileNumberAdvise(serverRequestMock)
 
         verify(collaboratorServiceMock).existsByMobileNumber(MOBILE_NUMBER)
     }
@@ -57,7 +57,7 @@ class CollaboratorExistenceTest {
         doReturn(MOBILE_NUMBER).`when`(serverRequestMock).pathVariable("mobileNumber")
         doReturn(false).`when`(collaboratorServiceMock).existsByMobileNumber(MOBILE_NUMBER)
 
-        collaboratorAspect.collaboratorExistsByMobileNumber(serverRequestMock)
+        collaboratorAspect.collaboratorExistsByMobileNumberAdvise(serverRequestMock)
     }
 
     @Test
@@ -65,7 +65,7 @@ class CollaboratorExistenceTest {
         mockHeaderResponse()
         doReturn(true).`when`(collaboratorServiceMock).existsById(COLLABORATOR_ID)
 
-        collaboratorAspect.collaboratorExistsById(serverRequestMock)
+        collaboratorAspect.collaboratorExistsByIdAdvise(serverRequestMock)
 
         verify(collaboratorServiceMock).existsById(COLLABORATOR_ID)
     }
@@ -76,7 +76,7 @@ class CollaboratorExistenceTest {
         mockHeaderResponse()
         doReturn(false).`when`(collaboratorServiceMock).existsById(COLLABORATOR_ID)
 
-        collaboratorAspect.collaboratorExistsById(serverRequestMock)
+        collaboratorAspect.collaboratorExistsByIdAdvise(serverRequestMock)
     }
 
     private fun mockHeaderResponse() {
