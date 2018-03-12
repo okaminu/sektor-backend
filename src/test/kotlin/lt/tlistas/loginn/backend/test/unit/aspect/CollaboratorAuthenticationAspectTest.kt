@@ -3,7 +3,7 @@ package lt.tlistas.loginn.backend.test.unit.aspect
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.verify
 import lt.tlistas.crowbar.service.ConfirmationService
-import lt.tlistas.loginn.backend.aspect.CollaboratorHandlerAspect
+import lt.tlistas.loginn.backend.aspect.CollaboratorAuthenticationAspect
 import lt.tlistas.loginn.backend.exception.IncorrectTokenException
 import org.junit.Before
 import org.junit.Rule
@@ -15,7 +15,7 @@ import org.mockito.junit.MockitoJUnitRunner
 import org.springframework.web.reactive.function.server.ServerRequest
 
 @RunWith(MockitoJUnitRunner::class)
-class CollaboratorHandlerAspectTest {
+class CollaboratorAuthenticationAspectTest {
 
     @Mock
     private lateinit var headersMock: ServerRequest.Headers
@@ -29,11 +29,11 @@ class CollaboratorHandlerAspectTest {
     @JvmField
     val expectedException = ExpectedException.none()!!
 
-    private lateinit var collaboratorHandlerAspect: CollaboratorHandlerAspect
+    private lateinit var collaboratorHandlerAspect: CollaboratorAuthenticationAspect
 
     @Before
     fun `Set up`() {
-        collaboratorHandlerAspect = CollaboratorHandlerAspect(confirmationServiceMock)
+        collaboratorHandlerAspect = CollaboratorAuthenticationAspect(confirmationServiceMock)
     }
 
     @Test

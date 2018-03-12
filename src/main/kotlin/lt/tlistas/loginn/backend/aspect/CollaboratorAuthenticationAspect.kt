@@ -9,7 +9,7 @@ import org.springframework.web.reactive.function.server.ServerRequest
 
 @Aspect
 @Order(0)
-class CollaboratorHandlerAspect(private val confirmationService: ConfirmationService) {
+class CollaboratorAuthenticationAspect(private val confirmationService: ConfirmationService) {
 
     @Before("execution(* lt.tlistas.loginn.backend.handler.CollaboratorHandler.*(..))&& args(req)")
     fun authenticate(req: ServerRequest) {

@@ -10,8 +10,8 @@ import org.springframework.web.reactive.function.server.ServerRequest
 
 @Aspect
 @Order(1)
-class CollaboratorAspect(private val collaboratorService: CollaboratorService,
-                         private val confirmationService: ConfirmationService) {
+class CollaboratorExistenceAspect(private val collaboratorService: CollaboratorService,
+                                  private val confirmationService: ConfirmationService) {
 
     @Before("execution(* lt.tlistas.loginn.backend.handler.AuthenticationHandler.requestConfirmationCode(..)) && args(req)")
     fun collaboratorExistsByMobileNumber(req: ServerRequest) {

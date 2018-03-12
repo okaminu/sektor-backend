@@ -4,7 +4,7 @@ import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.verify
 import lt.tlistas.core.service.CollaboratorService
 import lt.tlistas.crowbar.service.ConfirmationService
-import lt.tlistas.loginn.backend.aspect.CollaboratorAspect
+import lt.tlistas.loginn.backend.aspect.CollaboratorExistenceAspect
 import lt.tlistas.loginn.backend.exception.CollaboratorNotFoundException
 import org.junit.Before
 import org.junit.Rule
@@ -16,7 +16,7 @@ import org.mockito.junit.MockitoJUnitRunner
 import org.springframework.web.reactive.function.server.ServerRequest
 
 @RunWith(MockitoJUnitRunner::class)
-class CollaboratorAspectTest {
+class CollaboratorExistenceTest {
 
     @Mock
     private lateinit var collaboratorServiceMock: CollaboratorService
@@ -34,11 +34,11 @@ class CollaboratorAspectTest {
     @JvmField
     val expectedException = ExpectedException.none()!!
 
-    private lateinit var collaboratorAspect: CollaboratorAspect
+    private lateinit var collaboratorAspect: CollaboratorExistenceAspect
 
     @Before
     fun `Set up`() {
-        collaboratorAspect = CollaboratorAspect(collaboratorServiceMock, confirmationServiceMock)
+        collaboratorAspect = CollaboratorExistenceAspect(collaboratorServiceMock, confirmationServiceMock)
     }
 
     @Test
