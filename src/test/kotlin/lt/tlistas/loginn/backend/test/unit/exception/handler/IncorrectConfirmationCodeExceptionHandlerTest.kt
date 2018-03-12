@@ -13,7 +13,7 @@ import org.springframework.http.server.reactive.ServerHttpResponse
 import org.springframework.web.server.ServerWebExchange
 import kotlin.test.assertTrue
 
-class ConfirmationCodeNotFoundExceptionHandlerTest {
+class IncorrectConfirmationCodeExceptionHandlerTest {
 
     private lateinit var handler: IncorrectConfirmationCodeExceptionHandler
 
@@ -31,7 +31,7 @@ class ConfirmationCodeNotFoundExceptionHandlerTest {
         handler
                 .handleException(serverWebExchangeMock, IncorrectConfirmationCodeException())
 
-        verify(serverHttpResponseMock).statusCode = eq(HttpStatus.NOT_FOUND)
+        verify(serverHttpResponseMock).statusCode = eq(HttpStatus.UNAUTHORIZED)
     }
 
     @Test
