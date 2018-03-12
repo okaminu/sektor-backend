@@ -16,7 +16,7 @@ class CollaboratorRoutes(private val collaboratorHandler: CollaboratorHandler,
             "/authentication".nest {
                 "/code".nest {
                     accept(APPLICATION_JSON).nest {
-                        POST("/request/{mobileNumber}", authenticationHandler::requestConfirmationCode)
+                        POST("/request/{mobileNumber}", authenticationHandler::requestCode)
                         POST("/confirm/{code}", authenticationHandler::confirmCode)
                     }
                 }

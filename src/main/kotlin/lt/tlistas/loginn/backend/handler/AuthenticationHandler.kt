@@ -13,7 +13,7 @@ open class AuthenticationHandler(private val requestService: RequestService,
                                  private val confirmationService: ConfirmationService,
                                  private val collaboratorService: CollaboratorService) {
 
-    open fun requestConfirmationCode(req: ServerRequest): Mono<ServerResponse> =
+    open fun requestCode(req: ServerRequest): Mono<ServerResponse> =
             Mono.just(req.pathVariable("mobileNumber"))
                     .doOnNext { requestService.sendConfirmation(it, getCollaborator(it).id!!) }
                     .flatMap { ok().build() }
