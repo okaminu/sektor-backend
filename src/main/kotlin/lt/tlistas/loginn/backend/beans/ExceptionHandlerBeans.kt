@@ -6,7 +6,7 @@ import org.springframework.web.server.handler.ExceptionHandlingWebHandler
 
 fun exceptionHandlerBeans() = beans {
     bean<CollaboratorNotFoundExceptionHandler>()
-    bean<ConfirmationCodeNotFoundExceptionHandler>()
+    bean<IncorrectConfirmationCodeExceptionHandler>()
     bean<GeocodeGatewayExceptionHandler>()
     bean<IncorrectTokenExceptionHandler>()
     bean<InternalErrorExceptionHandler>()

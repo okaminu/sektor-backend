@@ -37,7 +37,7 @@ private fun getWebHttpHandler(context: GenericApplicationContext) = WebHttpHandl
 private fun getExceptionHandlers(context: GenericApplicationContext) =
         arrayOf<WebExceptionHandler>(
                 context.getBean<CollaboratorNotFoundExceptionHandler>(),
-                context.getBean<ConfirmationCodeNotFoundExceptionHandler>(),
+                context.getBean<IncorrectConfirmationCodeExceptionHandler>(),
                 context.getBean<GeocodeGatewayExceptionHandler>(),
                 context.getBean<IncorrectTokenExceptionHandler>(),
                 context.getBean<InternalErrorExceptionHandler>(),

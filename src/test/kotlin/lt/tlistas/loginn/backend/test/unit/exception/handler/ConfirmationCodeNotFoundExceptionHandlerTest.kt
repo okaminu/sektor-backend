@@ -4,8 +4,8 @@ import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
-import lt.tlistas.crowbar.exception.ConfirmationCodeNotFoundException
-import lt.tlistas.loginn.backend.exception.handler.ConfirmationCodeNotFoundExceptionHandler
+import lt.tlistas.crowbar.exception.IncorrectConfirmationCodeException
+import lt.tlistas.loginn.backend.exception.handler.IncorrectConfirmationCodeExceptionHandler
 import org.junit.Before
 import org.junit.Test
 import org.springframework.http.HttpStatus
@@ -15,27 +15,28 @@ import kotlin.test.assertTrue
 
 class ConfirmationCodeNotFoundExceptionHandlerTest {
 
-    private lateinit var confirmationCodeNotFoundExceptionHandler: ConfirmationCodeNotFoundExceptionHandler
+    private lateinit var confirmationCodeNotFoundExceptionHandler: IncorrectConfirmationCodeExceptionHandler
 
     @Before
     fun `Set up`() {
-        confirmationCodeNotFoundExceptionHandler = ConfirmationCodeNotFoundExceptionHandler()
+        confirmationCodeNotFoundExceptionHandler = IncorrectConfirmationCodeExceptionHandler()
     }
 
     @Test
-    fun `Sets http response status for ConfirmationCodeException`() {
+    fun `Sets http response status for IncorrectConfirmationCodeException`() {
         val serverWebExchangeMock = mock<ServerWebExchange>()
         val serverHttpResponseMock = mock<ServerHttpResponse>()
         doReturn(serverHttpResponseMock).`when`(serverWebExchangeMock).response
 
-        confirmationCodeNotFoundExceptionHandler.handleException(serverWebExchangeMock, ConfirmationCodeNotFoundException())
+        confirmationCodeNotFoundExceptionHandler
+                .handleException(serverWebExchangeMock, IncorrectConfirmationCodeException())
 
         verify(serverHttpResponseMock).statusCode = eq(HttpStatus.NOT_FOUND)
     }
 
     @Test
-    fun `Checks if exception type is ConfirmationCodeException`() {
-        assertTrue(confirmationCodeNotFoundExceptionHandler.canHandle(ConfirmationCodeNotFoundException()))
+    fun `Checks if exception type is IncorrectConfirmationCodeException`() {
+        assertTrue(confirmationCodeNotFoundExceptionHandler.canHandle(IncorrectConfirmationCodeException()))
     }
 
 }
