@@ -18,7 +18,6 @@ class TemplateExceptionHandlerTest {
     fun `Handles generic exception`() {
         val templateExceptionHandler = spy<TemplateExceptionHandler>()
         doReturn(true).`when`(templateExceptionHandler).canHandle(any())
-        doNothing().`when`(templateExceptionHandler).handleException(any(), any())
 
         val response = templateExceptionHandler.handle(mock(), mock())
 
@@ -28,7 +27,7 @@ class TemplateExceptionHandlerTest {
     }
 
     @Test
-    fun `Returns error when exception could no be handled`() {
+    fun `Returns error when exception could not be handled`() {
         expectedException.expect(Exception::class.java)
         val errorMock = Exception()
         val templateExceptionHandler = spy<TemplateExceptionHandler>()
