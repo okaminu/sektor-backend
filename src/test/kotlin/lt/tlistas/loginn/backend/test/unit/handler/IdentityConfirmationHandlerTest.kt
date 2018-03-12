@@ -6,7 +6,7 @@ import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import lt.tlistas.core.service.CollaboratorService
 import lt.tlistas.core.type.entity.Collaborator
-import lt.tlistas.crowbar.service.RequestService
+import lt.tlistas.crowbar.service.ConfirmationCodeSender
 import lt.tlistas.crowbar.service.TokenService
 import lt.tlistas.loginn.backend.handler.IdentityConfirmationHandler
 import lt.tlistas.loginn.backend.route.CollaboratorRoutes
@@ -28,13 +28,13 @@ class IdentityConfirmationHandlerTest {
     private lateinit var collaboratorServiceMock: CollaboratorService
 
     @Mock
-    private lateinit var requestServiceMock: RequestService
+    private lateinit var confirmationSenderMock: ConfirmationCodeSender
 
     private lateinit var identityConfirmationHandler: IdentityConfirmationHandler
 
     @Before
     fun `Set up`() {
-        identityConfirmationHandler = IdentityConfirmationHandler(requestServiceMock, tokenServiceMock,
+        identityConfirmationHandler = IdentityConfirmationHandler(confirmationSenderMock, tokenServiceMock,
                 collaboratorServiceMock)
     }
 
@@ -57,7 +57,7 @@ class IdentityConfirmationHandlerTest {
                 .expectBody().isEmpty
 
         verify(collaboratorServiceMock).getByMobileNumber(collaborator.mobileNumber)
-        verify(requestServiceMock).sendConfirmation(collaborator.id!!, collaborator.mobileNumber)
+        verify(confirmationSenderMock).sendConfirmation(collaborator.id!!, collaborator.mobileNumber)
     }
 
     @Test
