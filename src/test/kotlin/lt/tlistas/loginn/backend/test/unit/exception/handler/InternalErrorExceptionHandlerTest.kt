@@ -15,11 +15,11 @@ import kotlin.test.assertTrue
 
 class InternalErrorExceptionHandlerTest {
 
-    private lateinit var internalErrorExceptionHandler: InternalErrorExceptionHandler
+    private lateinit var handler: InternalErrorExceptionHandler
 
     @Before
     fun `Set up`() {
-        internalErrorExceptionHandler = InternalErrorExceptionHandler()
+        handler = InternalErrorExceptionHandler()
     }
 
     @Test
@@ -28,14 +28,14 @@ class InternalErrorExceptionHandlerTest {
         val serverHttpResponseMock = mock<ServerHttpResponse>()
         doReturn(serverHttpResponseMock).`when`(serverWebExchangeMock).response
 
-        internalErrorExceptionHandler.handleException(serverWebExchangeMock, InternalErrorException("message"))
+        handler.handleException(serverWebExchangeMock, InternalErrorException("message"))
 
         verify(serverHttpResponseMock).statusCode = eq(HttpStatus.INTERNAL_SERVER_ERROR)
     }
 
     @Test
     fun `Checks if exception type is InternalErrorException`() {
-        assertTrue(internalErrorExceptionHandler.canHandle(InternalErrorException("message")))
+        assertTrue(handler.canHandle(InternalErrorException("message")))
     }
 
 }

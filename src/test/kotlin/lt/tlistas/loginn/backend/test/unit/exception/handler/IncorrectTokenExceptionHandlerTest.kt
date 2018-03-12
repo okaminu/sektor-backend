@@ -15,11 +15,11 @@ import kotlin.test.assertTrue
 
 class IncorrectTokenExceptionHandlerTest {
 
-    private lateinit var incorrectTokenExceptionHandler: IncorrectTokenExceptionHandler
+    private lateinit var handler: IncorrectTokenExceptionHandler
 
     @Before
     fun `Set up`() {
-        incorrectTokenExceptionHandler = IncorrectTokenExceptionHandler()
+        handler = IncorrectTokenExceptionHandler()
     }
 
     @Test
@@ -28,14 +28,14 @@ class IncorrectTokenExceptionHandlerTest {
         val serverHttpResponseMock = mock<ServerHttpResponse>()
         doReturn(serverHttpResponseMock).`when`(serverWebExchangeMock).response
 
-        incorrectTokenExceptionHandler.handleException(serverWebExchangeMock, IncorrectTokenException())
+        handler.handleException(serverWebExchangeMock, IncorrectTokenException())
 
         verify(serverHttpResponseMock).statusCode = eq(HttpStatus.UNAUTHORIZED)
     }
 
     @Test
     fun `Checks if exception type is IncorrectTokenException`() {
-        assertTrue(incorrectTokenExceptionHandler.canHandle(IncorrectTokenException()))
+        assertTrue(handler.canHandle(IncorrectTokenException()))
     }
 
 }

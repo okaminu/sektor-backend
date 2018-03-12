@@ -15,11 +15,11 @@ import kotlin.test.assertTrue
 
 class CollaboratorNotFoundExceptionHandlerTest {
 
-    private lateinit var collaboratorNotFoundExceptionHandler: CollaboratorNotFoundExceptionHandler
+    private lateinit var handler: CollaboratorNotFoundExceptionHandler
 
     @Before
     fun `Set up`() {
-        collaboratorNotFoundExceptionHandler = CollaboratorNotFoundExceptionHandler()
+        handler = CollaboratorNotFoundExceptionHandler()
     }
 
     @Test
@@ -28,14 +28,14 @@ class CollaboratorNotFoundExceptionHandlerTest {
         val serverHttpResponseMock = mock<ServerHttpResponse>()
         doReturn(serverHttpResponseMock).`when`(serverWebExchangeMock).response
 
-        collaboratorNotFoundExceptionHandler.handleException(serverWebExchangeMock, CollaboratorNotFoundException())
+        handler.handleException(serverWebExchangeMock, CollaboratorNotFoundException())
 
         verify(serverHttpResponseMock).statusCode = eq(HttpStatus.NOT_FOUND)
     }
 
     @Test
     fun `Checks if exception type is CollaboratorNotFoundException`() {
-        assertTrue(collaboratorNotFoundExceptionHandler.canHandle(CollaboratorNotFoundException()))
+        assertTrue(handler.canHandle(CollaboratorNotFoundException()))
     }
 
 }

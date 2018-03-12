@@ -15,11 +15,11 @@ import kotlin.test.assertTrue
 
 class LocationNotFoundExceptionHandlerTest {
 
-    private lateinit var locationNotFoundExceptionHandler: LocationNotFoundExceptionHandler
+    private lateinit var handler: LocationNotFoundExceptionHandler
 
     @Before
     fun `Set up`() {
-        locationNotFoundExceptionHandler = LocationNotFoundExceptionHandler()
+        handler = LocationNotFoundExceptionHandler()
     }
 
     @Test
@@ -28,7 +28,7 @@ class LocationNotFoundExceptionHandlerTest {
         val serverHttpResponseMock = mock<ServerHttpResponse>()
         doReturn(serverHttpResponseMock).`when`(serverWebExchangeMock).response
 
-        locationNotFoundExceptionHandler.handleException(serverWebExchangeMock,
+        handler.handleException(serverWebExchangeMock,
                 LocationNotFoundException("message"))
 
         verify(serverHttpResponseMock).statusCode = eq(HttpStatus.UNPROCESSABLE_ENTITY)
@@ -36,7 +36,7 @@ class LocationNotFoundExceptionHandlerTest {
 
     @Test
     fun `Checks if exception type is LocationNotFoundException`() {
-        assertTrue(locationNotFoundExceptionHandler.canHandle(LocationNotFoundException("message")))
+        assertTrue(handler.canHandle(LocationNotFoundException("message")))
     }
 
 }

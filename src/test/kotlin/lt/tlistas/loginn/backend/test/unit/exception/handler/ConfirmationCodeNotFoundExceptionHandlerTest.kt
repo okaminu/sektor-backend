@@ -15,11 +15,11 @@ import kotlin.test.assertTrue
 
 class ConfirmationCodeNotFoundExceptionHandlerTest {
 
-    private lateinit var confirmationCodeNotFoundExceptionHandler: IncorrectConfirmationCodeExceptionHandler
+    private lateinit var handler: IncorrectConfirmationCodeExceptionHandler
 
     @Before
     fun `Set up`() {
-        confirmationCodeNotFoundExceptionHandler = IncorrectConfirmationCodeExceptionHandler()
+        handler = IncorrectConfirmationCodeExceptionHandler()
     }
 
     @Test
@@ -28,7 +28,7 @@ class ConfirmationCodeNotFoundExceptionHandlerTest {
         val serverHttpResponseMock = mock<ServerHttpResponse>()
         doReturn(serverHttpResponseMock).`when`(serverWebExchangeMock).response
 
-        confirmationCodeNotFoundExceptionHandler
+        handler
                 .handleException(serverWebExchangeMock, IncorrectConfirmationCodeException())
 
         verify(serverHttpResponseMock).statusCode = eq(HttpStatus.NOT_FOUND)
@@ -36,7 +36,7 @@ class ConfirmationCodeNotFoundExceptionHandlerTest {
 
     @Test
     fun `Checks if exception type is IncorrectConfirmationCodeException`() {
-        assertTrue(confirmationCodeNotFoundExceptionHandler.canHandle(IncorrectConfirmationCodeException()))
+        assertTrue(handler.canHandle(IncorrectConfirmationCodeException()))
     }
 
 }

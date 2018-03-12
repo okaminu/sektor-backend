@@ -15,11 +15,11 @@ import kotlin.test.assertTrue
 
 class InvalidParameterValueExceptionHandlerTest {
 
-    private lateinit var invalidParameterValueExceptionHandler: InvalidParameterValueExceptionHandler
+    private lateinit var handler: InvalidParameterValueExceptionHandler
 
     @Before
     fun `Set up`() {
-        invalidParameterValueExceptionHandler = InvalidParameterValueExceptionHandler()
+        handler = InvalidParameterValueExceptionHandler()
     }
 
     @Test
@@ -28,7 +28,7 @@ class InvalidParameterValueExceptionHandlerTest {
         val serverHttpResponseMock = mock<ServerHttpResponse>()
         doReturn(serverHttpResponseMock).`when`(serverWebExchangeMock).response
 
-        invalidParameterValueExceptionHandler.handleException(serverWebExchangeMock,
+        handler.handleException(serverWebExchangeMock,
                 InvalidParameterException("message"))
 
         verify(serverHttpResponseMock).statusCode = eq(HttpStatus.UNPROCESSABLE_ENTITY)
@@ -36,7 +36,7 @@ class InvalidParameterValueExceptionHandlerTest {
 
     @Test
     fun `Checks if exception type is InvalidParameterException`() {
-        assertTrue(invalidParameterValueExceptionHandler.canHandle(InvalidParameterException("message")))
+        assertTrue(handler.canHandle(InvalidParameterException("message")))
     }
 
 }
