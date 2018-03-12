@@ -41,12 +41,10 @@ fun beans() = beans {
 
     bean("mongoClient") {
         val environment = ref<Environment>()
-        MongoClient(ServerAddress(), object : ArrayList<MongoCredential>() {
-            init {
-                add(MongoCredential.createCredential(environment["MONGO_USERNAME"],
-                        environment["MONGO_AUTH_DATABASE"],
-                        environment["MONGO_PASSWORD"].toCharArray()))
-            }
+        MongoClient(ServerAddress(), ArrayList<MongoCredential>().apply {
+            add(MongoCredential.createCredential(environment["MONGO_USERNAME"],
+                    environment["MONGO_AUTH_DATABASE"],
+                    environment["MONGO_PASSWORD"].toCharArray()))
         })
     }
 
