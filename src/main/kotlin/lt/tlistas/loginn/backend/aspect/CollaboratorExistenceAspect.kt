@@ -1,5 +1,6 @@
 package lt.tlistas.loginn.backend.aspect
 
+import lt.tlistas.crowbar.IdentityConfirmation
 import lt.tlistas.core.service.CollaboratorService
 import lt.tlistas.loginn.backend.exception.CollaboratorNotFoundException
 import org.aspectj.lang.annotation.Aspect
