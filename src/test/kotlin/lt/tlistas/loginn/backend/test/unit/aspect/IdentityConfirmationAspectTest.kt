@@ -40,18 +40,18 @@ class IdentityConfirmationAspectTest {
     @Test
     fun `Checks if authentication token exists`() {
         mockHeaderResponse()
-        doReturn(true).`when`(identityConfirmationMock).tokenExists(HEADER_LIST[0])
+        doReturn(true).`when`(identityConfirmationMock).doesTokenExist(HEADER_LIST[0])
 
         identityConfirmationAspect.tokenExistsAdvise(serverRequestMock)
 
-        verify(identityConfirmationMock).tokenExists(HEADER_LIST[0])
+        verify(identityConfirmationMock).doesTokenExist(HEADER_LIST[0])
     }
 
     @Test
     fun `Throws exception when authentication token is not found`() {
         expectedException.expect(IncorrectTokenException::class.java)
         mockHeaderResponse()
-        doReturn(false).`when`(identityConfirmationMock).tokenExists(HEADER_LIST[0])
+        doReturn(false).`when`(identityConfirmationMock).doesTokenExist(HEADER_LIST[0])
 
         identityConfirmationAspect.tokenExistsAdvise(serverRequestMock)
     }
@@ -67,19 +67,19 @@ class IdentityConfirmationAspectTest {
 
     @Test
     fun `Checks if user by the given confirmation code exists`() {
-        doReturn(true).`when`(identityConfirmationMock).userByCodeExists("confirmationCode")
+        doReturn(true).`when`(identityConfirmationMock).doesUserByCodeExist("confirmationCode")
         doReturn("confirmationCode").`when`(serverRequestMock).pathVariable("code")
 
         identityConfirmationAspect.confirmationCodeUserExistsAdvise(serverRequestMock)
 
-        verify(identityConfirmationMock).userByCodeExists("confirmationCode")
+        verify(identityConfirmationMock).doesUserByCodeExist("confirmationCode")
         verify(serverRequestMock).pathVariable("code")
     }
 
     @Test
     fun `Throws exception when confirmation code is incorrect`() {
         expectedException.expect(IncorrectConfirmationCodeException::class.java)
-        doReturn(false).`when`(identityConfirmationMock).userByCodeExists("confirmationCode")
+        doReturn(false).`when`(identityConfirmationMock).doesUserByCodeExist("confirmationCode")
         doReturn("confirmationCode").`when`(serverRequestMock).pathVariable("code")
 
         identityConfirmationAspect.confirmationCodeUserExistsAdvise(serverRequestMock)

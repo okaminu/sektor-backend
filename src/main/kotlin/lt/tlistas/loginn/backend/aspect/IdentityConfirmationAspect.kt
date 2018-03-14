@@ -19,7 +19,7 @@ class IdentityConfirmationAspect(private val identityConfirmation: IdentityConfi
     fun tokenExistsAdvise(req: ServerRequest) {
         val header = getHeader(req)
 
-        if (header.isEmpty() || !identityConfirmation.tokenExists(header[0]))
+        if (header.isEmpty() || !identityConfirmation.doesTokenExist(header[0]))
             throw IncorrectTokenException()
     }
 
@@ -28,7 +28,7 @@ class IdentityConfirmationAspect(private val identityConfirmation: IdentityConfi
     fun confirmationCodeUserExistsAdvise(req: ServerRequest) {
         val code = req.pathVariable("code")
 
-        if (!identityConfirmation.userByCodeExists(code))
+        if (!identityConfirmation.doesUserByCodeExist(code))
             throw IncorrectConfirmationCodeException()
     }
 
