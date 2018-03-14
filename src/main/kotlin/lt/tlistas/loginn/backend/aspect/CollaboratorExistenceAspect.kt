@@ -1,7 +1,6 @@
 package lt.tlistas.loginn.backend.aspect
 
 import lt.tlistas.core.service.CollaboratorService
-import lt.tlistas.crowbar.IdentityConfirmation
 import lt.tlistas.loginn.backend.exception.CollaboratorNotFoundException
 import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.annotation.Before
@@ -13,8 +12,7 @@ import org.springframework.web.reactive.function.server.ServerRequest
 class CollaboratorExistenceAspect(private val collaboratorService: CollaboratorService,
                                   private val identityConfirmation: IdentityConfirmation) {
 
-    @Before("execution(* lt.tlistas.loginn.backend.handler.IdentityConfirmationHandler.requestCode(..)) && " +
-            "args(req)")
+    @Before("execution(* lt.tlistas.loginn.backend.handler.IdentityConfirmationHandler.requestCode(..)) && args(req)")
     fun collaboratorExistsByMobileNumberAdvise(req: ServerRequest) {
         if (!collaboratorService.existsByMobileNumber(req.pathVariable("mobileNumber")))
             throw CollaboratorNotFoundException()
