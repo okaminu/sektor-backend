@@ -1,4 +1,4 @@
-package lt.tlistas.loginn.backend.handler
+package lt.tlistas.loginn.backend.handler.token
 
 import lt.tlistas.core.service.CollaboratorService
 import lt.tlistas.crowbar.IdentityConfirmation

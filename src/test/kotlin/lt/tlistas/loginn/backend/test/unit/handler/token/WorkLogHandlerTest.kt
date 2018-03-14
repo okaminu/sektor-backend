@@ -1,4 +1,4 @@
-package lt.tlistas.loginn.backend.test.unit.handler
+package lt.tlistas.loginn.backend.test.unit.handler.token
 
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doReturn
@@ -8,7 +8,7 @@ import lt.tlistas.core.service.CollaboratorService
 import lt.tlistas.core.service.LocationWorkLogService
 import lt.tlistas.core.type.entity.Collaborator
 import lt.tlistas.crowbar.IdentityConfirmation
-import lt.tlistas.loginn.backend.handler.WorkLogHandler
+import lt.tlistas.loginn.backend.handler.token.WorkLogHandler
 import lt.tlistas.loginn.backend.route.WorkLogRoutes
 import org.junit.Before
 import org.junit.Test
@@ -34,7 +34,11 @@ class WorkLogHandlerTest {
 
     @Before
     fun setUp() {
-        workLogHandler = WorkLogHandler(collaboratorServiceMock, locationWorkLogServiceMock, identityConfirmationMock)
+        workLogHandler = WorkLogHandler(
+            collaboratorServiceMock,
+            locationWorkLogServiceMock,
+            identityConfirmationMock
+        )
     }
 
     @Test
@@ -47,7 +51,9 @@ class WorkLogHandlerTest {
         val webTestClient = WebTestClient
                 .bindToRouterFunction(WorkLogRoutes(workLogHandler).router()).build()
         webTestClient.post().uri("/worklog/log-by-location")
-                .header("auth-token", AUTH_TOKEN)
+                .header("auth-token",
+                    AUTH_TOKEN
+                )
                 .body(location.toMono(), Location::class.java)
                 .exchange()
                 .expectStatus()

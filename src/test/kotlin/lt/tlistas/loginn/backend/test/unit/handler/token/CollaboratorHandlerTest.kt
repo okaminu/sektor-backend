@@ -1,4 +1,4 @@
-package lt.tlistas.loginn.backend.test.unit.handler
+package lt.tlistas.loginn.backend.test.unit.handler.token
 
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doReturn
@@ -7,7 +7,7 @@ import lt.tlistas.core.service.CollaboratorService
 import lt.tlistas.core.type.entity.Collaborator
 import lt.tlistas.core.type.value_object.TimeRange
 import lt.tlistas.crowbar.IdentityConfirmation
-import lt.tlistas.loginn.backend.handler.CollaboratorHandler
+import lt.tlistas.loginn.backend.handler.token.CollaboratorHandler
 import lt.tlistas.loginn.backend.route.CollaboratorRoutes
 import org.junit.Before
 import org.junit.Test
@@ -30,7 +30,10 @@ class CollaboratorHandlerTest {
 
     @Before
     fun setUp() {
-        collaboratorHandler = CollaboratorHandler(collaboratorServiceMock, identityConfirmationMock)
+        collaboratorHandler = CollaboratorHandler(
+            collaboratorServiceMock,
+            identityConfirmationMock
+        )
     }
 
     @Test
@@ -43,7 +46,9 @@ class CollaboratorHandlerTest {
         val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
         val returnResult = webTestClient.get()
                 .uri("/collaborator/workTime")
-                .header("auth-token", AUTH_TOKEN)
+                .header("auth-token",
+                    AUTH_TOKEN
+                )
                 .exchange()
                 .expectStatus()
                 .isOk
