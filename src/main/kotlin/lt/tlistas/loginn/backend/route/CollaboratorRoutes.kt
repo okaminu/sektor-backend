@@ -1,7 +1,7 @@
 package lt.tlistas.loginn.backend.route
 
 import lt.tlistas.loginn.backend.handler.IdentityConfirmationHandler
-import lt.tlistas.loginn.backend.handler.token.CollaboratorHandler
+import lt.tlistas.loginn.backend.handler.identityconfirmed.CollaboratorHandler
 import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.web.reactive.function.server.router
 

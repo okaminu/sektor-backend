@@ -1,4 +1,4 @@
-package lt.tlistas.loginn.backend.test.unit.handler.token
+package lt.tlistas.loginn.backend.test.unit.handler.identityconfirmed
 
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doReturn
@@ -7,7 +7,7 @@ import lt.tlistas.core.service.CollaboratorService
 import lt.tlistas.core.type.entity.Collaborator
 import lt.tlistas.core.type.value_object.TimeRange
 import lt.tlistas.crowbar.IdentityConfirmation
-import lt.tlistas.loginn.backend.handler.token.CollaboratorHandler
+import lt.tlistas.loginn.backend.handler.identityconfirmed.CollaboratorHandler
 import lt.tlistas.loginn.backend.route.CollaboratorRoutes
 import org.junit.Before
 import org.junit.Test

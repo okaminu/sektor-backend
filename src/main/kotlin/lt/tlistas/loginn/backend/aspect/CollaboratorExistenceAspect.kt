@@ -20,7 +20,7 @@ class CollaboratorExistenceAspect(private val collaboratorService: CollaboratorS
             throw CollaboratorNotFoundException()
     }
 
-    @Before("execution(* lt.tlistas.loginn.backend.handler.token.*.*(..)) && args(req)")
+    @Before("execution(* lt.tlistas.loginn.backend.handler.identityconfirmed.*.*(..)) && args(req)")
     fun collaboratorExistsByIdAdvise(req: ServerRequest) {
         if (!collaboratorService.existsById(getUserId(req)))
             throw CollaboratorNotFoundException()

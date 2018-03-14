@@ -1,4 +1,4 @@
-package lt.tlistas.loginn.backend.handler.token
+package lt.tlistas.loginn.backend.handler.identityconfirmed
 
 import lt.tlistas.core.api.type.Location
 import lt.tlistas.core.service.CollaboratorService

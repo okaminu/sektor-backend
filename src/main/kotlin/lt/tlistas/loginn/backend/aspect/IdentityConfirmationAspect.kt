@@ -12,7 +12,7 @@ import org.springframework.web.reactive.function.server.ServerRequest
 @Order(0)
 class IdentityConfirmationAspect(private val identityConfirmation: IdentityConfirmation) {
 
-    @Before("execution(* lt.tlistas.loginn.backend.handler.token.*.*(..)) && args(req)")
+    @Before("execution(* lt.tlistas.loginn.backend.handler.identityconfirmed.*.*(..)) && args(req)")
     fun tokenExistsAdvise(req: ServerRequest) {
         val header = getHeader(req)
 
