@@ -1,28 +1,30 @@
 package lt.tlistas.loginn.backend.handler
 
 import lt.tlistas.core.service.CollaboratorService
-import lt.tlistas.crowbar.service.ConfirmationCodeSender
-import lt.tlistas.crowbar.service.TokenService
+import lt.tlistas.crowbar.IdentityConfirmation
+import lt.tlistas.crowbar.type.entity.UserConfirmationCode
 import org.springframework.web.reactive.function.BodyInserters.fromObject
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
 import org.springframework.web.reactive.function.server.ServerResponse.ok
 import reactor.core.publisher.Mono
 
-open class IdentityConfirmationHandler(private val confirmationCodeSender: ConfirmationCodeSender,
-                                       private val tokenService: TokenService,
-                                       private val collaboratorService: CollaboratorService) {
+open class IdentityConfirmationHandler(
+    private val identityConfirmation: IdentityConfirmation,
+    private val collaboratorService: CollaboratorService
+) {
 
     open fun requestCode(req: ServerRequest): Mono<ServerResponse> =
-            Mono.just(req.pathVariable("mobileNumber"))
-                    .doOnNext { confirmationCodeSender.send(getCollaborator(it).id!!, it) }
-                    .flatMap { ok().build() }
+        Mono.just(req.pathVariable("mobileNumber"))
+            .doOnNext { identityConfirmation.sendConfirmationCode(getCollaborator(it).id!!, it) }
+            .flatMap { ok().build() }
 
 
     open fun confirmCode(req: ServerRequest): Mono<ServerResponse> =
-            Mono.just(req.pathVariable("code"))
-                    .map { tokenService.confirmCode(it) }
-                    .flatMap { ok().body(fromObject(it)) }
+        Mono.just(req.pathVariable("code"))
+            .map { UserConfirmationCode(identityConfirmation.getUserIdByCode(it), it) }
+            .doOnNext { identityConfirmation.confirmCode(it.code) }
+            .flatMap { ok().body(fromObject(identityConfirmation.getTokenById(it.id))) }
 
     private fun getCollaborator(mobileNumber: String) = collaboratorService.getByMobileNumber(mobileNumber)
 

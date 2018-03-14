@@ -1,6 +1,6 @@
 package lt.tlistas.loginn.backend.exception.handler
 
-import lt.tlistas.crowbar.exception.IncorrectConfirmationCodeException
+import lt.tlistas.loginn.backend.exception.IncorrectConfirmationCodeException
 import org.springframework.http.HttpStatus
 import org.springframework.web.server.ServerWebExchange
 

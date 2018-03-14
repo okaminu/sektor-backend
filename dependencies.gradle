@@ -37,9 +37,8 @@ dependencies {
     compile "org.springframework:spring-aspects"
     compile "org.springframework:spring-webflux"
     compile "org.springframework.data:spring-data-mongodb"
-    compile("org.springframework:spring-context") {
-        exclude group: "spring-aop"
-    }
+    compile "org.springframework:spring-context"
+
     compile "io.projectreactor.ipc:reactor-netty"
 
     compile "org.slf4j:slf4j-api"

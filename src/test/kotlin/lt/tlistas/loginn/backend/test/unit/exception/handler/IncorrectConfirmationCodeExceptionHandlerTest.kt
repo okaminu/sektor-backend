@@ -4,7 +4,7 @@ import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
-import lt.tlistas.crowbar.exception.IncorrectConfirmationCodeException
+import lt.tlistas.loginn.backend.exception.IncorrectConfirmationCodeException
 import lt.tlistas.loginn.backend.exception.handler.IncorrectConfirmationCodeExceptionHandler
 import org.junit.Before
 import org.junit.Test

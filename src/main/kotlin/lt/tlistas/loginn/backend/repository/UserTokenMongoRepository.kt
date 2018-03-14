@@ -6,9 +6,9 @@ import org.springframework.data.mongodb.repository.MongoRepository
 
 interface UserTokenMongoRepository : UserTokenRepository, MongoRepository<UserToken, String> {
 
-    override fun save(userToken: UserToken)
-
     override fun existsByToken(token: String): Boolean
 
     override fun findByToken(token: String): UserToken
+
+    override fun save(token: UserToken)
 }

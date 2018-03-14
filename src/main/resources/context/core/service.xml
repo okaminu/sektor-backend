@@ -6,7 +6,6 @@
        default-lazy-init="true" default-autowire="constructor">
 
     <bean id="collaboratorService" class="lt.tlistas.core.service.CollaboratorService"/>
-    <bean id="confirmationCodeSender" class="lt.tlistas.crowbar.service.ConfirmationCodeSender"/>
     <bean id="companyService" class="lt.tlistas.core.service.CompanyService"/>
     <bean id="countryService" class="lt.tlistas.core.service.CountryService"/>
     <bean id="customerService" class="lt.tlistas.core.service.CustomerService"/>
@@ -14,7 +13,6 @@
     <bean id="locationWorkLogService" class="lt.tlistas.core.service.LocationWorkLogService"/>
     <bean id="projectService" class="lt.tlistas.core.service.ProjectService"/>
     <bean id="userService" class="lt.tlistas.core.service.UserService"/>
-    <bean id="tokenService" class="lt.tlistas.crowbar.service.TokenService"/>
     <bean id="validatorToExceptionConverter" class="lt.tlistas.core.exception.converter.ValidatorToExceptionConverter"/>
     <bean id="workLogService" class="lt.tlistas.core.service.WorkLogService"/>
 </beans>

@@ -1,13 +1,11 @@
 package lt.tlistas.loginn.backend.test.unit.handler
 
-import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import lt.tlistas.core.service.CollaboratorService
 import lt.tlistas.core.type.entity.Collaborator
-import lt.tlistas.crowbar.service.ConfirmationCodeSender
-import lt.tlistas.crowbar.service.TokenService
+import lt.tlistas.crowbar.IdentityConfirmation
 import lt.tlistas.loginn.backend.handler.IdentityConfirmationHandler
 import lt.tlistas.loginn.backend.route.CollaboratorRoutes
 import org.junit.Before
@@ -22,20 +20,19 @@ import kotlin.test.assertEquals
 class IdentityConfirmationHandlerTest {
 
     @Mock
-    private lateinit var tokenServiceMock: TokenService
+    private lateinit var identityConfirmationMock: IdentityConfirmation
 
     @Mock
     private lateinit var collaboratorServiceMock: CollaboratorService
-
-    @Mock
-    private lateinit var confirmationSenderMock: ConfirmationCodeSender
 
     private lateinit var identityConfirmationHandler: IdentityConfirmationHandler
 
     @Before
     fun `Set up`() {
-        identityConfirmationHandler = IdentityConfirmationHandler(confirmationSenderMock, tokenServiceMock,
-                collaboratorServiceMock)
+        identityConfirmationHandler = IdentityConfirmationHandler(
+            identityConfirmationMock,
+            collaboratorServiceMock
+        )
     }
 
     @Test
@@ -47,37 +44,45 @@ class IdentityConfirmationHandlerTest {
         doReturn(collaborator).`when`(collaboratorServiceMock).getByMobileNumber(collaborator.mobileNumber)
 
         val webTestClient = WebTestClient
-                .bindToRouterFunction(CollaboratorRoutes(mock(), identityConfirmationHandler)
-                        .router()).build()
+            .bindToRouterFunction(
+                CollaboratorRoutes(mock(), identityConfirmationHandler)
+                    .router()
+            ).build()
         webTestClient.post()
-                .uri("collaborator/authentication/code/request/${collaborator.mobileNumber}")
-                .exchange()
-                .expectStatus()
-                .isOk
-                .expectBody().isEmpty
+            .uri("collaborator/authentication/code/request/${collaborator.mobileNumber}")
+            .exchange()
+            .expectStatus()
+            .isOk
+            .expectBody().isEmpty
 
         verify(collaboratorServiceMock).getByMobileNumber(collaborator.mobileNumber)
-        verify(confirmationSenderMock).send(collaborator.id!!, collaborator.mobileNumber)
+        verify(identityConfirmationMock).sendConfirmationCode(collaborator.id!!, collaborator.mobileNumber)
     }
 
     @Test
     fun `Confirms collaborator and returns token`() {
         val confirmationCode = "123456"
         val authenticationToken = "5s4f65asd4f"
-        doReturn(authenticationToken).`when`(tokenServiceMock).confirmCode(any())
+        val userId = "userId"
+        doReturn(userId).`when`(identityConfirmationMock).getUserIdByCode(confirmationCode)
+        doReturn(authenticationToken).`when`(identityConfirmationMock).getTokenById(userId)
 
         val webTestClient = WebTestClient
-                .bindToRouterFunction(CollaboratorRoutes(mock(), identityConfirmationHandler)
-                        .router()).build()
+            .bindToRouterFunction(
+                CollaboratorRoutes(mock(), identityConfirmationHandler)
+                    .router()
+            ).build()
         val returnResult = webTestClient.post()
-                .uri("collaborator/authentication/code/confirm/$confirmationCode")
-                .exchange()
-                .expectStatus()
-                .isOk
-                .expectBody(String::class.java)
-                .returnResult()
+            .uri("collaborator/authentication/code/confirm/$confirmationCode")
+            .exchange()
+            .expectStatus()
+            .isOk
+            .expectBody(String::class.java)
+            .returnResult()
 
-        verify(tokenServiceMock).confirmCode(confirmationCode)
+        verify(identityConfirmationMock).getTokenById(userId)
+        verify(identityConfirmationMock).confirmCode(confirmationCode)
+        verify(identityConfirmationMock).getTokenById(userId)
         assertEquals(authenticationToken, returnResult.responseBody)
     }
 
