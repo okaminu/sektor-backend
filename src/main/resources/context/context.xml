@@ -9,16 +9,12 @@
     http://www.springframework.org/schema/context/spring-context.xsd
     http://www.springframework.org/schema/aop
     http://www.springframework.org/schema/aop/spring-aop.xsd"
-        default-lazy-init="true">
+        default-lazy-init="true" default-autowire="constructor">
 
 <aop:aspectj-autoproxy/>
 
 <import resource="loginn/backend/plugin/crowbar.xml"/>
 <import resource="loginn/backend/plugin/awsSns.xml"/>
-<import resource="core/repository.xml"/>
-<import resource="core/service.xml"/>
-<import resource="core/factory.xml"/>
-<import resource="core/plugin/googleMaps.xml"/>
 
 
 <context:component-scan base-package="lt.tlistas.loginn.backend">
