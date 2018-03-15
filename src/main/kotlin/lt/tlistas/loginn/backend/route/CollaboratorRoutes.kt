@@ -13,7 +13,7 @@ class CollaboratorRoutes(private val collaboratorHandler: CollaboratorHandler,
             accept(APPLICATION_JSON).nest {
                 GET("/workTime", collaboratorHandler::getWorkTime)
             }
-            "/authentication".nest {
+            "/identity-confirmation".nest {
                 "/code".nest {
                     accept(APPLICATION_JSON).nest {
                         POST("/request/{mobileNumber}", identityConfirmationHandler::requestCode)
