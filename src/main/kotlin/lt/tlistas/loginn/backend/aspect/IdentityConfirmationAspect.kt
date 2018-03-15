@@ -13,7 +13,7 @@ import org.springframework.web.reactive.function.server.ServerRequest
 class IdentityConfirmationAspect(private val identityConfirmation: IdentityConfirmation) {
 
     @Before("execution(* lt.tlistas.loginn.backend.handler.identityconfirmed.*.*(..)) && args(req)")
-    fun tokenExistsAdvise(req: ServerRequest) {
+    fun tokenExistsAdvice(req: ServerRequest) {
         val header = getHeader(req)
 
         if (header.isEmpty() || !identityConfirmation.doesTokenExist(header[0]))
@@ -22,7 +22,7 @@ class IdentityConfirmationAspect(private val identityConfirmation: IdentityConfi
 
 
     @Before("execution(* lt.tlistas.loginn.backend.handler.IdentityConfirmationHandler.confirmCode(..)) && args(req)")
-    fun confirmationCodeUserExistsAdvise(req: ServerRequest) {
+    fun confirmationCodeUserExistsAdvice(req: ServerRequest) {
         val code = req.pathVariable("code")
 
         if (!identityConfirmation.doesUserByCodeExist(code))

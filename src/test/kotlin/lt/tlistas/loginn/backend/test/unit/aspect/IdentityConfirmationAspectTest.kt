@@ -42,7 +42,7 @@ class IdentityConfirmationAspectTest {
         mockHeaderResponse()
         doReturn(true).`when`(identityConfirmationMock).doesTokenExist(HEADER_LIST[0])
 
-        identityConfirmationAspect.tokenExistsAdvise(serverRequestMock)
+        identityConfirmationAspect.tokenExistsAdvice(serverRequestMock)
 
         verify(identityConfirmationMock).doesTokenExist(HEADER_LIST[0])
     }
@@ -53,7 +53,7 @@ class IdentityConfirmationAspectTest {
         mockHeaderResponse()
         doReturn(false).`when`(identityConfirmationMock).doesTokenExist(HEADER_LIST[0])
 
-        identityConfirmationAspect.tokenExistsAdvise(serverRequestMock)
+        identityConfirmationAspect.tokenExistsAdvice(serverRequestMock)
     }
 
     @Test
@@ -62,7 +62,7 @@ class IdentityConfirmationAspectTest {
         doReturn(headersMock).`when`(serverRequestMock).headers()
         doReturn(emptyList<String>()).`when`(headersMock).header("auth-token")
 
-        identityConfirmationAspect.tokenExistsAdvise(serverRequestMock)
+        identityConfirmationAspect.tokenExistsAdvice(serverRequestMock)
     }
 
     @Test
@@ -70,7 +70,7 @@ class IdentityConfirmationAspectTest {
         doReturn(true).`when`(identityConfirmationMock).doesUserByCodeExist("confirmationCode")
         doReturn("confirmationCode").`when`(serverRequestMock).pathVariable("code")
 
-        identityConfirmationAspect.confirmationCodeUserExistsAdvise(serverRequestMock)
+        identityConfirmationAspect.confirmationCodeUserExistsAdvice(serverRequestMock)
 
         verify(identityConfirmationMock).doesUserByCodeExist("confirmationCode")
         verify(serverRequestMock).pathVariable("code")
@@ -82,7 +82,7 @@ class IdentityConfirmationAspectTest {
         doReturn(false).`when`(identityConfirmationMock).doesUserByCodeExist("confirmationCode")
         doReturn("confirmationCode").`when`(serverRequestMock).pathVariable("code")
 
-        identityConfirmationAspect.confirmationCodeUserExistsAdvise(serverRequestMock)
+        identityConfirmationAspect.confirmationCodeUserExistsAdvice(serverRequestMock)
     }
 
     private fun mockHeaderResponse() {
