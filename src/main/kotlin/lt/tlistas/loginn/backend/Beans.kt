@@ -1,20 +1,7 @@
 package lt.tlistas.loginn.backend
 
-import com.mongodb.MongoClient
-import com.mongodb.MongoCredential
-import com.mongodb.ServerAddress
-import com.mongodb.WriteConcern
 import lt.tlistas.loginn.backend.route.CollaboratorRoutes
 import lt.tlistas.loginn.backend.route.WorkLogRoutes
-import org.springframework.context.support.ReloadableResourceBundleMessageSource
-import org.springframework.context.support.beans
-import org.springframework.core.env.Environment
-import org.springframework.core.env.get
-import org.springframework.data.mongodb.core.MongoTemplate
-import org.springframework.data.mongodb.core.SimpleMongoDbFactory
-import org.springframework.web.cors.CorsConfiguration
-import org.springframework.web.cors.reactive.CorsWebFilter
-import org.springframework.web.reactive.function.server.RouterFunctions
 import java.util.*
 
 fun beans() = beans {
@@ -27,7 +14,7 @@ fun beans() = beans {
 
     bean("mongoClient") {
         val environment = ref<Environment>()
-        MongoClient(ServerAddress(), ArrayList<MongoCredential>().apply {
+        MongoClient(ServerAddress(environment["MONGO_HOST"]), ArrayList<MongoCredential>().apply {
             add(MongoCredential.createCredential(environment["MONGO_USERNAME"],
                     environment["MONGO_AUTH_DATABASE"],
                     environment["MONGO_PASSWORD"].toCharArray()))
