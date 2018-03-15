@@ -11,7 +11,7 @@ import reactor.ipc.netty.http.server.HttpServer
 
 fun main(args: Array<String>) {
 
-    val context = getApplicationContext()
+    val context = GenericApplicationContext()
     beans().initialize(context)
     XmlBeanDefinitionReader(context).loadBeanDefinitions("classpath:context/context.xml")
     context.refresh()
@@ -20,8 +20,6 @@ fun main(args: Array<String>) {
 
     HttpServer.create(8090).startAndAwait(ReactorHttpHandlerAdapter(httpHandler))
 }
-
-private fun getApplicationContext() = GenericApplicationContext()
 
 private fun getWebHttpHandler(context: GenericApplicationContext) = WebHttpHandlerBuilder
         .applicationContext(context)

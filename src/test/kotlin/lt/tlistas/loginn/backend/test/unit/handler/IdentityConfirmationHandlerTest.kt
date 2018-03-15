@@ -49,7 +49,7 @@ class IdentityConfirmationHandlerTest {
                     .router()
             ).build()
         webTestClient.post()
-            .uri("collaborator/authentication/code/request/${collaborator.mobileNumber}")
+            .uri("collaborator/identity-confirmation/code/request/${collaborator.mobileNumber}")
             .exchange()
             .expectStatus()
             .isOk
@@ -73,7 +73,7 @@ class IdentityConfirmationHandlerTest {
                     .router()
             ).build()
         val returnResult = webTestClient.post()
-            .uri("collaborator/authentication/code/confirm/$confirmationCode")
+            .uri("collaborator/identity-confirmation/code/confirm/$confirmationCode")
             .exchange()
             .expectStatus()
             .isOk
