@@ -16,11 +16,12 @@ fun main(args: Array<String>) {
     XmlBeanDefinitionReader(context).loadBeanDefinitions("classpath:context/context.xml")
     context.refresh()
 
-    val httpHandler = WebHttpHandlerBuilder
-            .applicationContext(context)
-            .exceptionHandler(context.getBean())
-            .apply { if (context.containsBean("corsFilter")) filter(context.getBean<CorsWebFilter>()) }
-            .build()
+    val httpHandler = getWebHttpHandler(context)
 
     HttpServer.create(8090).startAndAwait(ReactorHttpHandlerAdapter(httpHandler))
 }
+
+private fun getWebHttpHandler(context: GenericApplicationContext) = WebHttpHandlerBuilder
+        .applicationContext(context)
+        .apply { if (context.containsBean("corsFilter")) filter(context.getBean<CorsWebFilter>()) }
+        .build()

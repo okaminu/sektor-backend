@@ -7,8 +7,8 @@
 
     <bean id="collaboratorService" class="lt.tlistas.core.service.CollaboratorService"/>
     <bean id="companyService" class="lt.tlistas.core.service.CompanyService"/>
-    <bean id="customerService" class="lt.tlistas.core.service.CustomerService"/>
     <bean id="countryService" class="lt.tlistas.core.service.CountryService"/>
+    <bean id="customerService" class="lt.tlistas.core.service.CustomerService"/>
     <bean id="dateTimeProvider" class="lt.tlistas.core.service.time.LocalDateTimeProvider"/>
     <bean id="locationWorkLogService" class="lt.tlistas.core.service.LocationWorkLogService"/>
     <bean id="projectService" class="lt.tlistas.core.service.ProjectService"/>
