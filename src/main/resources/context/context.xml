@@ -13,9 +13,10 @@
 
     <aop:aspectj-autoproxy/>
 
+    <import resource="core.xml"/>
+    <import resource="repository.xml"/>
     <import resource="loginn/backend/plugin/crowbar.xml"/>
     <import resource="loginn/backend/plugin/awsSns.xml"/>
-
 
     <context:component-scan base-package="lt.tlistas.loginn.backend">
         <context:include-filter type="regex" expression="lt.tlistas.loginn.backend.aspect.*"/>
