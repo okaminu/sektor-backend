@@ -8,3 +8,4 @@ MONGO_AUTH_DATABASE - MongoDb authentication database
 MONGO_DATABASE - MongoDb database for application to use
 AWS_ACCESS_KEY_ID - Amazon Web Service Key ID
 AWS_SECRET_KEY - Amazon Web Service Key
+GOOGLE_MAPS_API_KEY - Google Maps API Key
