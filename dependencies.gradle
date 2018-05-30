@@ -23,7 +23,6 @@ dependencyManagement {
 
 dependencies {
     compile "lt.tlistas.core:core:1.1.1"
-    compile "lt.tlistas.core:core-api:1.1.1"
     runtime "lt.tlistas.core:core-google-maps-plugin:1.1.1"
 
     compile "lt.tlistas.crowbar:crowbar:1.1.1"

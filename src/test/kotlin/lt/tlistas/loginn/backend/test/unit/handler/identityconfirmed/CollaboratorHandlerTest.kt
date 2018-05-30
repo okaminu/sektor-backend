@@ -5,7 +5,7 @@ import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import lt.tlistas.core.service.CollaboratorService
 import lt.tlistas.core.type.entity.Collaborator
-import lt.tlistas.core.type.value_object.TimeRange
+import lt.tlistas.core.type.valueobject.TimeRange
 import lt.tlistas.crowbar.IdentityConfirmation
 import lt.tlistas.loginn.backend.handler.identityconfirmed.CollaboratorHandler
 import lt.tlistas.loginn.backend.route.CollaboratorRoutes
