@@ -5,8 +5,8 @@
     http://www.springframework.org/schema/beans/spring-beans-4.1.xsd"
        default-lazy-init="true" default-autowire="constructor">
 
-    <bean id="codeGenerator" class="lt.tlistas.crowbar.generator.ConfirmationCodeGenerator"/>
-    <bean id="tokenGenerator" class="lt.tlistas.crowbar.generator.TokenGenerator"/>
-    <bean id="identityConfirmation" class="lt.tlistas.crowbar.IdentityConfirmation"/>
+    <bean id="codeGenerator" class="lt.boldadmin.crowbar.ConfirmationCodeGenerator"/>
+    <bean id="tokenGenerator" class="lt.boldadmin.crowbar.TokenGenerator"/>
+    <bean id="identityConfirmation" class="lt.boldadmin.crowbar.IdentityConfirmation"/>
 
 </beans>
