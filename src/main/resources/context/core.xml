@@ -12,7 +12,7 @@
         <context:include-filter type="regex" expression="lt.tlistas.core.plugin.googlemaps.*"/>
     </context:component-scan>
 
-    <bean id="validatorToExceptionConverter" class="lt.tlistas.core.exception.converter.ValidatorToExceptionConverter"/>
+    <bean id="validatorToExceptionConverter" class="lt.boldadmin.nexus.exception.converter.ValidatorToExceptionConverter"/>
 
 </beans>
 
