@@ -3,10 +3,10 @@ package lt.boldadmin.sektor.backend.test.unit.handler.identityconfirmed
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
-import lt.tlistas.core.service.CollaboratorService
-import lt.tlistas.core.type.entity.Collaborator
-import lt.tlistas.core.type.valueobject.TimeRange
-import lt.tlistas.crowbar.IdentityConfirmation
+import lt.boldadmin.nexus.service.CollaboratorService
+import lt.boldadmin.nexus.type.entity.Collaborator
+import lt.boldadmin.nexus.type.valueobject.TimeRange
+import lt.boldadmin.crowbar.IdentityConfirmation
 import lt.boldadmin.sektor.backend.handler.identityconfirmed.CollaboratorHandler
 import lt.boldadmin.sektor.backend.route.CollaboratorRoutes
 import org.junit.Before

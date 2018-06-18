@@ -1,7 +1,7 @@
 package lt.boldadmin.sektor.backend.repository
 
-import lt.tlistas.crowbar.repository.UserConfirmationCodeRepository
-import lt.tlistas.crowbar.type.entity.UserConfirmationCode
+import lt.boldadmin.crowbar.repository.UserConfirmationCodeRepository
+import lt.boldadmin.crowbar.type.entity.UserConfirmationCode
 import org.springframework.data.mongodb.repository.MongoRepository
 
 interface UserConfirmationCodeMongoRepository

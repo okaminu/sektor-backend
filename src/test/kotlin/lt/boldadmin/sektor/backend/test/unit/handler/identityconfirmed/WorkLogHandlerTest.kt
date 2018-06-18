@@ -3,11 +3,11 @@ package lt.boldadmin.sektor.backend.test.unit.handler.identityconfirmed
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.verify
-import lt.tlistas.core.api.type.Location
-import lt.tlistas.core.service.CollaboratorService
-import lt.tlistas.core.service.LocationWorkLogService
-import lt.tlistas.core.type.entity.Collaborator
-import lt.tlistas.crowbar.IdentityConfirmation
+import lt.boldadmin.nexus.api.type.Location
+import lt.boldadmin.nexus.service.CollaboratorService
+import lt.boldadmin.nexus.service.LocationWorkLogService
+import lt.boldadmin.nexus.type.entity.Collaborator
+import lt.boldadmin.crowbar.IdentityConfirmation
 import lt.boldadmin.sektor.backend.handler.identityconfirmed.WorkLogHandler
 import lt.boldadmin.sektor.backend.route.WorkLogRoutes
 import org.junit.Before

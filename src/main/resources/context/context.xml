@@ -13,16 +13,16 @@
 
     <aop:aspectj-autoproxy/>
 
-    <import resource="core.xml"/>
+    <import resource="nexus.xml"/>
     <import resource="repository.xml"/>
-    <import resource="loginn/backend/plugin/crowbar.xml"/>
-    <import resource="loginn/backend/plugin/awsSns.xml"/>
+    <import resource="sektor/backend/plugin/crowbar.xml"/>
+    <import resource="sektor/backend/plugin/awsSns.xml"/>
 
-    <context:component-scan base-package="lt.tlistas.loginn.backend">
-        <context:include-filter type="regex" expression="lt.tlistas.loginn.backend.aspect.*"/>
-        <context:include-filter type="regex" expression="lt.tlistas.loginn.backend.exception.*"/>
-        <context:include-filter type="regex" expression="lt.tlistas.loginn.backend.handler.*"/>
-        <context:include-filter type="regex" expression="lt.tlistas.loginn.backend.route.*"/>
+    <context:component-scan base-package="lt.boldadmin.sektor.backend">
+        <context:include-filter type="regex" expression="lt.boldadmin.sektor.backend.aspect.*"/>
+        <context:include-filter type="regex" expression="lt.boldadmin.sektor.backend.exception.*"/>
+        <context:include-filter type="regex" expression="lt.boldadmin.sektor.backend.handler.*"/>
+        <context:include-filter type="regex" expression="lt.boldadmin.sektor.backend.route.*"/>
     </context:component-scan>
 
 </beans>

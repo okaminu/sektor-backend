@@ -1,2 +1,2 @@
 #!/bin/bash
-killall java &>/dev/null &
+sudo systemctl stop sektor-backend

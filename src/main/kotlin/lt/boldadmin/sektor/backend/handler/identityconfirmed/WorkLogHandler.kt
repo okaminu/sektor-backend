@@ -1,9 +1,9 @@
 package lt.boldadmin.sektor.backend.handler.identityconfirmed
 
-import lt.tlistas.core.api.type.Location
-import lt.tlistas.core.service.CollaboratorService
-import lt.tlistas.core.service.LocationWorkLogService
-import lt.tlistas.crowbar.IdentityConfirmation
+import lt.boldadmin.nexus.api.type.Location
+import lt.boldadmin.nexus.service.CollaboratorService
+import lt.boldadmin.nexus.service.LocationWorkLogService
+import lt.boldadmin.crowbar.IdentityConfirmation
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
 import org.springframework.web.reactive.function.server.ServerResponse.ok

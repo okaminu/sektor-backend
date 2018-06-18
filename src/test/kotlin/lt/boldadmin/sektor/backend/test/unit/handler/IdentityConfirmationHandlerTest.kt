@@ -3,9 +3,9 @@ package lt.boldadmin.sektor.backend.test.unit.handler
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
-import lt.tlistas.core.service.CollaboratorService
-import lt.tlistas.core.type.entity.Collaborator
-import lt.tlistas.crowbar.IdentityConfirmation
+import lt.boldadmin.nexus.service.CollaboratorService
+import lt.boldadmin.nexus.type.entity.Collaborator
+import lt.boldadmin.crowbar.IdentityConfirmation
 import lt.boldadmin.sektor.backend.handler.IdentityConfirmationHandler
 import lt.boldadmin.sektor.backend.route.CollaboratorRoutes
 import org.junit.Before

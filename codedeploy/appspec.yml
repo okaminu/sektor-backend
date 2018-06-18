@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /srv/loginn/backend/
+    destination: /srv/sektor/backend/
 hooks:
   ApplicationStart:
     - location: start.sh

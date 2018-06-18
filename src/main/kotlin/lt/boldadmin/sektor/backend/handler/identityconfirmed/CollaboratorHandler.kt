@@ -1,7 +1,7 @@
 package lt.boldadmin.sektor.backend.handler.identityconfirmed
 
-import lt.tlistas.core.service.CollaboratorService
-import lt.tlistas.crowbar.IdentityConfirmation
+import lt.boldadmin.nexus.service.CollaboratorService
+import lt.boldadmin.crowbar.IdentityConfirmation
 import org.springframework.web.reactive.function.BodyInserters.fromObject
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse

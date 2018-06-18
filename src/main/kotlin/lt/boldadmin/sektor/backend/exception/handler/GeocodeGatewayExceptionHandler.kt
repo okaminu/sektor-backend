@@ -1,6 +1,6 @@
 package lt.boldadmin.sektor.backend.exception.handler
 
-import lt.tlistas.core.api.exception.GeocodeGatewayException
+import lt.boldadmin.nexus.api.exception.GeocodeGatewayException
 import org.springframework.http.HttpStatus
 import org.springframework.web.server.ServerWebExchange
 

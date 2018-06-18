@@ -4,7 +4,7 @@ import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
-import lt.tlistas.core.api.exception.LocationNotFoundException
+import lt.boldadmin.nexus.api.exception.LocationNotFoundException
 import lt.boldadmin.sektor.backend.exception.handler.LocationNotFoundExceptionHandler
 import org.junit.Before
 import org.junit.Test

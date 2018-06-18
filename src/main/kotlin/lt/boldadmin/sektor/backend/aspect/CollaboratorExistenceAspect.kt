@@ -1,7 +1,7 @@
 package lt.boldadmin.sektor.backend.aspect
 
-import lt.tlistas.core.service.CollaboratorService
-import lt.tlistas.crowbar.IdentityConfirmation
+import lt.boldadmin.nexus.service.CollaboratorService
+import lt.boldadmin.crowbar.IdentityConfirmation
 import lt.boldadmin.sektor.backend.exception.CollaboratorNotFoundException
 import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.annotation.Before
@@ -19,7 +19,7 @@ class CollaboratorExistenceAspect(private val collaboratorService: CollaboratorS
             throw CollaboratorNotFoundException()
     }
 
-    @Before("execution(* lt.tlistas.loginn.backend.handler.identityconfirmed.*.*(..)) && args(req)")
+    @Before("execution(* lt.boldadmin.sektor.backend.handler.identityconfirmed.*.*(..)) && args(req)")
     fun collaboratorExistsByIdAdvice(req: ServerRequest) {
         if (!collaboratorService.existsById(getUserId(req)))
             throw CollaboratorNotFoundException()

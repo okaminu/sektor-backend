@@ -1,6 +1,6 @@
 package lt.boldadmin.sektor.backend.aspect
 
-import lt.tlistas.crowbar.IdentityConfirmation
+import lt.boldadmin.crowbar.IdentityConfirmation
 import lt.boldadmin.sektor.backend.exception.IncorrectConfirmationCodeException
 import lt.boldadmin.sektor.backend.exception.IncorrectTokenException
 import org.aspectj.lang.annotation.Aspect
@@ -12,7 +12,7 @@ import org.springframework.web.reactive.function.server.ServerRequest
 @Order(0)
 class IdentityConfirmationAspect(private val identityConfirmation: IdentityConfirmation) {
 
-    @Before("execution(* lt.tlistas.loginn.backend.handler.identityconfirmed.*.*(..)) && args(req)")
+    @Before("execution(* lt.boldadmin.sektor.backend.handler.identityconfirmed.*.*(..)) && args(req)")
     fun tokenExistsAdvice(req: ServerRequest) {
         val header = getHeader(req)
 

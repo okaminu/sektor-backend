@@ -16,7 +16,7 @@ apply from: 'dependencies.gradle'
 apply from: 'publish.gradle'
 apply from: 'jacoco.gradle'
 
-mainClassName = 'lt.tlistas.loginn.backend.ApplicationKt'
+mainClassName = 'lt.boldadmin.sektor.backend.ApplicationKt'
 
 defaultTasks 'run'
 
