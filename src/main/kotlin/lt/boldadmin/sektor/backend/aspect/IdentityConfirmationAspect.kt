@@ -21,7 +21,7 @@ class IdentityConfirmationAspect(private val identityConfirmation: IdentityConfi
     }
 
 
-    @Before("execution(* lt.boldadmin.sektor.backend.IdentityConfirmationHandler.confirmCode(..)) && args(req)")
+    @Before("execution(* lt.boldadmin.sektor.backend.handler.IdentityConfirmationHandler.confirmCode(..)) && args(req)")
     fun confirmationCodeUserExistsAdvice(req: ServerRequest) {
         val code = req.pathVariable("code")
 

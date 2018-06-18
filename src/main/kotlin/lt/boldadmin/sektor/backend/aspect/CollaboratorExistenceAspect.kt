@@ -13,7 +13,7 @@ import org.springframework.web.reactive.function.server.ServerRequest
 class CollaboratorExistenceAspect(private val collaboratorService: CollaboratorService,
                                   private val identityConfirmation: IdentityConfirmation) {
 
-    @Before("execution(* lt.boldadmin.sektor.backend.IdentityConfirmationHandler.requestCode(..)) && args(req)")
+    @Before("execution(* lt.boldadmin.sektor.backend.handler.IdentityConfirmationHandler.requestCode(..)) && args(req)")
     fun collaboratorExistsByMobileNumberAdvice(req: ServerRequest) {
         if (!collaboratorService.existsByMobileNumber(req.pathVariable("mobileNumber")))
             throw CollaboratorNotFoundException()
