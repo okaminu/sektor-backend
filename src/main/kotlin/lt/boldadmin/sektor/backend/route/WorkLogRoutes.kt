@@ -14,6 +14,6 @@ class WorkLogRoutes(private val workLogHandler: WorkLogHandler) {
                 POST("/log-by-location", workLogHandler::logByLocation)
             }
         }
-        GET("/status", { ok().body(fromObject("OK android dev pipes r up2date")) })
+        GET("/status", { ok().body(fromObject("OK android dev pipes r rly up2date. plz work")) })
     }
 }
