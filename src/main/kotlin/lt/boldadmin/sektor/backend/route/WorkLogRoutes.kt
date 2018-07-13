@@ -14,6 +14,6 @@ class WorkLogRoutes(private val workLogHandler: WorkLogHandler) {
                 POST("/log-by-location", workLogHandler::logByLocation)
             }
         }
-        GET("/status", { ok().body(fromObject("sektor wins. fatality")) })
+        GET("/status", { ok().body(fromObject("sektor wins. fatality!")) })
     }
 }
