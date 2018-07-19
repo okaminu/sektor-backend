@@ -4,8 +4,3 @@ phases:
   build:
     commands:
       - ./gradlew build publish
-artifacts:
-  files:
-    - 'build/libs/sektor-backend-all.jar'
-    - 'codedeploy/*'
-  discard-paths: yes
