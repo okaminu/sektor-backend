@@ -1,6 +1,6 @@
 package lt.boldadmin.sektor.backend.handler.identityconfirmed
 
-import lt.boldadmin.nexus.api.type.Location
+import lt.boldadmin.nexus.api.type.valueobject.Location
 import lt.boldadmin.nexus.service.CollaboratorService
 import lt.boldadmin.nexus.service.LocationWorkLogService
 import lt.boldadmin.crowbar.IdentityConfirmation
