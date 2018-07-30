@@ -40,6 +40,8 @@ class WorkLogHandlerTest {
 
     private lateinit var workLogHandler: WorkLogHandler
 
+    private lateinit var collaborator: Collaborator;
+
     @Before
     fun setUp() {
         workLogHandler = WorkLogHandler(
@@ -48,15 +50,15 @@ class WorkLogHandlerTest {
                 identityConfirmationMock,
                 workLogServiceMock
         )
+        collaborator = Collaborator()
+        doReturn(USER_ID).`when`(identityConfirmationMock).getUserIdByToken(AUTH_TOKEN)
+        doReturn(collaborator).`when`(collaboratorServiceMock).getById(USER_ID)
+
     }
 
     @Test
     fun `Logs work by given location`() {
         val location = Location(1.1, 1.2)
-        val collaborator = Collaborator()
-        doReturn(USER_ID).`when`(identityConfirmationMock).getUserIdByToken(any())
-        doReturn(collaborator).`when`(collaboratorServiceMock).getById(USER_ID)
-
         val webTestClient = WebTestClient
                 .bindToRouterFunction(WorkLogRoutes(workLogHandler).router()).build()
         webTestClient.post().uri("/worklog/log-by-location")
@@ -75,7 +77,7 @@ class WorkLogHandlerTest {
     @Test
     fun `Project name of started work`() {
         val projectName = "ProjectName"
-        doReturn(projectName).`when`(workLogServiceMock).getProjectNameOfStartedWork(any())
+        doReturn(projectName).`when`(workLogServiceMock).getProjectNameOfStartedWork(USER_ID)
 
         val routerFunction = WorkLogRoutes(workLogHandler).router()
         val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
