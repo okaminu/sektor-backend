@@ -23,17 +23,13 @@ import kotlin.test.assertEquals
 @RunWith(MockitoJUnitRunner::class)
 class WorkLogHandlerTest {
 
-    @Mock
-    private lateinit var locationWorkLogServiceMock: LocationWorkLogService
+    @Mock private lateinit var locationWorkLogServiceMock: LocationWorkLogService
 
-    @Mock
-    private lateinit var collaboratorServiceMock: CollaboratorService
+    @Mock private lateinit var collaboratorServiceMock: CollaboratorService
 
-    @Mock
-    private lateinit var identityConfirmationMock: IdentityConfirmation
+    @Mock private lateinit var identityConfirmationMock: IdentityConfirmation
 
-    @Mock
-    private lateinit var workLogServiceMock: WorkLogService
+    @Mock private lateinit var workLogServiceMock: WorkLogService
 
     private lateinit var workLogHandler: WorkLogHandler
 
@@ -43,9 +39,9 @@ class WorkLogHandlerTest {
     fun setUp() {
         val collaboratorAuthService = CollaboratorAuthenticationService(collaboratorServiceMock, identityConfirmationMock)
         workLogHandler = WorkLogHandler(
-                locationWorkLogServiceMock,
-                collaboratorAuthService,
-                workLogServiceMock
+            locationWorkLogServiceMock,
+            collaboratorAuthService,
+            workLogServiceMock
         )
         collaborator = Collaborator()
         doReturn(USER_ID).`when`(identityConfirmationMock).getUserIdByToken(AUTH_TOKEN)
@@ -57,16 +53,17 @@ class WorkLogHandlerTest {
     fun `Logs work by given location`() {
         val location = Location(1.1, 1.2)
         val webTestClient = WebTestClient
-                .bindToRouterFunction(WorkLogRoutes(workLogHandler).router()).build()
+            .bindToRouterFunction(WorkLogRoutes(workLogHandler).router()).build()
         webTestClient.post().uri("/worklog/log-by-location")
-                .header("auth-token",
-                    AUTH_TOKEN
-                )
-                .body(location.toMono(), Location::class.java)
-                .exchange()
-                .expectStatus()
-                .isOk
-                .expectBody().isEmpty
+            .header(
+                "auth-token",
+                AUTH_TOKEN
+            )
+            .body(location.toMono(), Location::class.java)
+            .exchange()
+            .expectStatus()
+            .isOk
+            .expectBody().isEmpty
 
         verify(locationWorkLogServiceMock).logWork(collaborator, location)
     }
@@ -80,8 +77,9 @@ class WorkLogHandlerTest {
         val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
         val returnResult = webTestClient.get()
             .uri("/worklog/project-name-of-started-work")
-            .header("auth-token",
-                    AUTH_TOKEN
+            .header(
+                "auth-token",
+                AUTH_TOKEN
             )
             .exchange()
             .expectStatus()

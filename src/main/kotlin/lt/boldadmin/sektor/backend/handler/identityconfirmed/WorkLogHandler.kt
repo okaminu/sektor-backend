@@ -23,8 +23,8 @@ open class WorkLogHandler(
 
     open fun getProjectNameOfStartedWork(req: ServerRequest): Mono<ServerResponse> =
         ok().body(
-                BodyInserters.fromObject(
-                        workLogService.getProjectNameOfStartedWork(collaboratorAuthService.getCollaboratorId(req))
-                )
+            BodyInserters.fromObject(
+                workLogService.getProjectNameOfStartedWork(collaboratorAuthService.getCollaboratorId(req))
+            )
         )
 }
