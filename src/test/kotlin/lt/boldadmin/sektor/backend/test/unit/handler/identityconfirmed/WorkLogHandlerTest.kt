@@ -1,19 +1,16 @@
 package lt.boldadmin.sektor.backend.test.unit.handler.identityconfirmed
 
-import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doReturn
-import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
+import lt.boldadmin.crowbar.IdentityConfirmation
 import lt.boldadmin.nexus.api.type.valueobject.Location
 import lt.boldadmin.nexus.service.CollaboratorService
 import lt.boldadmin.nexus.service.LocationWorkLogService
-import lt.boldadmin.nexus.type.entity.Collaborator
-import lt.boldadmin.crowbar.IdentityConfirmation
 import lt.boldadmin.nexus.service.WorkLogService
-import lt.boldadmin.nexus.type.valueobject.TimeRange
+import lt.boldadmin.nexus.type.entity.Collaborator
 import lt.boldadmin.sektor.backend.handler.identityconfirmed.WorkLogHandler
-import lt.boldadmin.sektor.backend.route.CollaboratorRoutes
 import lt.boldadmin.sektor.backend.route.WorkLogRoutes
+import lt.boldadmin.sektor.backend.service.CollaboratorAuthenticationService
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -44,10 +41,10 @@ class WorkLogHandlerTest {
 
     @Before
     fun setUp() {
+        val collaboratorAuthService = CollaboratorAuthenticationService(collaboratorServiceMock, identityConfirmationMock)
         workLogHandler = WorkLogHandler(
-                collaboratorServiceMock,
                 locationWorkLogServiceMock,
-                identityConfirmationMock,
+                collaboratorAuthService,
                 workLogServiceMock
         )
         collaborator = Collaborator()

@@ -9,6 +9,7 @@ import lt.boldadmin.nexus.type.valueobject.TimeRange
 import lt.boldadmin.crowbar.IdentityConfirmation
 import lt.boldadmin.sektor.backend.handler.identityconfirmed.CollaboratorHandler
 import lt.boldadmin.sektor.backend.route.CollaboratorRoutes
+import lt.boldadmin.sektor.backend.service.CollaboratorAuthenticationService
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -30,10 +31,13 @@ class CollaboratorHandlerTest {
 
     @Before
     fun setUp() {
-        collaboratorHandler = CollaboratorHandler(
+        val collaboratorAuthService = CollaboratorAuthenticationService(
                 collaboratorServiceMock,
                 identityConfirmationMock
         )
+
+        collaboratorHandler = CollaboratorHandler(collaboratorAuthService)
+
     }
 
     @Test

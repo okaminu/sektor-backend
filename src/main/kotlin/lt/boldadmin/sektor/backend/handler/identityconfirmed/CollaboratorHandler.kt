@@ -1,22 +1,15 @@
 package lt.boldadmin.sektor.backend.handler.identityconfirmed
 
-import lt.boldadmin.nexus.service.CollaboratorService
-import lt.boldadmin.crowbar.IdentityConfirmation
+import lt.boldadmin.sektor.backend.service.CollaboratorAuthenticationService
 import org.springframework.web.reactive.function.BodyInserters.fromObject
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
 import org.springframework.web.reactive.function.server.ServerResponse.ok
 import reactor.core.publisher.Mono
 
-open class CollaboratorHandler(private val collaboratorService: CollaboratorService,
-                               private val identityConfirmation: IdentityConfirmation) {
+open class CollaboratorHandler(private val collaboratorAuthService: CollaboratorAuthenticationService) {
 
     open fun getWorkTime(req: ServerRequest): Mono<ServerResponse> =
-            ok().body(fromObject(getCollaborator(req).workTime))
+        ok().body(fromObject(collaboratorAuthService.getCollaborator(req).workTime))
 
-    private fun getCollaborator(req: ServerRequest) = collaboratorService.getById(getCollaboratorId(req))
-
-    private fun getCollaboratorId(req: ServerRequest) = identityConfirmation.getUserIdByToken(getToken(req))
-
-    private fun getToken(req: ServerRequest) = req.headers().header("auth-token")[0]
 }
