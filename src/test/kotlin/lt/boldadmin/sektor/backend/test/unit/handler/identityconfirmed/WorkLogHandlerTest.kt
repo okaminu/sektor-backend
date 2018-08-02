@@ -5,8 +5,8 @@ import com.nhaarman.mockito_kotlin.verify
 import lt.boldadmin.crowbar.IdentityConfirmation
 import lt.boldadmin.nexus.api.type.valueobject.Location
 import lt.boldadmin.nexus.service.CollaboratorService
-import lt.boldadmin.nexus.service.LocationWorkLogService
-import lt.boldadmin.nexus.service.WorkLogService
+import lt.boldadmin.nexus.service.location.LocationWorkLogService
+import lt.boldadmin.nexus.service.worklog.WorkLogService
 import lt.boldadmin.nexus.type.entity.Collaborator
 import lt.boldadmin.sektor.backend.handler.identityconfirmed.WorkLogHandler
 import lt.boldadmin.sektor.backend.route.WorkLogRoutes
@@ -33,7 +33,7 @@ class WorkLogHandlerTest {
 
     private lateinit var workLogHandler: WorkLogHandler
 
-    private lateinit var collaborator: Collaborator;
+    private lateinit var collaborator: Collaborator
 
     @Before
     fun setUp() {
