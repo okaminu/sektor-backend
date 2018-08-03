@@ -27,4 +27,11 @@ open class WorkLogHandler(
                 workLogService.getProjectNameOfStartedWork(collaboratorAuthService.getCollaboratorId(req))
             )
         )
+
+    open fun hasWorkStarted(req: ServerRequest): Mono<ServerResponse> =
+        ok().body(
+                BodyInserters.fromObject(
+                        workLogService.hasWorkStarted(collaboratorAuthService.getCollaboratorId(req))
+                )
+        )
 }

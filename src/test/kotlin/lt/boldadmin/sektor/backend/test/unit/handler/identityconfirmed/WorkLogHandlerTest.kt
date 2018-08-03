@@ -19,6 +19,7 @@ import org.mockito.junit.MockitoJUnitRunner
 import org.springframework.test.web.reactive.server.WebTestClient
 import reactor.core.publisher.toMono
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 @RunWith(MockitoJUnitRunner::class)
 class WorkLogHandlerTest {
@@ -88,6 +89,28 @@ class WorkLogHandlerTest {
             .returnResult()
 
         assertEquals(projectName, returnResult.responseBody)
+
+    }
+
+    @Test
+    fun `Provides work status`() {
+        doReturn(true).`when`(workLogServiceMock).hasWorkStarted(USER_ID)
+
+        val routerFunction = WorkLogRoutes(workLogHandler).router()
+        val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
+        val returnResult = webTestClient.get()
+            .uri("/worklog/has-work-started")
+            .header(
+                    "auth-token",
+                    AUTH_TOKEN
+            )
+            .exchange()
+            .expectStatus()
+            .isOk
+            .expectBody(Boolean::class.java)
+            .returnResult()
+
+        assertTrue(returnResult.responseBody!!)
 
     }
 
