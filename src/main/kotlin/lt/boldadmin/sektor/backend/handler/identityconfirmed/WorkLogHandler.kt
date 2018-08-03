@@ -1,8 +1,8 @@
 package lt.boldadmin.sektor.backend.handler.identityconfirmed
 
 import lt.boldadmin.nexus.api.type.valueobject.Location
-import lt.boldadmin.nexus.service.LocationWorkLogService
-import lt.boldadmin.nexus.service.WorkLogService
+import lt.boldadmin.nexus.service.location.LocationWorkLogService
+import lt.boldadmin.nexus.service.worklog.WorkLogService
 import lt.boldadmin.sektor.backend.service.CollaboratorAuthenticationService
 import org.springframework.web.reactive.function.BodyInserters
 import org.springframework.web.reactive.function.server.ServerRequest
