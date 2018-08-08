@@ -37,7 +37,6 @@ dependencies {
     compile "org.springframework.data:spring-data-mongodb"
     compile "org.springframework.data:spring-data-redis"
     compile "org.springframework:spring-context"
-    compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.0"
 
     compile 'io.lettuce:lettuce-core:5.0.5.RELEASE'
 
