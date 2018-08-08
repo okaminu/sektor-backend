@@ -9,4 +9,4 @@ MONGO_DATABASE - MongoDb database for application to use
 AWS_ACCESS_KEY_ID - Amazon Web Service Key ID
 AWS_SECRET_KEY - Amazon Web Service Key
 GOOGLE_MAPS_API_KEY - Google Maps API Key
-LOCATION_CACHE_TTL - time to live for location cache
+PROJECT_LOCATION_CACHE_TTL - time to live for location cache

@@ -65,15 +65,15 @@ fun beans() = beans {
         RedisCacheConfiguration.defaultCacheConfig().disableCachingNullValues()
     }
 
-    bean("locationCacheConfiguration") {
+    bean("projectLocationCacheConfiguration") {
         ref<RedisCacheConfiguration>("redisCacheConfiguration").serializeValuesWith(fromSerializer(
             Jackson2JsonRedisSerializer(Location::class.java).apply { setObjectMapper(jacksonObjectMapper()) }))
-            .entryTtl(Duration.ofDays(ref<Environment>()["LOCATION_CACHE_TTL"].toLong()))
+            .entryTtl(Duration.ofDays(ref<Environment>()["PROJECT_LOCATION_CACHE_TTL"].toLong()))
     }
 
     bean("cacheManager") {
         RedisCacheManager.builder(ref<LettuceConnectionFactory>()).withInitialCacheConfigurations(
-            mapOf("location" to ref("locationCacheConfiguration"))
+            mapOf("projectLocation" to ref("projectLocationCacheConfiguration"))
         ).build()
     }
 

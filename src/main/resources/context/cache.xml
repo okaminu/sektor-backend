@@ -10,14 +10,14 @@
 
     <cache:annotation-driven />
 
-    <cache:advice id="locationCaching">
-        <cache:caching cache="location">
+    <cache:advice id="projectLocationCaching">
+        <cache:caching cache="projectLocation">
             <cache:cacheable method="convert"/>
         </cache:caching>
     </cache:advice>
 
     <aop:config>
-        <aop:advisor advice-ref="locationCaching"
+        <aop:advisor advice-ref="projectLocationCaching"
                      pointcut="execution(* lt.boldadmin.nexus.plugin.googlemaps.GoogleMapsGeocodeGatewayAdapter.convert(..))"/>
     </aop:config>
 
