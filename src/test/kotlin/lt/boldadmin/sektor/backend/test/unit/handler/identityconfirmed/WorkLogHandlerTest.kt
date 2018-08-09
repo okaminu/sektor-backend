@@ -3,7 +3,7 @@ package lt.boldadmin.sektor.backend.test.unit.handler.identityconfirmed
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.verify
-import lt.boldadmin.nexus.api.type.Location
+import lt.boldadmin.nexus.api.type.valueobject.Location
 import lt.boldadmin.nexus.service.CollaboratorService
 import lt.boldadmin.nexus.service.LocationWorkLogService
 import lt.boldadmin.nexus.type.entity.Collaborator
