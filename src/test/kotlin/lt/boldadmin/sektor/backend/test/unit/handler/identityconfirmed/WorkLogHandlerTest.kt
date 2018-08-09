@@ -114,6 +114,26 @@ class WorkLogHandlerTest {
 
     }
 
+    @Test
+    fun `Updates worklog description`() {
+        val updatedDescription = "Updated Description"
+        val intervalId = "intervalId"
+        val webTestClient = WebTestClient
+            .bindToRouterFunction(WorkLogRoutes(workLogHandler).router()).build()
+        webTestClient.post().uri("/worklog/update-description/$intervalId")
+            .header(
+                "auth-token",
+                AUTH_TOKEN
+            )
+            .body(updatedDescription.toMono(), String::class.java)
+            .exchange()
+            .expectStatus()
+            .isOk
+            .expectBody().isEmpty
+
+        verify(workLogServiceMock).updateDescription(intervalId, updatedDescription)
+    }
+
     companion object {
         private const val USER_ID = "userId"
         private const val AUTH_TOKEN = "asda454s6d"

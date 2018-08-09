@@ -12,6 +12,7 @@ class WorkLogRoutes(private val workLogHandler: WorkLogHandler) {
         "/worklog".nest {
             accept(APPLICATION_JSON).nest {
                 POST("/log-by-location", workLogHandler::logByLocation)
+                POST("/update-description/{intervalId}", workLogHandler::updateDescription)
                 GET("/project-name-of-started-work", workLogHandler::getProjectNameOfStartedWork)
                 GET("/has-work-started", workLogHandler::hasWorkStarted)
             }

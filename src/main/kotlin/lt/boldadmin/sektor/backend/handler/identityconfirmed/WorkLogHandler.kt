@@ -28,6 +28,11 @@ open class WorkLogHandler(
             )
         )
 
+    open fun updateDescription(req: ServerRequest): Mono<ServerResponse> =
+        req.bodyToMono<String>()
+            .doOnNext { workLogService.updateDescription(req.pathVariable("intervalId"), it)}
+            .flatMap { ok().build() }
+
     open fun hasWorkStarted(req: ServerRequest): Mono<ServerResponse> =
         ok().body(
                 BodyInserters.fromObject(
