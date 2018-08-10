@@ -6,7 +6,7 @@ publishing {
         shadow(MavenPublication) { publication ->
             groupId 'lt.boldadmin.sektor'
             artifactId = 'backend'
-            version '1.2.0'
+            version '1.2.1'
             project.shadow.component(publication)
 
             repositories {
