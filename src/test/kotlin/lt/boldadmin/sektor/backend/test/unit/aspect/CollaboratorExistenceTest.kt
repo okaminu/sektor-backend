@@ -3,9 +3,9 @@ package lt.boldadmin.sektor.backend.test.unit.aspect
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.verify
 import lt.boldadmin.nexus.service.CollaboratorService
-import lt.boldadmin.crowbar.IdentityConfirmation
 import lt.boldadmin.sektor.backend.aspect.CollaboratorExistenceAspect
 import lt.boldadmin.sektor.backend.exception.CollaboratorNotFoundException
+import lt.boldadmin.sektor.backend.service.CollaboratorAuthenticationService
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -22,13 +22,10 @@ class CollaboratorExistenceTest {
     private lateinit var collaboratorServiceMock: CollaboratorService
 
     @Mock
-    private lateinit var identityConfirmationMock: IdentityConfirmation
+    private lateinit var collaboratorAuthServiceStub: CollaboratorAuthenticationService
 
     @Mock
     private lateinit var serverRequestMock: ServerRequest
-
-    @Mock
-    private lateinit var headersMock: ServerRequest.Headers
 
     @Rule
     @JvmField
@@ -39,8 +36,7 @@ class CollaboratorExistenceTest {
     @Before
     fun `Set up`() {
         collaboratorAspect = CollaboratorExistenceAspect(
-                collaboratorServiceMock,
-                identityConfirmationMock
+            collaboratorServiceMock, collaboratorAuthServiceStub
         )
     }
 
@@ -83,14 +79,11 @@ class CollaboratorExistenceTest {
     }
 
     private fun mockHeaderResponse() {
-        doReturn(headersMock).`when`(serverRequestMock).headers()
-        doReturn(HEADER_LIST).`when`(headersMock).header("auth-token")
-        doReturn(COLLABORATOR_ID).`when`(identityConfirmationMock).getUserIdByToken(HEADER_LIST[0])
+        doReturn(COLLABORATOR_ID).`when`(collaboratorAuthServiceStub).getCollaboratorId(serverRequestMock)
     }
 
     companion object {
         private val COLLABORATOR_ID = "4a4s65fa4s65df46s5"
         private val MOBILE_NUMBER = "+3701234568"
-        private val HEADER_LIST = listOf("saf654as6df48a")
     }
 }
