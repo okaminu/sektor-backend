@@ -24,13 +24,17 @@ import kotlin.test.assertTrue
 @RunWith(MockitoJUnitRunner::class)
 class WorkLogHandlerTest {
 
-    @Mock private lateinit var locationWorkLogServiceMock: LocationWorkLogService
+    @Mock
+    private lateinit var locationWorkLogServiceMock: LocationWorkLogService
 
-    @Mock private lateinit var collaboratorServiceMock: CollaboratorService
+    @Mock
+    private lateinit var collaboratorServiceMock: CollaboratorService
 
-    @Mock private lateinit var identityConfirmationMock: IdentityConfirmation
+    @Mock
+    private lateinit var identityConfirmationMock: IdentityConfirmation
 
-    @Mock private lateinit var workLogServiceMock: WorkLogService
+    @Mock
+    private lateinit var workLogServiceMock: WorkLogService
 
     private lateinit var workLogHandler: WorkLogHandler
 
@@ -101,8 +105,8 @@ class WorkLogHandlerTest {
         val returnResult = webTestClient.get()
             .uri("/worklog/has-work-started")
             .header(
-                    "auth-token",
-                    AUTH_TOKEN
+                "auth-token",
+                AUTH_TOKEN
             )
             .exchange()
             .expectStatus()
