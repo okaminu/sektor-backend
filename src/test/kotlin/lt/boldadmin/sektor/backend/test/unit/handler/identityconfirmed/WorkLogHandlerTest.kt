@@ -79,9 +79,10 @@ class WorkLogHandlerTest {
     @Test
     fun `Provides worklog interval endpoints`() {
         val intervalId = "intervalId"
-        val workLogDummies = emptyList<WorkLog>()
+        val workLogDummy = mock<WorkLog>()
         val workDuration = 1000L
-        doReturn(workLogDummies).`when`(workLogServiceMock).getIntervalEndpoints(intervalId)
+        doReturn(intervalId).`when`(workLogDummy).intervalId
+        doReturn(listOf(workLogDummy)).`when`(workLogServiceMock).getIntervalEndpoints(intervalId)
         doReturn(workDuration).`when`(workLogServiceMock).measureDuration(intervalId)
 
         val returnResult = webTestClient.get()
@@ -96,7 +97,7 @@ class WorkLogHandlerTest {
             .expectBody(Map::class.java)
             .returnResult()
 
-        assertEquals(workLogDummies, returnResult.responseBody!!["workLogs"])
+        assertEquals(intervalId, ((returnResult.responseBody!!["workLogs"] as List<*>)[0] as Map<*, *>)["intervalId"])
         assertEquals(workDuration.toInt(), returnResult.responseBody!!["workDuration"])
     }
 
