@@ -40,26 +40,29 @@ class WorkLogHandlerTest {
 
     private lateinit var collaborator: Collaborator
 
+    private lateinit var webTestClient: WebTestClient
+
     @Before
     fun setUp() {
         val collaboratorAuthService = CollaboratorAuthenticationService(collaboratorServiceMock, identityConfirmationMock)
+        val routerFunction = WorkLogRoutes(workLogHandler).router()
         workLogHandler = WorkLogHandler(
             locationWorkLogServiceMock,
             collaboratorAuthService,
             workLogServiceMock
         )
         collaborator = Collaborator()
+        webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
         doReturn(USER_ID).`when`(identityConfirmationMock).getUserIdByToken(AUTH_TOKEN)
         doReturn(collaborator).`when`(collaboratorServiceMock).getById(USER_ID)
-
     }
 
     @Test
     fun `Logs work by given location`() {
         val location = Location(1.1, 1.2)
-        val webTestClient = WebTestClient
-            .bindToRouterFunction(WorkLogRoutes(workLogHandler).router()).build()
-        webTestClient.post().uri("/worklog/log-by-location")
+
+        webTestClient.post()
+            .uri("/worklog/log-by-location")
             .header(
                 "auth-token",
                 AUTH_TOKEN
@@ -78,8 +81,6 @@ class WorkLogHandlerTest {
         val projectName = "ProjectName"
         doReturn(projectName).`when`(workLogServiceMock).getProjectNameOfStartedWork(USER_ID)
 
-        val routerFunction = WorkLogRoutes(workLogHandler).router()
-        val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
         val returnResult = webTestClient.get()
             .uri("/worklog/project-name-of-started-work")
             .header(
@@ -100,8 +101,6 @@ class WorkLogHandlerTest {
     fun `Provides work status`() {
         doReturn(true).`when`(workLogServiceMock).hasWorkStarted(USER_ID)
 
-        val routerFunction = WorkLogRoutes(workLogHandler).router()
-        val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
         val returnResult = webTestClient.get()
             .uri("/worklog/has-work-started")
             .header(
@@ -122,9 +121,9 @@ class WorkLogHandlerTest {
     fun `Updates worklog description`() {
         val updatedDescription = "Updated Description"
         val intervalId = "intervalId"
-        val webTestClient = WebTestClient
-            .bindToRouterFunction(WorkLogRoutes(workLogHandler).router()).build()
-        webTestClient.post().uri("/worklog/update-description/$intervalId")
+
+        webTestClient.post()
+            .uri("/worklog/update-description/$intervalId")
             .header(
                 "auth-token",
                 AUTH_TOKEN
