@@ -18,7 +18,7 @@ class WorkLogRoutes(private val workLogHandler: WorkLogHandler) {
                 GET("/interval/{intervalId}/endpoints", workLogHandler::getIntervalEndpoints)
                 GET("/interval/{intervalId}/description", workLogHandler::getDescription)
                 GET("/interval/{intervalIds}/durations-sum", workLogHandler::getDurationsSum)
-//                GET("/collaborator/interval-ids", workLogHandler::getIntervalIdsByCollaborator)
+                GET("/collaborator/interval-ids", workLogHandler::getIntervalIdsByCollaborator)
             }
         }
         GET("/status") { ok().body(fromObject("OK")) }

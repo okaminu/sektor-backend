@@ -1,6 +1,7 @@
 package lt.boldadmin.sektor.backend.test.unit.handler.identityconfirmed
 
 import com.nhaarman.mockito_kotlin.doReturn
+import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import lt.boldadmin.crowbar.IdentityConfirmation
 import lt.boldadmin.nexus.api.type.valueobject.Location
@@ -100,6 +101,31 @@ class WorkLogHandlerTest {
     }
 
     @Test
+    fun `Provides distinct worklog interval ids by collaborator`() {
+        val intervalId1 = "id1"
+        val intervalId2 = "id2"
+        val workLogDummy1 = mock<WorkLog>()
+        val workLogDummy2 = mock<WorkLog>()
+        doReturn(listOf(workLogDummy1, workLogDummy1, workLogDummy2)).`when`(workLogServiceMock).getByCollaboratorId(USER_ID)
+        doReturn(intervalId1).`when`(workLogDummy1).intervalId
+        doReturn(intervalId2).`when`(workLogDummy2).intervalId
+
+        val returnResult = webTestClient.get()
+            .uri("/worklog/collaborator/interval-ids")
+            .header(
+                "auth-token",
+                AUTH_TOKEN
+            )
+            .exchange()
+            .expectStatus()
+            .isOk
+            .expectBody(Collection::class.java)
+            .returnResult()
+
+        assertEquals(listOf(intervalId1, intervalId2), returnResult.responseBody)
+    }
+
+    @Test
     fun `Provides project name of started work`() {
         val projectName = "ProjectName"
         doReturn(projectName).`when`(workLogServiceMock).getProjectNameOfStartedWork(USER_ID)
@@ -142,8 +168,8 @@ class WorkLogHandlerTest {
 
     @Test
     fun `Provides work durations sum`() {
-        val intervalIds = listOf("100", "200")
-        val intervalIdsInUri = "100,200"
+        val intervalIds = listOf("id1", "id2")
+        val intervalIdsInUri = "id1,id2"
         val durationsSum = 1000L
         doReturn(durationsSum).`when`(workLogServiceMock).sumWorkDurations(intervalIds)
 

@@ -29,10 +29,12 @@ open class WorkLogHandler(
             )
         )
 
-//    open fun getIntervalIdsByCollaborator(req: ServerRequest) =
-//        ok().body(
-//            Mono.just(getWorkLogIntervalIdsByCollaboratorId(req))
-//        )
+    open fun getIntervalIdsByCollaborator(req: ServerRequest) =
+        ok().body(
+            Mono.just(workLogService.getByCollaboratorId(collaboratorAuthService.getCollaboratorId(req))
+                .map { it.intervalId }
+                .distinct())
+        )
 
     open fun getProjectNameOfStartedWork(req: ServerRequest): Mono<ServerResponse> =
         ok().body(
@@ -63,10 +65,4 @@ open class WorkLogHandler(
             )
         )
 
-//    private fun getWorkLogIntervalIdsByCollaboratorId(req: ServerRequest): List<String> {
-//        return workLogService.getByCollaboratorId(collaboratorAuthService.getCollaboratorId(req))
-//            .map { it.intervalId }
-//            .distinct()
-//            .toList()
-//    }
 }
