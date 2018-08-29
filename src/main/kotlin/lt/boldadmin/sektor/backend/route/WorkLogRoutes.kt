@@ -15,9 +15,9 @@ class WorkLogRoutes(private val workLogHandler: WorkLogHandler) {
                 POST("/update-description/{intervalId}", workLogHandler::updateDescription)
                 GET("/project-name-of-started-work", workLogHandler::getProjectNameOfStartedWork)
                 GET("/has-work-started", workLogHandler::hasWorkStarted)
-//                GET("/interval/{intervalId}/endpoints", workLogHandler::getIntervalEndpoints)
-//                GET("/interval/{intervalId}/description", workLogHandler::getDescription)
-//                GET("/interval/{intervalIds}/durations-sum", workLogHandler::getDurationsSum)
+                GET("/interval/{intervalId}/endpoints", workLogHandler::getIntervalEndpoints)
+                GET("/interval/{intervalId}/description", workLogHandler::getDescription)
+                GET("/interval/{intervalIds}/durations-sum", workLogHandler::getDurationsSum)
 //                GET("/collaborator/interval-ids", workLogHandler::getIntervalIdsByCollaborator)
             }
         }

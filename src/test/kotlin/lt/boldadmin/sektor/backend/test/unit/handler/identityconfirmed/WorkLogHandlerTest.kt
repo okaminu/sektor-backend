@@ -8,6 +8,7 @@ import lt.boldadmin.nexus.service.CollaboratorService
 import lt.boldadmin.nexus.service.location.LocationWorkLogService
 import lt.boldadmin.nexus.service.worklog.WorkLogService
 import lt.boldadmin.nexus.type.entity.Collaborator
+import lt.boldadmin.nexus.type.entity.WorkLog
 import lt.boldadmin.sektor.backend.handler.identityconfirmed.WorkLogHandler
 import lt.boldadmin.sektor.backend.route.WorkLogRoutes
 import lt.boldadmin.sektor.backend.service.CollaboratorAuthenticationService
@@ -36,8 +37,6 @@ class WorkLogHandlerTest {
     @Mock
     private lateinit var workLogServiceMock: WorkLogService
 
-    private lateinit var workLogHandler: WorkLogHandler
-
     private lateinit var collaborator: Collaborator
 
     private lateinit var webTestClient: WebTestClient
@@ -45,14 +44,14 @@ class WorkLogHandlerTest {
     @Before
     fun setUp() {
         val collaboratorAuthService = CollaboratorAuthenticationService(collaboratorServiceMock, identityConfirmationMock)
-        val routerFunction = WorkLogRoutes(workLogHandler).router()
-        workLogHandler = WorkLogHandler(
+        val workLogHandler = WorkLogHandler(
             locationWorkLogServiceMock,
             collaboratorAuthService,
             workLogServiceMock
         )
-        collaborator = Collaborator()
+        val routerFunction = WorkLogRoutes(workLogHandler).router()
         webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
+        collaborator = Collaborator()
         doReturn(USER_ID).`when`(identityConfirmationMock).getUserIdByToken(AUTH_TOKEN)
         doReturn(collaborator).`when`(collaboratorServiceMock).getById(USER_ID)
     }
@@ -77,7 +76,31 @@ class WorkLogHandlerTest {
     }
 
     @Test
-    fun `Project name of started work`() {
+    fun `Provides worklog interval endpoints`() {
+        val intervalId = "intervalId"
+        val workLogDummies = emptyList<WorkLog>()
+        val workDuration = 1000L
+        doReturn(workLogDummies).`when`(workLogServiceMock).getIntervalEndpoints(intervalId)
+        doReturn(workDuration).`when`(workLogServiceMock).measureDuration(intervalId)
+
+        val returnResult = webTestClient.get()
+            .uri("/worklog/interval/$intervalId/endpoints")
+            .header(
+                "auth-token",
+                AUTH_TOKEN
+            )
+            .exchange()
+            .expectStatus()
+            .isOk
+            .expectBody(Map::class.java)
+            .returnResult()
+
+        assertEquals(workLogDummies, returnResult.responseBody!!["workLogs"])
+        assertEquals(workDuration.toInt(), returnResult.responseBody!!["workDuration"])
+    }
+
+    @Test
+    fun `Provides project name of started work`() {
         val projectName = "ProjectName"
         doReturn(projectName).`when`(workLogServiceMock).getProjectNameOfStartedWork(USER_ID)
 
@@ -94,7 +117,49 @@ class WorkLogHandlerTest {
             .returnResult()
 
         assertEquals(projectName, returnResult.responseBody)
+    }
 
+    @Test
+    fun `Provides worklog description`() {
+        val intervalId = "intervalId"
+        val description = "Description"
+        doReturn(description).`when`(workLogServiceMock).getDescription(intervalId)
+
+        val returnResult = webTestClient.get()
+            .uri("/worklog/interval/$intervalId/description")
+            .header(
+                "auth-token",
+                AUTH_TOKEN
+            )
+            .exchange()
+            .expectStatus()
+            .isOk
+            .expectBody(String::class.java)
+            .returnResult()
+
+        assertEquals(description, returnResult.responseBody!!.toString())
+    }
+
+    @Test
+    fun `Provides work durations sum`() {
+        val intervalIds = listOf("100", "200")
+        val intervalIdsInUri = "100,200"
+        val durationsSum = 1000L
+        doReturn(durationsSum).`when`(workLogServiceMock).sumWorkDurations(intervalIds)
+
+        val returnResult = webTestClient.get()
+            .uri("/worklog/interval/$intervalIdsInUri/durations-sum")
+            .header(
+                "auth-token",
+                AUTH_TOKEN
+            )
+            .exchange()
+            .expectStatus()
+            .isOk
+            .expectBody(Long::class.java)
+            .returnResult()
+
+        assertEquals(durationsSum, returnResult.responseBody!!.toLong())
     }
 
     @Test
