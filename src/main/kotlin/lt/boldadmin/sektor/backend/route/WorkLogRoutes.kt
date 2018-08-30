@@ -1,14 +1,18 @@
 package lt.boldadmin.sektor.backend.route
 
 import lt.boldadmin.sektor.backend.handler.identityconfirmed.WorkLogHandler
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
 import org.springframework.web.reactive.function.BodyInserters.fromObject
 import org.springframework.web.reactive.function.server.ServerResponse.ok
 import org.springframework.web.reactive.function.server.router
 import org.springframework.http.MediaType.APPLICATION_JSON
 
-class WorkLogRoutes(private val workLogHandler: WorkLogHandler) {
+@Configuration
+open class WorkLogRoutes(private val workLogHandler: WorkLogHandler) {
 
-    fun router() = router {
+    @Bean
+    open fun router() = router {
         "/worklog".nest {
             accept(APPLICATION_JSON).nest {
                 POST("/log-by-location", workLogHandler::logByLocation)
@@ -18,5 +22,6 @@ class WorkLogRoutes(private val workLogHandler: WorkLogHandler) {
             }
         }
         GET("/status", { ok().body(fromObject("OK")) })
+
     }
 }

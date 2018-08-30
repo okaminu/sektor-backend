@@ -2,7 +2,8 @@ package lt.boldadmin.sektor.backend.beans
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import lt.boldadmin.nexus.api.type.valueobject.Location
-import org.springframework.context.support.beans
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
 import org.springframework.core.env.Environment
 import org.springframework.core.env.get
 import org.springframework.data.redis.cache.RedisCacheConfiguration
@@ -13,28 +14,35 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer
 import org.springframework.data.redis.serializer.RedisSerializationContext
 import java.time.Duration
 
+@Configuration
+open class RedisBeans {
 
-fun redisBeans() = beans {
+    @Bean("redisConnectionFactory")
+    open fun redisConnectionFactory(environment: Environment) =
+        LettuceConnectionFactory(RedisStandaloneConfiguration(environment["REDIS_HOST"]))
 
-    bean("redisConnectionFactory") {
-        LettuceConnectionFactory(RedisStandaloneConfiguration(ref<Environment>()["REDIS_HOST"]))
-    }
-
-    bean("redisCacheConfiguration") {
+    @Bean("redisCacheConfiguration")
+    open fun redisCacheConfiguration(): RedisCacheConfiguration =
         RedisCacheConfiguration.defaultCacheConfig().disableCachingNullValues()
-    }
 
-    bean("projectLocationCacheConfiguration") {
-        ref<RedisCacheConfiguration>("redisCacheConfiguration").serializeValuesWith(
-            RedisSerializationContext.SerializationPair.fromSerializer(
-                Jackson2JsonRedisSerializer(Location::class.java).apply { setObjectMapper(jacksonObjectMapper()) })
-        ).entryTtl(Duration.ofDays(ref<Environment>()["PROJECT_LOCATION_CACHE_TTL"].toLong()))
-    }
+    @Bean("projectLocationCacheConfiguration")
+    open fun projectLocationCacheConfiguration(
+        redisCacheConfiguration: RedisCacheConfiguration, environment: Environment
+    ): RedisCacheConfiguration = redisCacheConfiguration.serializeValuesWith(
+        RedisSerializationContext.SerializationPair.fromSerializer(Jackson2JsonRedisSerializer(Location::class.java)
+            .apply {
+            setObjectMapper(
+                jacksonObjectMapper()
+            )
+        })
+    ).entryTtl(Duration.ofDays(environment["PROJECT_LOCATION_CACHE_TTL"].toLong()))
 
-    bean("cacheManager") {
-        RedisCacheManager.builder(ref<LettuceConnectionFactory>()).withInitialCacheConfigurations(
-            mapOf("projectLocation" to ref("projectLocationCacheConfiguration"))
-        ).build()
-    }
-
+    @Bean("cacheManager")
+    open fun cacheManager(
+        lettuceConnectionFactory: LettuceConnectionFactory, projectLocationCacheConfiguration: RedisCacheConfiguration
+    ): RedisCacheManager =
+        RedisCacheManager
+            .builder(lettuceConnectionFactory)
+            .withInitialCacheConfigurations(mapOf("projectLocation" to projectLocationCacheConfiguration))
+            .build()
 }
