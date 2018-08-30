@@ -7,9 +7,9 @@ import org.springframework.web.reactive.function.server.ServerResponse
 import org.springframework.web.reactive.function.server.ServerResponse.ok
 import reactor.core.publisher.Mono
 
-class CollaboratorHandler(private val collaboratorAuthService: CollaboratorAuthenticationService) {
+open class CollaboratorHandler(private val collaboratorAuthService: CollaboratorAuthenticationService) {
 
-    fun getWorkTime(req: ServerRequest): Mono<ServerResponse> =
+    open fun getWorkTime(req: ServerRequest): Mono<ServerResponse> =
         ok().body(fromObject(collaboratorAuthService.getCollaborator(req).workTime))
 
 }

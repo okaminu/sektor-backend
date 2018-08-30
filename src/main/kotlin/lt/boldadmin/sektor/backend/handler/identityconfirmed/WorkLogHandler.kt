@@ -9,17 +9,17 @@ import org.springframework.web.reactive.function.server.*
 import org.springframework.web.reactive.function.server.ServerResponse.ok
 import reactor.core.publisher.Mono
 
-class WorkLogHandler(
+open class WorkLogHandler(
     private val locationWorkLogService: LocationWorkLogService,
     private val collaboratorAuthService: CollaboratorAuthenticationService,
     private val workLogService: WorkLogService
 ) {
-    fun logByLocation(req: ServerRequest): Mono<ServerResponse> =
+    open fun logByLocation(req: ServerRequest): Mono<ServerResponse> =
         req.bodyToMono<Location>()
             .doOnNext { locationWorkLogService.logWork(collaboratorAuthService.getCollaborator(req), it) }
             .flatMap { ok().build() }
 
-    fun getIntervalEndpoints(req: ServerRequest) =
+    open fun getIntervalEndpoints(req: ServerRequest) =
         ok().body(
             Mono.just(
                 mapOf(
@@ -29,36 +29,36 @@ class WorkLogHandler(
             )
         )
 
-    fun getIntervalIdsByCollaborator(req: ServerRequest) =
+    open fun getIntervalIdsByCollaborator(req: ServerRequest) =
         ok().body(
             Mono.just(workLogService.getByCollaboratorId(collaboratorAuthService.getCollaboratorId(req))
                 .map { it.intervalId }
                 .distinct())
         )
 
-    fun getProjectNameOfStartedWork(req: ServerRequest): Mono<ServerResponse> =
+    open fun getProjectNameOfStartedWork(req: ServerRequest): Mono<ServerResponse> =
         ok().body(
             BodyInserters.fromObject(
                 workLogService.getProjectNameOfStartedWork(collaboratorAuthService.getCollaboratorId(req))
             )
         )
 
-    fun getDescription(req: ServerRequest) =
+    open fun getDescription(req: ServerRequest) =
         ok().body(
             Mono.just(workLogService.getDescription(req.pathVariable("intervalId")))
         )
 
-    fun getDurationsSum(req: ServerRequest) =
+    open fun getDurationsSum(req: ServerRequest) =
         ok().body(
             Mono.just(workLogService.sumWorkDurations(req.pathVariable("intervalIds").split(",")))
         )
 
-    fun updateDescription(req: ServerRequest): Mono<ServerResponse> =
+    open fun updateDescription(req: ServerRequest): Mono<ServerResponse> =
         req.bodyToMono<String>()
             .doOnNext { workLogService.updateDescription(req.pathVariable("intervalId"), it) }
             .flatMap { ok().build() }
 
-    fun hasWorkStarted(req: ServerRequest): Mono<ServerResponse> =
+    open fun hasWorkStarted(req: ServerRequest): Mono<ServerResponse> =
         ok().body(
             BodyInserters.fromObject(
                 workLogService.hasWorkStarted(collaboratorAuthService.getCollaboratorId(req))
