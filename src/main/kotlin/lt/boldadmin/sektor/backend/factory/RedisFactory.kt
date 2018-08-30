@@ -15,7 +15,7 @@ import org.springframework.data.redis.serializer.RedisSerializationContext
 import java.time.Duration
 
 @Configuration
-class RedisBeanFactory {
+class RedisFactory {
 
     @Bean("redisConnectionFactory")
     fun redisConnectionFactory(environment: Environment) =
