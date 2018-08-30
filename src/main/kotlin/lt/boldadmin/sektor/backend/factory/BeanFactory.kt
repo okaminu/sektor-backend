@@ -1,4 +1,4 @@
-package lt.boldadmin.sektor.backend.beans
+package lt.boldadmin.sektor.backend.factory
 
 import com.mongodb.*
 import org.springframework.context.annotation.Bean
@@ -14,7 +14,7 @@ import org.springframework.web.cors.reactive.CorsWebFilter
 import java.util.*
 
 @Configuration
-class Beans {
+class BeanFactory {
 
     @Bean("mongoTemplate")
     fun mongoTemplate(mongoClient: MongoClient, environment: Environment) =

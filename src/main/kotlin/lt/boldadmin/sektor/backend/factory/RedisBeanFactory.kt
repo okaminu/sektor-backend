@@ -1,4 +1,4 @@
-package lt.boldadmin.sektor.backend.beans
+package lt.boldadmin.sektor.backend.factory
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import lt.boldadmin.nexus.api.type.valueobject.Location
@@ -15,7 +15,7 @@ import org.springframework.data.redis.serializer.RedisSerializationContext
 import java.time.Duration
 
 @Configuration
-class RedisBeans {
+class RedisBeanFactory {
 
     @Bean("redisConnectionFactory")
     fun redisConnectionFactory(environment: Environment) =
