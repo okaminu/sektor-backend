@@ -8,13 +8,13 @@ import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.web.reactive.function.server.router
 
 @Configuration
-open class CollaboratorRoutes(
+class CollaboratorRoutes(
     private val collaboratorHandler: CollaboratorHandler,
     private val identityConfirmationHandler: IdentityConfirmationHandler
 ) {
 
     @Bean
-    open fun router() = router {
+    fun router() = router {
         "/collaborator".nest {
             accept(APPLICATION_JSON).nest {
                 GET("/workTime", collaboratorHandler::getWorkTime)

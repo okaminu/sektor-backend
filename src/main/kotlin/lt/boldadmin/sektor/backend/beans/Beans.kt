@@ -14,16 +14,16 @@ import org.springframework.web.cors.reactive.CorsWebFilter
 import java.util.*
 
 @Configuration
-open class Beans {
+class Beans {
 
     @Bean("mongoTemplate")
-    open fun mongoTemplate(mongoClient: MongoClient, environment: Environment) =
+    fun mongoTemplate(mongoClient: MongoClient, environment: Environment) =
         MongoTemplate(SimpleMongoDbFactory(mongoClient, environment["MONGO_DATABASE"])).apply {
             setWriteConcern(WriteConcern.ACKNOWLEDGED)
         }
 
     @Bean("mongoClient")
-    open fun mongoClient(environment: Environment) =
+    fun mongoClient(environment: Environment) =
         MongoClient(ServerAddress(environment["MONGO_HOST"]), ArrayList<MongoCredential>().apply {
             add(
                 MongoCredential.createCredential(
@@ -34,7 +34,7 @@ open class Beans {
         })
 
     @Bean("messageSource")
-    open fun messageSource() =
+    fun messageSource() =
         ReloadableResourceBundleMessageSource().apply {
         setBasename("messages")
         setDefaultEncoding("UTF-8")
@@ -43,7 +43,7 @@ open class Beans {
 
     @Bean("corsFilter")
     @Profile("cors")
-    open fun corsFilter() =
+    fun corsFilter() =
         CorsWebFilter { CorsConfiguration().applyPermitDefaultValues() }
 
 }

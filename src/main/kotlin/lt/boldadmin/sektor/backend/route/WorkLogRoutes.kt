@@ -9,10 +9,10 @@ import org.springframework.web.reactive.function.server.ServerResponse.ok
 import org.springframework.web.reactive.function.server.router
 
 @Configuration
-open class WorkLogRoutes(private val workLogHandler: WorkLogHandler) {
+class WorkLogRoutes(private val workLogHandler: WorkLogHandler) {
 
     @Bean
-    open fun router() = router {
+    fun router() = router {
         "/worklog".nest {
             accept(APPLICATION_JSON).nest {
                 POST("/log-by-location", workLogHandler::logByLocation)

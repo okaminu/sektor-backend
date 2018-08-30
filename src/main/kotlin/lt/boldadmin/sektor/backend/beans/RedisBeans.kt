@@ -15,18 +15,18 @@ import org.springframework.data.redis.serializer.RedisSerializationContext
 import java.time.Duration
 
 @Configuration
-open class RedisBeans {
+class RedisBeans {
 
     @Bean("redisConnectionFactory")
-    open fun redisConnectionFactory(environment: Environment) =
+    fun redisConnectionFactory(environment: Environment) =
         LettuceConnectionFactory(RedisStandaloneConfiguration(environment["REDIS_HOST"]))
 
     @Bean("redisCacheConfiguration")
-    open fun redisCacheConfiguration(): RedisCacheConfiguration =
+    fun redisCacheConfiguration(): RedisCacheConfiguration =
         RedisCacheConfiguration.defaultCacheConfig().disableCachingNullValues()
 
     @Bean("projectLocationCacheConfiguration")
-    open fun projectLocationCacheConfiguration(
+    fun projectLocationCacheConfiguration(
         redisCacheConfiguration: RedisCacheConfiguration, environment: Environment
     ): RedisCacheConfiguration = redisCacheConfiguration.serializeValuesWith(
         RedisSerializationContext.SerializationPair.fromSerializer(Jackson2JsonRedisSerializer(Location::class.java)
@@ -38,7 +38,7 @@ open class RedisBeans {
     ).entryTtl(Duration.ofDays(environment["PROJECT_LOCATION_CACHE_TTL"].toLong()))
 
     @Bean("cacheManager")
-    open fun cacheManager(
+    fun cacheManager(
         lettuceConnectionFactory: LettuceConnectionFactory, projectLocationCacheConfiguration: RedisCacheConfiguration
     ): RedisCacheManager =
         RedisCacheManager
