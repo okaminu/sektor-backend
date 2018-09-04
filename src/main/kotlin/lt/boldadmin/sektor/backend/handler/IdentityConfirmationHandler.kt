@@ -9,18 +9,18 @@ import org.springframework.web.reactive.function.server.ServerResponse
 import org.springframework.web.reactive.function.server.ServerResponse.ok
 import reactor.core.publisher.Mono
 
-class IdentityConfirmationHandler(
+open class IdentityConfirmationHandler(
     private val identityConfirmation: IdentityConfirmation,
     private val collaboratorService: CollaboratorService
 ) {
 
-    fun requestCode(req: ServerRequest): Mono<ServerResponse> =
+    open fun requestCode(req: ServerRequest): Mono<ServerResponse> =
         Mono.just(req.pathVariable("mobileNumber"))
             .doOnNext { identityConfirmation.sendConfirmationCode(getCollaborator(it).id!!, it) }
             .flatMap { ok().build() }
 
 
-    fun confirmCode(req: ServerRequest): Mono<ServerResponse> =
+    open fun confirmCode(req: ServerRequest): Mono<ServerResponse> =
         Mono.just(req.pathVariable("code"))
             .map { UserConfirmationCode(identityConfirmation.getUserIdByCode(it), it) }
             .doOnNext { identityConfirmation.confirmCode(it.code) }

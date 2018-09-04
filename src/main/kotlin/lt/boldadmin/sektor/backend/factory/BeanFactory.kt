@@ -1,6 +1,8 @@
 package lt.boldadmin.sektor.backend.factory
 
 import com.mongodb.*
+import lt.boldadmin.sektor.backend.route.CollaboratorRoutes
+import lt.boldadmin.sektor.backend.route.WorkLogRoutes
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Profile
@@ -11,6 +13,7 @@ import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.reactive.CorsWebFilter
+import org.springframework.web.reactive.function.server.RouterFunctions
 import java.util.*
 
 @Configuration
@@ -40,6 +43,9 @@ class BeanFactory {
         setDefaultEncoding("UTF-8")
     }
 
+    @Bean("webHandler")
+    fun webHandler(collaboratorRoutes: CollaboratorRoutes, workLogRoutes: WorkLogRoutes) =
+        RouterFunctions.toWebHandler(collaboratorRoutes.router().and(workLogRoutes.router()))
 
     @Bean("corsFilter")
     @Profile("cors")

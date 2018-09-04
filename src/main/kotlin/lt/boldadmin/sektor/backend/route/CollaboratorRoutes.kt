@@ -2,18 +2,16 @@ package lt.boldadmin.sektor.backend.route
 
 import lt.boldadmin.sektor.backend.handler.IdentityConfirmationHandler
 import lt.boldadmin.sektor.backend.handler.identityconfirmed.CollaboratorHandler
-import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
 import org.springframework.http.MediaType.APPLICATION_JSON
+import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.server.router
 
-@Configuration
+@Component
 class CollaboratorRoutes(
     private val collaboratorHandler: CollaboratorHandler,
     private val identityConfirmationHandler: IdentityConfirmationHandler
 ) {
 
-    @Bean
     fun router() = router {
         "/collaborator".nest {
             accept(APPLICATION_JSON).nest {
