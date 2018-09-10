@@ -1,4 +1,4 @@
-package lt.boldadmin.sektor.backend.test.unit.handler
+package lt.boldadmin.sektor.backend.test.unit.exception.handler
 
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.eq
