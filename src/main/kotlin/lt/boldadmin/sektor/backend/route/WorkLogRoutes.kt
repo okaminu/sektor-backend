@@ -23,6 +23,6 @@ class WorkLogRoutes(private val workLogHandler: WorkLogHandler) {
                 }
             }
         }
-        GET("/status") { ok().body(fromObject("OK")) }
+        GET("/healthy") { ok().body(fromObject(true)) }
     }
 }
