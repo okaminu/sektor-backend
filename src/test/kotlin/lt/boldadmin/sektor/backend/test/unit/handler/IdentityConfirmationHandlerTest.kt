@@ -7,7 +7,7 @@ import lt.boldadmin.nexus.service.CollaboratorService
 import lt.boldadmin.nexus.type.entity.Collaborator
 import lt.boldadmin.crowbar.IdentityConfirmation
 import lt.boldadmin.sektor.backend.handler.IdentityConfirmationHandler
-import lt.boldadmin.sektor.backend.route.Routes
+import lt.boldadmin.sektor.backend.route.router
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -45,8 +45,7 @@ class IdentityConfirmationHandlerTest {
 
         val webTestClient = WebTestClient
             .bindToRouterFunction(
-                Routes(mock(), mock(), identityConfirmationHandler)
-                    .router()
+                router(mock(), mock(), identityConfirmationHandler)()
             ).build()
         webTestClient.post()
             .uri("collaborator/identity-confirmation/code/request/${collaborator.mobileNumber}")
@@ -69,8 +68,7 @@ class IdentityConfirmationHandlerTest {
 
         val webTestClient = WebTestClient
             .bindToRouterFunction(
-                Routes(mock(), mock(), identityConfirmationHandler)
-                    .router()
+                router(mock(), mock(), identityConfirmationHandler)()
             ).build()
         val returnResult = webTestClient.post()
             .uri("collaborator/identity-confirmation/code/confirm/$confirmationCode")
