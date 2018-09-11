@@ -8,7 +8,7 @@ import lt.boldadmin.nexus.type.entity.Collaborator
 import lt.boldadmin.nexus.type.valueobject.TimeRange
 import lt.boldadmin.crowbar.IdentityConfirmation
 import lt.boldadmin.sektor.backend.handler.identityconfirmed.CollaboratorHandler
-import lt.boldadmin.sektor.backend.route.CollaboratorRoutes
+import lt.boldadmin.sektor.backend.route.Routes
 import lt.boldadmin.sektor.backend.service.CollaboratorAuthenticationService
 import org.junit.Before
 import org.junit.Test
@@ -46,7 +46,7 @@ class CollaboratorHandlerTest {
         doReturn(USER_ID).`when`(identityConfirmationMock).getUserIdByToken(any())
         doReturn(Collaborator().apply { this.workTime = workTime }).`when`(collaboratorServiceMock).getById(USER_ID)
 
-        val routerFunction = CollaboratorRoutes(collaboratorHandler, mock()).router()
+        val routerFunction = Routes(mock(), collaboratorHandler, mock()).router()
         val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
         val returnResult = webTestClient.get()
                 .uri("/collaborator/workTime")
