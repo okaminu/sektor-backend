@@ -14,11 +14,19 @@ class CollaboratorAuthorizationAspect(
     private val workLogService: WorkLogService,
     private val collaboratorAuthService: CollaboratorAuthenticationService) {
 
-    @Before("execution(* lt.boldadmin.sektor.backend.handler.identityconfirmed.WorkLogHandler.updateDescription(..))" +
+    @Before("execution(* lt.boldadmin.sektor.backend.handler.identityconfirmed.WorkLogHandler.*ByIntervalId(..))" +
         " && args(req)")
     fun collaboratorHasWorkLogIntervalAdvice(req: ServerRequest) {
         val collaboratorId = collaboratorAuthService.getCollaboratorId(req)
         if (!workLogService.doesCollaboratorHaveWorkLogInterval(collaboratorId, req.pathVariable("intervalId")))
+            throw WorkLogIntervalDoesNotBelongToCollaboratorException()
+    }
+
+    @Before("execution(* lt.boldadmin.sektor.backend.handler.identityconfirmed.WorkLogHandler.*ByIntervalIds(..))" +
+        " && args(req)")
+    fun collaboratorHasWorkLogIntervalsAdvice(req: ServerRequest) {
+        val collaboratorId = collaboratorAuthService.getCollaboratorId(req)
+        if (!workLogService.doesCollaboratorHaveWorkLogIntervals(collaboratorId, req.pathVariable("intervalIds").split(",")))
             throw WorkLogIntervalDoesNotBelongToCollaboratorException()
     }
 }
