@@ -20,7 +20,7 @@ class Routes(
     fun router() = router {
         "/collaborator".nest(collaboratorRoutes(collaboratorHandler, identityConfirmationHandler))
         "/worklog".nest(workLogRoutes(workLogHandler))
-        GET("/healthy") { ok().body(fromObject(true)) }
+        GET("/is-healthy") { ok().body(fromObject(true)) }
     }
 
 }
