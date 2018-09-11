@@ -215,7 +215,7 @@ class WorkLogHandlerTest {
         val intervalId = "intervalId"
 
         webTestClient.post()
-            .uri("/worklog/update-description/$intervalId")
+            .uri("/worklog/interval/$intervalId/update-description")
             .header(
                 "auth-token",
                 AUTH_TOKEN

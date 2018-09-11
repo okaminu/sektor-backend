@@ -19,7 +19,7 @@ open class WorkLogHandler(
             .doOnNext { locationWorkLogService.logWork(collaboratorAuthService.getCollaborator(req), it) }
             .flatMap { ok().build() }
 
-    open fun getIntervalEndpoints(req: ServerRequest) =
+    open fun getIntervalEndpointsByIntervalId(req: ServerRequest) =
         ok().body(
             Mono.just(
                 mapOf(
@@ -43,17 +43,17 @@ open class WorkLogHandler(
             )
         )
 
-    open fun getDescription(req: ServerRequest) =
+    open fun getDescriptionByIntervalId(req: ServerRequest) =
         ok().body(
             Mono.just(workLogService.getDescription(req.pathVariable("intervalId")))
         )
 
-    open fun getDurationsSum(req: ServerRequest) =
+    open fun getDurationsSumByIntervalIds(req: ServerRequest) =
         ok().body(
             Mono.just(workLogService.sumWorkDurations(req.pathVariable("intervalIds").split(",")))
         )
 
-    open fun updateDescription(req: ServerRequest): Mono<ServerResponse> =
+    open fun updateDescriptionByIntervalId(req: ServerRequest): Mono<ServerResponse> =
         req.bodyToMono<String>()
             .doOnNext { workLogService.updateDescription(req.pathVariable("intervalId"), it) }
             .flatMap { ok().build() }

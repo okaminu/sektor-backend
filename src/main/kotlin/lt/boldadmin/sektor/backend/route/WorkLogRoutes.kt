@@ -12,14 +12,14 @@ class WorkLogRoutes(private val workLogHandler: WorkLogHandler) {
         "/worklog".nest {
             accept(APPLICATION_JSON).nest {
                 POST("/log-by-location", workLogHandler::logByLocation)
-                POST("/update-description/{intervalId}", workLogHandler::updateDescription)
                 GET("/project-name-of-started-work", workLogHandler::getProjectNameOfStartedWork)
                 GET("/has-work-started", workLogHandler::hasWorkStarted)
                 GET("/collaborator/interval-ids", workLogHandler::getIntervalIdsByCollaborator)
                 "/interval".nest {
-                    GET("/{intervalId}/endpoints", workLogHandler::getIntervalEndpoints)
-                    GET("/{intervalId}/description", workLogHandler::getDescription)
-                    GET("/{intervalIds}/durations-sum", workLogHandler::getDurationsSum)
+                    POST("/{intervalId}/update-description", workLogHandler::updateDescriptionByIntervalId)
+                    GET("/{intervalId}/endpoints", workLogHandler::getIntervalEndpointsByIntervalId)
+                    GET("/{intervalId}/description", workLogHandler::getDescriptionByIntervalId)
+                    GET("/{intervalIds}/durations-sum", workLogHandler::getDurationsSumByIntervalIds)
                 }
             }
         }
