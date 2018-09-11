@@ -11,7 +11,7 @@ import lt.boldadmin.nexus.service.worklog.WorkLogService
 import lt.boldadmin.nexus.type.entity.Collaborator
 import lt.boldadmin.nexus.type.entity.WorkLog
 import lt.boldadmin.sektor.backend.handler.identityconfirmed.WorkLogHandler
-import lt.boldadmin.sektor.backend.route.router
+import lt.boldadmin.sektor.backend.route.Routes
 import lt.boldadmin.sektor.backend.service.CollaboratorAuthenticationService
 import org.junit.Before
 import org.junit.Test
@@ -50,7 +50,7 @@ class WorkLogHandlerTest {
             collaboratorAuthService,
             workLogServiceMock
         )
-        val routerFunction = router(workLogHandler, mock(), mock())()
+        val routerFunction = Routes(workLogHandler, mock(), mock()).router()
         webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
         collaborator = Collaborator()
         doReturn(USER_ID).`when`(identityConfirmationMock).getUserIdByToken(AUTH_TOKEN)

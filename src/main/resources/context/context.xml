@@ -24,6 +24,7 @@
         <context:include-filter type="regex" expression="lt.boldadmin.sektor.backend.aspect.*"/>
         <context:include-filter type="regex" expression="lt.boldadmin.sektor.backend.exception.*"/>
         <context:include-filter type="regex" expression="lt.boldadmin.sektor.backend.handler.*"/>
+        <context:include-filter type="regex" expression="lt.boldadmin.sektor.backend.route.*"/>
         <context:include-filter type="regex" expression="lt.boldadmin.sektor.backend.service.*"/>
     </context:component-scan>
 

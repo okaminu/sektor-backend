@@ -1,7 +1,6 @@
 package lt.boldadmin.sektor.backend.factory
 
 import com.mongodb.*
-import lt.boldadmin.sektor.backend.route.router
 import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.context.support.beans
 import org.springframework.core.env.Environment
@@ -37,10 +36,6 @@ fun beans() = beans {
             setBasename("messages")
             setDefaultEncoding("UTF-8")
         }
-    }
-
-    bean {
-        router(ref(), ref(), ref())
     }
 
     profile("cors") {
