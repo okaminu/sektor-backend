@@ -5,7 +5,7 @@ import lt.boldadmin.sektor.backend.handler.identityconfirmed.CollaboratorHandler
 import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.web.reactive.function.server.RouterFunctionDsl
 
-internal fun collaboratorRoutes(
+fun collaboratorRoutes(
     collaboratorHandler: CollaboratorHandler, identityConfirmationHandler: IdentityConfirmationHandler
 ): RouterFunctionDsl.() -> Unit = {
     accept(APPLICATION_JSON).nest {
