@@ -4,7 +4,7 @@ import lt.boldadmin.nexus.api.type.valueobject.Location
 import lt.boldadmin.nexus.service.location.LocationWorkLogService
 import lt.boldadmin.nexus.service.worklog.WorkLogService
 import lt.boldadmin.sektor.backend.service.CollaboratorAuthenticationService
-import org.springframework.web.reactive.function.BodyInserters
+import org.springframework.web.reactive.function.BodyInserters.*
 import org.springframework.web.reactive.function.server.*
 import org.springframework.web.reactive.function.server.ServerResponse.ok
 import reactor.core.publisher.Mono
@@ -23,15 +23,19 @@ open class WorkLogHandler(
 
     open fun getProjectNameOfStartedWork(req: ServerRequest): Mono<ServerResponse> =
         ok().body(
-            BodyInserters.fromObject(
-                workLogService.getProjectNameOfStartedWork(collaboratorAuthService.getCollaboratorId(req))
+            fromObject(
+                workLogService.getProjectNameOfStartedWork(
+                    collaboratorAuthService.getCollaboratorId(req)
+                )
             )
         )
 
     open fun hasWorkStarted(req: ServerRequest): Mono<ServerResponse> =
         ok().body(
-            BodyInserters.fromObject(
-                workLogService.hasWorkStarted(collaboratorAuthService.getCollaboratorId(req))
+            fromObject(
+                workLogService.hasWorkStarted(
+                    collaboratorAuthService.getCollaboratorId(req)
+                )
             )
         )
 
