@@ -27,34 +27,33 @@ import kotlin.test.assertTrue
 class WorkLogHandlerTest {
 
     @Mock
-    private lateinit var locationWorkLogServiceMock: LocationWorkLogService
+    private lateinit var locationWorkLogServiceSpy: LocationWorkLogService
 
     @Mock
-    private lateinit var collaboratorServiceMock: CollaboratorService
+    private lateinit var collaboratorServiceStub: CollaboratorService
 
     @Mock
-    private lateinit var identityConfirmationMock: IdentityConfirmation
+    private lateinit var identityConfirmationStub: IdentityConfirmation
 
     @Mock
-    private lateinit var workLogServiceMock: WorkLogService
-
-    private lateinit var collaborator: Collaborator
+    private lateinit var workLogServiceSpy: WorkLogService
 
     private lateinit var webTestClient: WebTestClient
 
     @Before
     fun setUp() {
-        val collaboratorAuthService = CollaboratorAuthenticationService(collaboratorServiceMock, identityConfirmationMock)
+        val collaboratorAuthService = CollaboratorAuthenticationService(collaboratorServiceStub, identityConfirmationStub)
         val workLogHandler = WorkLogHandler(
-            locationWorkLogServiceMock,
+            locationWorkLogServiceSpy,
             collaboratorAuthService,
-            workLogServiceMock
+            workLogServiceSpy
         )
         val routerFunction = Routes(workLogHandler, mock(), mock()).router()
         webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
-        collaborator = Collaborator()
-        doReturn(USER_ID).`when`(identityConfirmationMock).getUserIdByToken(AUTH_TOKEN)
-        doReturn(collaborator).`when`(collaboratorServiceMock).getById(USER_ID)
+
+
+        doReturn(USER_ID).`when`(identityConfirmationStub).getUserIdByToken(AUTH_TOKEN)
+        doReturn(collaborator).`when`(collaboratorServiceStub).getById(USER_ID)
     }
 
     @Test
@@ -73,20 +72,20 @@ class WorkLogHandlerTest {
             .isOk
             .expectBody().isEmpty
 
-        verify(locationWorkLogServiceMock).logWork(collaborator, location)
+        verify(locationWorkLogServiceSpy).logWork(collaborator, location)
     }
 
     @Test
     fun `Provides worklog interval endpoints`() {
-        val intervalId = "intervalId"
-        val workLogDummy = mock<WorkLog>()
-        val workDuration = 1000L
-        doReturn(intervalId).`when`(workLogDummy).intervalId
-        doReturn(listOf(workLogDummy)).`when`(workLogServiceMock).getIntervalEndpoints(intervalId)
-        doReturn(workDuration).`when`(workLogServiceMock).measureDuration(intervalId)
+        val expectedIntervalId = "intervalId"
+        val workLogStub = mock<WorkLog>()
+        val expectedWorkDuration = 1000L
+        doReturn(expectedIntervalId).`when`(workLogStub).intervalId
+        doReturn(listOf(workLogStub)).`when`(workLogServiceSpy).getIntervalEndpoints(expectedIntervalId)
+        doReturn(expectedWorkDuration).`when`(workLogServiceSpy).measureDuration(expectedIntervalId)
 
-        val returnResult = webTestClient.get()
-            .uri("/worklog/interval/$intervalId/endpoints")
+        val intervalEndpointsResponse = webTestClient.get()
+            .uri("/worklog/interval/$expectedIntervalId/endpoints")
             .header(
                 "auth-token",
                 AUTH_TOKEN
@@ -97,21 +96,21 @@ class WorkLogHandlerTest {
             .expectBody(Map::class.java)
             .returnResult()
 
-        assertEquals(intervalId, ((returnResult.responseBody!!["workLogs"] as List<*>)[0] as Map<*, *>)["intervalId"])
-        assertEquals(workDuration.toInt(), returnResult.responseBody!!["workDuration"])
+        assertEquals(expectedIntervalId, ((intervalEndpointsResponse.responseBody!!["workLogs"] as List<*>)[0] as Map<*, *>)["intervalId"])
+        assertEquals(expectedWorkDuration.toInt(), intervalEndpointsResponse.responseBody!!["workDuration"])
     }
 
     @Test
     fun `Provides distinct worklog interval ids by collaborator`() {
-        val intervalId1 = "id1"
-        val intervalId2 = "id2"
+        val expectedIntervalId1 = "id1"
+        val expectedIntervalId2 = "id2"
         val workLogDummy1 = mock<WorkLog>()
         val workLogDummy2 = mock<WorkLog>()
-        doReturn(listOf(workLogDummy1, workLogDummy1, workLogDummy2)).`when`(workLogServiceMock).getByCollaboratorId(USER_ID)
-        doReturn(intervalId1).`when`(workLogDummy1).intervalId
-        doReturn(intervalId2).`when`(workLogDummy2).intervalId
+        doReturn(listOf(workLogDummy1, workLogDummy1, workLogDummy2)).`when`(workLogServiceSpy).getByCollaboratorId(USER_ID)
+        doReturn(expectedIntervalId1).`when`(workLogDummy1).intervalId
+        doReturn(expectedIntervalId2).`when`(workLogDummy2).intervalId
 
-        val returnResult = webTestClient.get()
+        val intervalIdsResponse = webTestClient.get()
             .uri("/worklog/collaborator/interval-ids")
             .header(
                 "auth-token",
@@ -123,15 +122,15 @@ class WorkLogHandlerTest {
             .expectBody(Collection::class.java)
             .returnResult()
 
-        assertEquals(listOf(intervalId1, intervalId2), returnResult.responseBody)
+        assertEquals(listOf(expectedIntervalId1, expectedIntervalId2), intervalIdsResponse.responseBody)
     }
 
     @Test
     fun `Provides project name of started work`() {
-        val projectName = "ProjectName"
-        doReturn(projectName).`when`(workLogServiceMock).getProjectNameOfStartedWork(USER_ID)
+        val expectedProjectName = "ProjectName"
+        doReturn(expectedProjectName).`when`(workLogServiceSpy).getProjectNameOfStartedWork(USER_ID)
 
-        val returnResult = webTestClient.get()
+        val projectNameResponse = webTestClient.get()
             .uri("/worklog/project-name-of-started-work")
             .header(
                 "auth-token",
@@ -143,16 +142,16 @@ class WorkLogHandlerTest {
             .expectBody(String::class.java)
             .returnResult()
 
-        assertEquals(projectName, returnResult.responseBody)
+        assertEquals(expectedProjectName, projectNameResponse.responseBody)
     }
 
     @Test
     fun `Provides worklog description`() {
         val intervalId = "intervalId"
-        val description = "Description"
-        doReturn(description).`when`(workLogServiceMock).getDescription(intervalId)
+        val expectedDescription = "Description"
+        doReturn(expectedDescription).`when`(workLogServiceSpy).getDescription(intervalId)
 
-        val returnResult = webTestClient.get()
+        val descriptionResponse = webTestClient.get()
             .uri("/worklog/interval/$intervalId/description")
             .header(
                 "auth-token",
@@ -164,17 +163,17 @@ class WorkLogHandlerTest {
             .expectBody(String::class.java)
             .returnResult()
 
-        assertEquals(description, returnResult.responseBody!!.toString())
+        assertEquals(expectedDescription, descriptionResponse.responseBody!!.toString())
     }
 
     @Test
     fun `Provides work durations sum`() {
         val intervalIds = listOf("id1", "id2")
         val intervalIdsInUri = "id1,id2"
-        val durationsSum = 1000L
-        doReturn(durationsSum).`when`(workLogServiceMock).sumWorkDurations(intervalIds)
+        val expectedDurationsSum = 1000L
+        doReturn(expectedDurationsSum).`when`(workLogServiceSpy).sumWorkDurations(intervalIds)
 
-        val returnResult = webTestClient.get()
+        val durationSumResponse = webTestClient.get()
             .uri("/worklog/interval/$intervalIdsInUri/durations-sum")
             .header(
                 "auth-token",
@@ -186,14 +185,14 @@ class WorkLogHandlerTest {
             .expectBody(Long::class.java)
             .returnResult()
 
-        assertEquals(durationsSum, returnResult.responseBody!!.toLong())
+        assertEquals(expectedDurationsSum, durationSumResponse.responseBody!!.toLong())
     }
 
     @Test
     fun `Provides work status`() {
-        doReturn(true).`when`(workLogServiceMock).hasWorkStarted(USER_ID)
+        doReturn(true).`when`(workLogServiceSpy).hasWorkStarted(USER_ID)
 
-        val returnResult = webTestClient.get()
+        val hasWorkStartedResponse = webTestClient.get()
             .uri("/worklog/has-work-started")
             .header(
                 "auth-token",
@@ -205,7 +204,7 @@ class WorkLogHandlerTest {
             .expectBody(Boolean::class.java)
             .returnResult()
 
-        assertTrue(returnResult.responseBody!!)
+        assertTrue(hasWorkStartedResponse.responseBody!!)
 
     }
 
@@ -226,11 +225,12 @@ class WorkLogHandlerTest {
             .isOk
             .expectBody().isEmpty
 
-        verify(workLogServiceMock).updateDescription(intervalId, updatedDescription)
+        verify(workLogServiceSpy).updateDescription(intervalId, updatedDescription)
     }
 
     companion object {
         private const val USER_ID = "userId"
         private const val AUTH_TOKEN = "asda454s6d"
+        private val collaborator = Collaborator()
     }
 }

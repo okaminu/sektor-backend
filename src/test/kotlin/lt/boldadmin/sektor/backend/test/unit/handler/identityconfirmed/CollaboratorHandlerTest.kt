@@ -22,18 +22,18 @@ import kotlin.test.assertEquals
 class CollaboratorHandlerTest {
 
     @Mock
-    private lateinit var collaboratorServiceMock: CollaboratorService
+    private lateinit var collaboratorServiceStub: CollaboratorService
 
     @Mock
-    private lateinit var identityConfirmationMock: IdentityConfirmation
+    private lateinit var identityConfirmationStub: IdentityConfirmation
 
     private lateinit var collaboratorHandler: CollaboratorHandler
 
     @Before
     fun setUp() {
         val collaboratorAuthService = CollaboratorAuthenticationService(
-                collaboratorServiceMock,
-                identityConfirmationMock
+                collaboratorServiceStub,
+                identityConfirmationStub
         )
 
         collaboratorHandler = CollaboratorHandler(collaboratorAuthService)
@@ -43,12 +43,12 @@ class CollaboratorHandlerTest {
     @Test
     fun `Takes collaborator work time`() {
         val workTime = TimeRange(0, 1)
-        doReturn(USER_ID).`when`(identityConfirmationMock).getUserIdByToken(any())
-        doReturn(Collaborator().apply { this.workTime = workTime }).`when`(collaboratorServiceMock).getById(USER_ID)
+        doReturn(USER_ID).`when`(identityConfirmationStub).getUserIdByToken(any())
+        doReturn(Collaborator().apply { this.workTime = workTime }).`when`(collaboratorServiceStub).getById(USER_ID)
 
         val routerFunction = Routes(mock(), collaboratorHandler, mock()).router()
         val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
-        val returnResult = webTestClient.get()
+        val workTimeResponseBody = webTestClient.get()
                 .uri("/collaborator/workTime")
                 .header("auth-token",
                     AUTH_TOKEN
@@ -59,7 +59,7 @@ class CollaboratorHandlerTest {
                 .expectBody(TimeRange::class.java)
                 .returnResult()
 
-        assertEquals(workTime, returnResult.responseBody)
+        assertEquals(workTime, workTimeResponseBody.responseBody)
 
     }
 
