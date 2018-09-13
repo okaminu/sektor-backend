@@ -36,7 +36,7 @@ class CollaboratorAuthorizationAspectTest {
     }
 
     @Test
-    fun `throws exception when work log does not belong to collaborator`() {
+    fun `Throws exception when work log does not belong to collaborator`() {
         val intervalId = "123123"
         doReturn(intervalId).`when`(serverRequestStub).pathVariable("intervalId")
         doReturn(false).`when`(workLogServiceStub).doesCollaboratorHaveWorkLogInterval(COLLABORATOR_ID, intervalId)
@@ -48,7 +48,7 @@ class CollaboratorAuthorizationAspectTest {
     }
 
     @Test
-    fun `does not throw exception when work log does belongs to collaborator`() {
+    fun `Does not throw exception when work log does belongs to collaborator`() {
         val intervalId = "123123"
         doReturn(intervalId).`when`(serverRequestStub).pathVariable("intervalId")
         doReturn(true).`when`(workLogServiceStub).doesCollaboratorHaveWorkLogInterval(COLLABORATOR_ID, intervalId)
@@ -58,7 +58,7 @@ class CollaboratorAuthorizationAspectTest {
     }
 
     @Test
-    fun `throws exception when one of the work logs don't belong to collaborator`() {
+    fun `Throws exception when one of the work logs don't belong to collaborator`() {
         val intervalIds = listOf("11", "22")
         val intervalIdsString = "${intervalIds[0]},${intervalIds[1]}"
         doReturn(intervalIdsString).`when`(serverRequestStub).pathVariable("intervalIds")
@@ -71,7 +71,7 @@ class CollaboratorAuthorizationAspectTest {
     }
 
     @Test
-    fun `does not throw exception when work logs belong to collaborator`() {
+    fun `Does not throw exception when work logs belong to collaborator`() {
         val intervalIds = listOf("11", "22")
         val intervalIdsString = "${intervalIds[0]},${intervalIds[1]}"
         doReturn(intervalIdsString).`when`(serverRequestStub).pathVariable("intervalIds")
