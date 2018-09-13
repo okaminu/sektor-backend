@@ -48,7 +48,7 @@ class CollaboratorAuthorizationAspectTest {
     }
 
     @Test
-    fun `Does not throw exception when work log does belongs to collaborator`() {
+    fun `Does not throw exception when work log belongs to collaborator`() {
         val intervalId = "123123"
         doReturn(intervalId).`when`(serverRequestStub).pathVariable("intervalId")
         doReturn(true).`when`(workLogServiceStub).doesCollaboratorHaveWorkLogInterval(COLLABORATOR_ID, intervalId)
