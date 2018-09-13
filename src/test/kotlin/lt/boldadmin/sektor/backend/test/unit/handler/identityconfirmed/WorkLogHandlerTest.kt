@@ -101,7 +101,7 @@ class WorkLogHandlerTest {
     }
 
     @Test
-    fun `Provides distinct worklog interval ids by collaborator`() {
+    fun `Provides worklog interval ids by collaborator`() {
         val expectedIntervalId1 = "id1"
         val expectedIntervalId2 = "id2"
         val workLogDummy1 = mock<WorkLog>()
