@@ -104,11 +104,11 @@ class WorkLogHandlerTest {
     fun `Provides worklog interval ids by collaborator`() {
         val expectedIntervalId1 = "id1"
         val expectedIntervalId2 = "id2"
-        val workLogDummy1 = mock<WorkLog>()
-        val workLogDummy2 = mock<WorkLog>()
-        doReturn(listOf(workLogDummy1, workLogDummy1, workLogDummy2)).`when`(workLogServiceSpy).getByCollaboratorId(USER_ID)
-        doReturn(expectedIntervalId1).`when`(workLogDummy1).intervalId
-        doReturn(expectedIntervalId2).`when`(workLogDummy2).intervalId
+        val workLogStub1 = mock<WorkLog>()
+        val workLogStub2 = mock<WorkLog>()
+        doReturn(listOf(workLogStub1, workLogStub1, workLogStub2)).`when`(workLogServiceSpy).getByCollaboratorId(USER_ID)
+        doReturn(expectedIntervalId1).`when`(workLogStub1).intervalId
+        doReturn(expectedIntervalId2).`when`(workLogStub2).intervalId
 
         val intervalIdsResponse = webTestClient.get()
             .uri("/worklog/collaborator/interval-ids")

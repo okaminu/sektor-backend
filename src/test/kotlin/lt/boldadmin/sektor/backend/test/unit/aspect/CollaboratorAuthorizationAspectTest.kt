@@ -30,8 +30,12 @@ class CollaboratorAuthorizationAspectTest {
     @JvmField
     val expectedException = ExpectedException.none()!!
 
+    private lateinit var aspect: CollaboratorAuthorizationAspect
+
     @Before
-    fun setUp(){
+    fun setUp() {
+        aspect = CollaboratorAuthorizationAspect(workLogServiceStub, collaboratorAuthServiceStub)
+
         doReturn(COLLABORATOR_ID).`when`(collaboratorAuthServiceStub).getCollaboratorId(serverRequestStub)
     }
 
@@ -43,8 +47,7 @@ class CollaboratorAuthorizationAspectTest {
 
         expectedException.expect(WorkLogIntervalDoesNotBelongToCollaboratorException::class.java)
 
-        CollaboratorAuthorizationAspect(workLogServiceStub, collaboratorAuthServiceStub)
-            .collaboratorHasWorkLogIntervalAdvice(serverRequestStub)
+        aspect.collaboratorHasWorkLogIntervalAdvice(serverRequestStub)
     }
 
     @Test
@@ -53,8 +56,7 @@ class CollaboratorAuthorizationAspectTest {
         doReturn(intervalId).`when`(serverRequestStub).pathVariable("intervalId")
         doReturn(true).`when`(workLogServiceStub).doesCollaboratorHaveWorkLogInterval(COLLABORATOR_ID, intervalId)
 
-        CollaboratorAuthorizationAspect(workLogServiceStub, collaboratorAuthServiceStub)
-            .collaboratorHasWorkLogIntervalAdvice(serverRequestStub)
+        aspect.collaboratorHasWorkLogIntervalAdvice(serverRequestStub)
     }
 
     @Test
@@ -66,8 +68,7 @@ class CollaboratorAuthorizationAspectTest {
 
         expectedException.expect(WorkLogIntervalDoesNotBelongToCollaboratorException::class.java)
 
-        CollaboratorAuthorizationAspect(workLogServiceStub, collaboratorAuthServiceStub)
-            .collaboratorHasWorkLogIntervalsAdvice(serverRequestStub)
+        aspect.collaboratorHasWorkLogIntervalsAdvice(serverRequestStub)
     }
 
     @Test
@@ -77,8 +78,7 @@ class CollaboratorAuthorizationAspectTest {
         doReturn(intervalIdsString).`when`(serverRequestStub).pathVariable("intervalIds")
         doReturn(true).`when`(workLogServiceStub).doesCollaboratorHaveWorkLogIntervals(COLLABORATOR_ID, intervalIds)
 
-        CollaboratorAuthorizationAspect(workLogServiceStub, collaboratorAuthServiceStub)
-            .collaboratorHasWorkLogIntervalsAdvice(serverRequestStub)
+        aspect.collaboratorHasWorkLogIntervalsAdvice(serverRequestStub)
     }
 
     companion object {
