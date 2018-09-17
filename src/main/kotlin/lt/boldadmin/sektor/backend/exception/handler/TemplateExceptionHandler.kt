@@ -7,6 +7,8 @@ import reactor.core.publisher.Mono
 abstract class TemplateExceptionHandler : WebExceptionHandler {
 
     final override fun handle(exchange: ServerWebExchange, ex: Throwable): Mono<Void> {
+        ex.printStackTrace()
+
         if (canHandle(ex)) {
             handleException(exchange, ex)
             return Mono.empty()
