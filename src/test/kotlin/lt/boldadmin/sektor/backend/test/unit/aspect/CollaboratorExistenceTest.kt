@@ -25,7 +25,7 @@ class CollaboratorExistenceTest {
     private lateinit var collaboratorAuthServiceStub: CollaboratorAuthenticationService
 
     @Mock
-    private lateinit var serverRequestMock: ServerRequest
+    private lateinit var serverRequestStub: ServerRequest
 
     @Rule
     @JvmField
@@ -42,10 +42,10 @@ class CollaboratorExistenceTest {
 
     @Test
     fun `Checks if collaborator exists by mobile number`() {
-        doReturn(MOBILE_NUMBER).`when`(serverRequestMock).pathVariable("mobileNumber")
+        doReturn(MOBILE_NUMBER).`when`(serverRequestStub).pathVariable("mobileNumber")
         doReturn(true).`when`(collaboratorServiceSpy).existsByMobileNumber(MOBILE_NUMBER)
 
-        collaboratorAspect.collaboratorExistsByMobileNumberAdvice(serverRequestMock)
+        collaboratorAspect.collaboratorExistsByMobileNumberAdvice(serverRequestStub)
 
         verify(collaboratorServiceSpy).existsByMobileNumber(MOBILE_NUMBER)
     }
@@ -53,10 +53,10 @@ class CollaboratorExistenceTest {
     @Test
     fun `Throws exception if collaborator is not found by mobile number`() {
         expectedException.expect(CollaboratorNotFoundException::class.java)
-        doReturn(MOBILE_NUMBER).`when`(serverRequestMock).pathVariable("mobileNumber")
+        doReturn(MOBILE_NUMBER).`when`(serverRequestStub).pathVariable("mobileNumber")
         doReturn(false).`when`(collaboratorServiceSpy).existsByMobileNumber(MOBILE_NUMBER)
 
-        collaboratorAspect.collaboratorExistsByMobileNumberAdvice(serverRequestMock)
+        collaboratorAspect.collaboratorExistsByMobileNumberAdvice(serverRequestStub)
     }
 
     @Test
@@ -64,7 +64,7 @@ class CollaboratorExistenceTest {
         mockHeaderResponse()
         doReturn(true).`when`(collaboratorServiceSpy).existsById(COLLABORATOR_ID)
 
-        collaboratorAspect.collaboratorExistsByIdAdvice(serverRequestMock)
+        collaboratorAspect.collaboratorExistsByIdAdvice(serverRequestStub)
 
         verify(collaboratorServiceSpy).existsById(COLLABORATOR_ID)
     }
@@ -75,11 +75,11 @@ class CollaboratorExistenceTest {
         mockHeaderResponse()
         doReturn(false).`when`(collaboratorServiceSpy).existsById(COLLABORATOR_ID)
 
-        collaboratorAspect.collaboratorExistsByIdAdvice(serverRequestMock)
+        collaboratorAspect.collaboratorExistsByIdAdvice(serverRequestStub)
     }
 
     private fun mockHeaderResponse() {
-        doReturn(COLLABORATOR_ID).`when`(collaboratorAuthServiceStub).getCollaboratorId(serverRequestMock)
+        doReturn(COLLABORATOR_ID).`when`(collaboratorAuthServiceStub).getCollaboratorId(serverRequestStub)
     }
 
     companion object {
