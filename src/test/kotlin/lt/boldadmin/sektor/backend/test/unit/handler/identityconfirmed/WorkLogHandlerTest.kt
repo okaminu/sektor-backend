@@ -101,7 +101,7 @@ class WorkLogHandlerTest {
             expectedIntervalId,
             (intervalEndpointsResponse.responseBody!!["workLogs"] as List<WorkLogAsJson>)[0]["intervalId"]
         )
-        assertEquals(expectedWorkDuration.toInt(), intervalEndpointsResponse.responseBody!!["workDuration"])
+        assertEquals(expectedWorkDuration, (intervalEndpointsResponse.responseBody!!["workDuration"] as Int).toLong())
     }
 
     @Test
@@ -239,4 +239,4 @@ class WorkLogHandlerTest {
     }
 }
 
-private typealias WorkLogAsJson = Map<String, Any>
+private typealias WorkLogAsJson = Map<String, String>
