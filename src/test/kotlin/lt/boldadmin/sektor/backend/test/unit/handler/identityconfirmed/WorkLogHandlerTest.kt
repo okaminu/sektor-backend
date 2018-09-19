@@ -97,7 +97,10 @@ class WorkLogHandlerTest {
             .expectBody(Map::class.java)
             .returnResult()
 
-        assertEquals(expectedIntervalId, (intervalEndpointsResponse.responseBody!!["workLogs"] as WorkLogs)[0]["intervalId"])
+        assertEquals(
+            expectedIntervalId,
+            (intervalEndpointsResponse.responseBody!!["workLogs"] as List<WorkLogAsJson>)[0]["intervalId"]
+        )
         assertEquals(expectedWorkDuration.toInt(), intervalEndpointsResponse.responseBody!!["workDuration"])
     }
 
@@ -236,4 +239,4 @@ class WorkLogHandlerTest {
     }
 }
 
-private typealias WorkLogs = List<Map<String, Any>>
+private typealias WorkLogAsJson = Map<String, Any>
