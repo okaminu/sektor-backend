@@ -76,9 +76,10 @@ class WorkLogHandlerTest {
     }
 
     @Test
+    @Suppress("UNCHECKED_CAST")
     fun `Provides worklog interval endpoints`() {
         val expectedIntervalId = "intervalId"
-        val workLogStub = mock<WorkLog>()
+        val workLogStub: WorkLog = mock()
         val expectedWorkDuration = 1000L
         doReturn(expectedIntervalId).`when`(workLogStub).intervalId
         doReturn(listOf(workLogStub)).`when`(workLogServiceSpy).getIntervalEndpoints(expectedIntervalId)
@@ -96,7 +97,7 @@ class WorkLogHandlerTest {
             .expectBody(Map::class.java)
             .returnResult()
 
-        assertEquals(expectedIntervalId, ((intervalEndpointsResponse.responseBody!!["workLogs"] as List<*>)[0] as Map<*, *>)["intervalId"])
+        assertEquals(expectedIntervalId, (intervalEndpointsResponse.responseBody!!["workLogs"] as WorkLogs)[0]["intervalId"])
         assertEquals(expectedWorkDuration.toInt(), intervalEndpointsResponse.responseBody!!["workDuration"])
     }
 
@@ -104,8 +105,8 @@ class WorkLogHandlerTest {
     fun `Provides worklog interval ids by collaborator`() {
         val expectedIntervalId1 = "id1"
         val expectedIntervalId2 = "id2"
-        val workLogStub1 = mock<WorkLog>()
-        val workLogStub2 = mock<WorkLog>()
+        val workLogStub1: WorkLog = mock()
+        val workLogStub2: WorkLog = mock()
         doReturn(listOf(workLogStub1, workLogStub1, workLogStub2)).`when`(workLogServiceSpy).getByCollaboratorId(USER_ID)
         doReturn(expectedIntervalId1).`when`(workLogStub1).intervalId
         doReturn(expectedIntervalId2).`when`(workLogStub2).intervalId
@@ -234,3 +235,5 @@ class WorkLogHandlerTest {
         private val collaborator = Collaborator()
     }
 }
+
+private typealias WorkLogs = List<Map<String, Any>>
