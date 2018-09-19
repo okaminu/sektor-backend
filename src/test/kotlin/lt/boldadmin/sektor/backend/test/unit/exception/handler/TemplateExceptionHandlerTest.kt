@@ -37,4 +37,14 @@ class TemplateExceptionHandlerTest {
         response.block()
     }
 
+    @Test
+    fun `Logs an exception`() {
+        val errorSpy: Exception = mock()
+        val templateExceptionHandler = spy<TemplateExceptionHandler>()
+
+        templateExceptionHandler.handle(mock(), errorSpy)
+
+        verify(errorSpy).printStackTrace()
+    }
+
 }
