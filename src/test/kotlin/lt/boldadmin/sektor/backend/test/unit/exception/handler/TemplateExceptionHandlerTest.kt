@@ -29,18 +29,17 @@ class TemplateExceptionHandlerTest {
     @Test
     fun `Returns error when exception could not be handled`() {
         expectedException.expect(Exception::class.java)
-        val errorDummy = Exception()
         val templateExceptionHandler: TemplateExceptionHandler = spy()
         doReturn(false).`when`(templateExceptionHandler).canHandle(any())
 
-        val response = templateExceptionHandler.handle(mock(), errorDummy)
+        val response = templateExceptionHandler.handle(mock(), mock<Exception>())
         response.block()
     }
 
     @Test
     fun `Logs an exception`() {
         val errorSpy: Exception = mock()
-        val templateExceptionHandler = spy<TemplateExceptionHandler>()
+        val templateExceptionHandler: TemplateExceptionHandler = spy()
 
         templateExceptionHandler.handle(mock(), errorSpy)
 
