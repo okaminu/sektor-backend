@@ -7,7 +7,7 @@ import lt.boldadmin.crowbar.IdentityConfirmation
 import lt.boldadmin.nexus.api.type.valueobject.Location
 import lt.boldadmin.nexus.service.CollaboratorService
 import lt.boldadmin.nexus.service.worklog.WorkLogService
-import lt.boldadmin.nexus.service.worklog.location.WorkLogLocationService
+import lt.boldadmin.nexus.service.location.LocationWorkLogService
 import lt.boldadmin.nexus.type.entity.Collaborator
 import lt.boldadmin.nexus.type.entity.WorkLog
 import lt.boldadmin.sektor.backend.handler.identityconfirmed.WorkLogHandler
@@ -27,7 +27,7 @@ import kotlin.test.assertTrue
 class WorkLogHandlerTest {
 
     @Mock
-    private lateinit var workLogLocationServiceSpy: WorkLogLocationService
+    private lateinit var locationWorkLogServiceSpy: LocationWorkLogService
 
     @Mock
     private lateinit var collaboratorServiceStub: CollaboratorService
@@ -44,7 +44,7 @@ class WorkLogHandlerTest {
     fun setUp() {
         val collaboratorAuthService = CollaboratorAuthenticationService(collaboratorServiceStub, identityConfirmationStub)
         val workLogHandler = WorkLogHandler(
-            workLogLocationServiceSpy,
+            locationWorkLogServiceSpy,
             collaboratorAuthService,
             workLogServiceSpy
         )
@@ -72,7 +72,7 @@ class WorkLogHandlerTest {
             .isOk
             .expectBody().isEmpty
 
-        verify(workLogLocationServiceSpy).logWork(collaborator, location)
+        verify(locationWorkLogServiceSpy).logWork(collaborator, location)
     }
 
     @Test
