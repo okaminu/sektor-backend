@@ -1,7 +1,7 @@
 package lt.boldadmin.sektor.backend.config
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import lt.boldadmin.nexus.type.entity.WorkLog
+import lt.boldadmin.nexus.api.type.entity.WorkLog
 import lt.boldadmin.sektor.backend.config.serializer.WorkLogSerializer
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.codec.ServerCodecConfigurer

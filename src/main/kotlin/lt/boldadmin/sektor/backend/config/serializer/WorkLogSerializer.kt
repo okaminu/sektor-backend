@@ -3,7 +3,7 @@ package lt.boldadmin.sektor.backend.config.serializer
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.databind.JsonSerializer
 import com.fasterxml.jackson.databind.SerializerProvider
-import lt.boldadmin.nexus.type.entity.WorkLog
+import lt.boldadmin.nexus.api.type.entity.WorkLog
 
 open class WorkLogSerializer : JsonSerializer<WorkLog>() {
 
