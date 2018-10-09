@@ -23,6 +23,7 @@ dependencyManagement {
 
 dependencies {
     implementation "lt.boldadmin.nexus:nexus:1.3.0"
+    runtime "lt.boldadmin.nexus:nexus-api:1.3.0"
     runtime "lt.boldadmin.nexus:nexus-google-maps-plugin:1.3.0"
 
     implementation "lt.boldadmin.crowbar:crowbar:1.3.0"
