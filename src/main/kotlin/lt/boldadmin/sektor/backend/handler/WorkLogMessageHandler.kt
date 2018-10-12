@@ -17,6 +17,7 @@ open class WorkLogMessageHandler(
     private val webClient: WebClient
 ) {
 
+    //todo this needs tests
     open fun logByMessage(req: ServerRequest): Mono<ServerResponse> =
         req.bodyToMono<String>()
             .doOnNext {
