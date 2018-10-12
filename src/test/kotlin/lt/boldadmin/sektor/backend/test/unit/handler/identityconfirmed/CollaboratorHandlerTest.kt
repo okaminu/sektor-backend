@@ -3,10 +3,10 @@ package lt.boldadmin.sektor.backend.test.unit.handler.identityconfirmed
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
+import lt.boldadmin.crowbar.IdentityConfirmation
 import lt.boldadmin.nexus.service.CollaboratorService
 import lt.boldadmin.nexus.type.entity.Collaborator
 import lt.boldadmin.nexus.type.valueobject.TimeRange
-import lt.boldadmin.crowbar.IdentityConfirmation
 import lt.boldadmin.sektor.backend.handler.identityconfirmed.CollaboratorHandler
 import lt.boldadmin.sektor.backend.route.Routes
 import lt.boldadmin.sektor.backend.service.CollaboratorAuthenticationService
@@ -46,7 +46,7 @@ class CollaboratorHandlerTest {
         doReturn(USER_ID).`when`(identityConfirmationStub).getUserIdByToken(any())
         doReturn(Collaborator().apply { this.workTime = workTime }).`when`(collaboratorServiceStub).getById(USER_ID)
 
-        val routerFunction = Routes(mock(), collaboratorHandler, mock()).router()
+        val routerFunction = Routes(mock(), collaboratorHandler, mock(), mock()).router()
         val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
         val workTimeResponseBody = webTestClient.get()
                 .uri("/collaborator/workTime")

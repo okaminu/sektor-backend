@@ -8,9 +8,9 @@ import lt.boldadmin.nexus.api.type.valueobject.Location
 import lt.boldadmin.nexus.service.CollaboratorService
 import lt.boldadmin.nexus.service.worklog.WorkLogService
 import lt.boldadmin.nexus.service.worklog.duration.WorkLogDurationService
-import lt.boldadmin.nexus.service.worklog.location.WorkLogLocationService
 import lt.boldadmin.nexus.service.worklog.status.WorkLogDescriptionService
 import lt.boldadmin.nexus.service.worklog.status.WorkLogStartEndService
+import lt.boldadmin.nexus.service.worklog.status.location.WorkLogLocationService
 import lt.boldadmin.nexus.type.entity.Collaborator
 import lt.boldadmin.nexus.type.entity.WorkLog
 import lt.boldadmin.sektor.backend.handler.identityconfirmed.WorkLogHandler
@@ -63,7 +63,7 @@ class WorkLogHandlerTest {
             workLogDescriptionServiceStub,
             workLogDurationServiceStub
         )
-        val routerFunction = Routes(workLogHandler, mock(), mock()).router()
+        val routerFunction = Routes(workLogHandler, mock(), mock(), mock()).router()
         webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
 
 

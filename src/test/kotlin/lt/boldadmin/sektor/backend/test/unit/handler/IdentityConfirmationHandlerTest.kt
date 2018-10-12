@@ -3,9 +3,9 @@ package lt.boldadmin.sektor.backend.test.unit.handler
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
+import lt.boldadmin.crowbar.IdentityConfirmation
 import lt.boldadmin.nexus.service.CollaboratorService
 import lt.boldadmin.nexus.type.entity.Collaborator
-import lt.boldadmin.crowbar.IdentityConfirmation
 import lt.boldadmin.sektor.backend.handler.IdentityConfirmationHandler
 import lt.boldadmin.sektor.backend.route.Routes
 import org.junit.Before
@@ -45,7 +45,7 @@ class IdentityConfirmationHandlerTest {
 
         val webTestClient = WebTestClient
             .bindToRouterFunction(
-                Routes(mock(), mock(), identityConfirmationHandler).router()
+                Routes(mock(), mock(), identityConfirmationHandler, mock()).router()
             ).build()
         webTestClient.post()
             .uri("collaborator/identity-confirmation/code/request/${collaborator.mobileNumber}")
@@ -68,7 +68,7 @@ class IdentityConfirmationHandlerTest {
 
         val webTestClient = WebTestClient
             .bindToRouterFunction(
-                Routes(mock(), mock(), identityConfirmationHandler).router()
+                Routes(mock(), mock(), identityConfirmationHandler, mock()).router()
             ).build()
         val returnResult = webTestClient.post()
             .uri("collaborator/identity-confirmation/code/confirm/$confirmationCode")
