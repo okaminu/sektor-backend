@@ -10,6 +10,7 @@
         <context:include-filter type="regex" expression="lt.boldadmin.nexus.factory.*"/>
         <context:include-filter type="regex" expression="lt.boldadmin.nexus.service.*"/>
         <context:include-filter type="regex" expression="lt.boldadmin.nexus.plugin.googlemaps.*"/>
+        <context:include-filter type="regex" expression="lt.boldadmin.nexus.plugin.mongodb.repository.adapter.*"/>
     </context:component-scan>
 
     <bean id="validatorToExceptionConverter" class="lt.boldadmin.nexus.exception.converter.ValidatorToExceptionConverter"/>

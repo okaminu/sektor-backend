@@ -7,12 +7,12 @@ import lt.boldadmin.crowbar.IdentityConfirmation
 import lt.boldadmin.nexus.api.type.valueobject.Location
 import lt.boldadmin.nexus.service.CollaboratorService
 import lt.boldadmin.nexus.service.worklog.WorkLogService
+import lt.boldadmin.nexus.api.type.entity.Collaborator
+import lt.boldadmin.nexus.api.type.entity.WorkLog
 import lt.boldadmin.nexus.service.worklog.duration.WorkLogDurationService
 import lt.boldadmin.nexus.service.worklog.status.WorkLogDescriptionService
 import lt.boldadmin.nexus.service.worklog.status.WorkLogStartEndService
 import lt.boldadmin.nexus.service.worklog.status.location.WorkLogLocationService
-import lt.boldadmin.nexus.type.entity.Collaborator
-import lt.boldadmin.nexus.type.entity.WorkLog
 import lt.boldadmin.sektor.backend.handler.identityconfirmed.WorkLogHandler
 import lt.boldadmin.sektor.backend.route.Routes
 import lt.boldadmin.sektor.backend.service.CollaboratorAuthenticationService

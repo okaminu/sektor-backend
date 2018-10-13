@@ -7,6 +7,6 @@
     <bean id="validator"
           class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
 
-    <mongo:repositories base-package="lt.boldadmin.nexus.repository"/>
+    <mongo:repositories base-package="lt.boldadmin.nexus.plugin.mongodb.repository"/>
     <mongo:repositories base-package="lt.boldadmin.sektor.backend.repository"/>
 </beans>
