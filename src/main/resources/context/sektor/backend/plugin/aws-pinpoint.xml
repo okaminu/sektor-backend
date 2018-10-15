@@ -5,6 +5,19 @@
     http://www.springframework.org/schema/beans/spring-beans-4.1.xsd"
        default-lazy-init="true" default-autowire="constructor">
 
-    <bean id="awsPinpointSmsGatewayAdapter" class="lt.boldadmin.nexus.plugin.aws.pinpoint.AwsPinpointSmsGatewayAdapter"/>
+    <bean id="awsPinpointSmsGatewayAdapter"
+          class="lt.boldadmin.nexus.plugin.aws.pinpoint.AwsPinpointSmsGatewayAdapter"/>
+
+    <bean id="amazonPinpointClientFactory"
+          class="lt.boldadmin.nexus.plugin.aws.pinpoint.factory.AmazonPinpointClientFactory"/>
+
+    <bean id="sendMessageRequestFactory"
+          class="lt.boldadmin.nexus.plugin.aws.pinpoint.factory.SendMessageRequestFactory"/>
+
+    <bean id="directMessageConfigurationFactory"
+          class="lt.boldadmin.nexus.plugin.aws.pinpoint.factory.DirectMessageConfigurationFactory"/>
+
+    <bean id="messageRequestFactory"
+          class="lt.boldadmin.nexus.plugin.aws.pinpoint.factory.MessageRequestFactory"/>
 
 </beans>

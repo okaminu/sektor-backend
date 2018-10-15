@@ -17,7 +17,7 @@
     <import resource="repository.xml"/>
     <import resource="sektor/backend/plugin/aws-pinpoint.xml"/>
     <import resource="sektor/backend/plugin/crowbar.xml"/>
-    <import resource="sektor/backend/plugin/awsSns.xml"/>
+    <import resource="sektor/backend/plugin/aws-sns.xml"/>
     <import resource="cache.xml"/>
 
     <context:component-scan base-package="lt.boldadmin.sektor.backend">
