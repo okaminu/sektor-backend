@@ -106,8 +106,7 @@ class WorkLogMessageHandlerTest {
         return Message(
             messageMap["destinationNumber"]!!,
             messageMap["originationNumber"]!!,
-            messageMap["messageBody"]!!,
-            ""
+            messageMap["messageBody"]!!
         )
     }
 }

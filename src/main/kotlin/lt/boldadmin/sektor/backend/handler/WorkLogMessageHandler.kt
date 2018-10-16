@@ -36,7 +36,7 @@ open class WorkLogMessageHandler(
         return Message(
             map["destinationNumber"]!!,
             map["originationNumber"]!!,
-            map["messageBody"], ""
+            map["messageBody"]!!
         )
     }
 }
