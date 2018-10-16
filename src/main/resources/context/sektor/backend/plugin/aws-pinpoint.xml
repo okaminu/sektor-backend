@@ -12,7 +12,7 @@
           class="lt.boldadmin.nexus.plugin.aws.pinpoint.factory.AmazonPinpointClientFactory"/>
 
     <bean id="sendMessageRequestFactory"
-          class="lt.boldadmin.nexus.plugin.aws.pinpoint.factory.SendMessageRequestFactory"/>
+          class="lt.boldadmin.nexus.plugin.aws.pinpoint.factory.SendMessagesRequestFactory"/>
 
     <bean id="directMessageConfigurationFactory"
           class="lt.boldadmin.nexus.plugin.aws.pinpoint.factory.DirectMessageConfigurationFactory"/>

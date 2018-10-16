@@ -56,9 +56,9 @@ class WorkLogMessageHandlerTest {
         val bodyMap = mapOf("Type" to "SubscriptionConfirmation", "SubscribeURL" to url)
         doReturn(bodyMap).`when`(jsonToMapConverterStub).convert(jsonBody)
 
-        val responseSpy = mock<Mono<ClientResponse>>()
-        val requestBodyUriSpecSpy = mock<WebClient.RequestBodyUriSpec>()
-        val requestBodySpecSpy = mock<WebClient.RequestBodySpec>()
+        val responseSpy: Mono<ClientResponse> = mock()
+        val requestBodyUriSpecSpy: WebClient.RequestBodyUriSpec = mock()
+        val requestBodySpecSpy: WebClient.RequestBodySpec = mock()
 
         doReturn(mock()).`when`(responseSpy).block()
         doReturn(responseSpy).`when`(requestBodySpecSpy).exchange()
