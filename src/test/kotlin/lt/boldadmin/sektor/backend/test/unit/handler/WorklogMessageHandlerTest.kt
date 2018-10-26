@@ -17,12 +17,14 @@ import org.springframework.http.HttpMethod
 import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.web.reactive.function.client.ClientResponse
 import org.springframework.web.reactive.function.client.WebClient
+import org.springframework.web.reactive.function.client.WebClient.RequestBodySpec
+import org.springframework.web.reactive.function.client.WebClient.RequestBodyUriSpec
 import reactor.core.publisher.Mono
 import reactor.core.publisher.toMono
 
 @Suppress("UnassignedFluxMonoInstance")
 @RunWith(MockitoJUnitRunner::class)
-class WorkLogMessageHandlerTest {
+class WorklogMessageHandlerTest {
 
     @Mock
     private lateinit var workLogMessageServiceSpy: WorkLogMessageService
@@ -31,7 +33,7 @@ class WorkLogMessageHandlerTest {
     private lateinit var jsonToMapConverterStub: JsonToMapConverter
 
     @Mock
-    private lateinit var webClientStub: WebClient
+    private lateinit var webClientSpy: WebClient
 
     private lateinit var handlerWebClient: WebTestClient
 
@@ -40,7 +42,7 @@ class WorkLogMessageHandlerTest {
         val workLogMessageHandler = WorkLogMessageHandler(
             workLogMessageServiceSpy,
             jsonToMapConverterStub,
-            webClientStub
+            webClientSpy
         )
 
         handlerWebClient = WebTestClient
@@ -57,17 +59,17 @@ class WorkLogMessageHandlerTest {
         doReturn(bodyMap).`when`(jsonToMapConverterStub).convert(jsonBody)
 
         val responseSpy: Mono<ClientResponse> = mock()
-        val requestBodyUriSpecSpy: WebClient.RequestBodyUriSpec = mock()
-        val requestBodySpecSpy: WebClient.RequestBodySpec = mock()
+        val requestBodyUriSpecSpy: RequestBodyUriSpec = mock()
+        val requestBodySpecSpy: RequestBodySpec = mock()
 
         doReturn(mock()).`when`(responseSpy).block()
         doReturn(responseSpy).`when`(requestBodySpecSpy).exchange()
         doReturn(requestBodySpecSpy).`when`(requestBodyUriSpecSpy).uri(url)
-        doReturn(requestBodyUriSpecSpy).`when`(webClientStub).method(HttpMethod.GET)
+        doReturn(requestBodyUriSpecSpy).`when`(webClientSpy).method(HttpMethod.GET)
 
         postToHandlerWebClient(jsonBody)
 
-        verify(webClientStub).method(HttpMethod.GET)
+        verify(webClientSpy).method(HttpMethod.GET)
         verify(requestBodyUriSpecSpy).uri(url)
         verify(requestBodySpecSpy).exchange()
         verify(responseSpy).block()
@@ -89,7 +91,7 @@ class WorkLogMessageHandlerTest {
 
         postToHandlerWebClient(jsonBody)
 
-        verify(workLogMessageServiceSpy).logWork(createMessageFromMap(messageMap))
+        verify(workLogMessageServiceSpy).logWork(convertMessage(messageMap))
     }
 
     private fun postToHandlerWebClient(jsonBody: String) {
@@ -102,7 +104,7 @@ class WorkLogMessageHandlerTest {
             .expectBody().isEmpty
     }
 
-    private fun createMessageFromMap(messageMap: Map<String, String>): Message {
+    private fun convertMessage(messageMap: Map<String, String>): Message {
         return Message(
             messageMap["destinationNumber"]!!,
             messageMap["originationNumber"]!!,

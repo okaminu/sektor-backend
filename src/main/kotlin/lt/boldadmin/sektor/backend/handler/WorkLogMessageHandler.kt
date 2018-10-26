@@ -22,16 +22,16 @@ open class WorkLogMessageHandler(
             .doOnNext {
                 val requestBodyMap = jsonToMapConverter.convert(it)
 
-                if (requestBodyMap["Type"] == "SubscriptionConfirmation") {
+                if (requestBodyMap["Type"] == "SubscriptionConfirmation")
                     webClient.method(HttpMethod.GET).uri(requestBodyMap["SubscribeURL"]!!).exchange().block()
-                }
 
-                if (requestBodyMap["Type"] == "Notification") {
-                    workLogMessageService.logWork(createMessage(requestBodyMap["Message"]!!))
-                }
+
+                if (requestBodyMap["Type"] == "Notification")
+                    workLogMessageService.logWork(convertMessage(requestBodyMap["Message"]!!))
+
             }.flatMap { ok().build() }
 
-    private fun createMessage(json: String): Message {
+    private fun convertMessage(json: String): Message {
         val map = jsonToMapConverter.convert(json)
         return Message(
             map["destinationNumber"]!!,

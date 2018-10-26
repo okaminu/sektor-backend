@@ -15,10 +15,11 @@
 
     <import resource="nexus.xml"/>
     <import resource="repository.xml"/>
-    <import resource="sektor/backend/plugin/aws-pinpoint.xml"/>
-    <import resource="sektor/backend/plugin/crowbar.xml"/>
-    <import resource="sektor/backend/plugin/aws-sns.xml"/>
     <import resource="cache.xml"/>
+
+    <import resource="sektor/backend/plugin/aws-pinpoint.xml"/>
+    <import resource="sektor/backend/plugin/aws-sns.xml"/>
+    <import resource="sektor/backend/plugin/crowbar.xml"/>
 
     <context:component-scan base-package="lt.boldadmin.sektor.backend">
         <context:include-filter type="regex" expression="lt.boldadmin.sektor.backend.config.*"/>

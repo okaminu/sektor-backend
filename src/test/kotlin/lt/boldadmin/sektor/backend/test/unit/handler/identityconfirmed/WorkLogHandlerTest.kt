@@ -4,11 +4,11 @@ import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import lt.boldadmin.crowbar.IdentityConfirmation
+import lt.boldadmin.nexus.api.type.entity.Collaborator
+import lt.boldadmin.nexus.api.type.entity.WorkLog
 import lt.boldadmin.nexus.api.type.valueobject.Location
 import lt.boldadmin.nexus.service.CollaboratorService
 import lt.boldadmin.nexus.service.worklog.WorkLogService
-import lt.boldadmin.nexus.api.type.entity.Collaborator
-import lt.boldadmin.nexus.api.type.entity.WorkLog
 import lt.boldadmin.nexus.service.worklog.duration.WorkLogDurationService
 import lt.boldadmin.nexus.service.worklog.status.WorkLogDescriptionService
 import lt.boldadmin.nexus.service.worklog.status.WorkLogStartEndService
@@ -48,7 +48,7 @@ class WorkLogHandlerTest {
     private lateinit var workLogStartEndServiceStub: WorkLogStartEndService
 
     @Mock
-    private lateinit var workLogDescriptionServiceStub: WorkLogDescriptionService
+    private lateinit var workLogDescriptionServiceSpy: WorkLogDescriptionService
 
     private lateinit var webTestClient: WebTestClient
 
@@ -60,7 +60,7 @@ class WorkLogHandlerTest {
             collaboratorAuthService,
             workLogServiceStub,
             workLogStartEndServiceStub,
-            workLogDescriptionServiceStub,
+            workLogDescriptionServiceSpy,
             workLogDurationServiceStub
         )
         val routerFunction = Routes(workLogHandler, mock(), mock(), mock()).router()
@@ -168,7 +168,7 @@ class WorkLogHandlerTest {
     fun `Provides worklog description`() {
         val intervalId = "intervalId"
         val expectedDescription = "Description"
-        doReturn(expectedDescription).`when`(workLogDescriptionServiceStub).getDescription(intervalId)
+        doReturn(expectedDescription).`when`(workLogDescriptionServiceSpy).getDescription(intervalId)
 
         val descriptionResponse = webTestClient.get()
             .uri("/worklog/interval/$intervalId/description")
@@ -244,7 +244,7 @@ class WorkLogHandlerTest {
             .isOk
             .expectBody().isEmpty
 
-        verify(workLogDescriptionServiceStub).updateDescription(intervalId, updatedDescription)
+        verify(workLogDescriptionServiceSpy).updateDescription(intervalId, updatedDescription)
     }
 
     companion object {
