@@ -1,10 +1,7 @@
 package lt.boldadmin.sektor.backend.test.unit.exception.handler
 
-import com.nhaarman.mockito_kotlin.doReturn
-import com.nhaarman.mockito_kotlin.eq
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.verify
-import lt.boldadmin.sektor.backend.exception.CollaboratorNotFoundException
+import com.nhaarman.mockito_kotlin.*
+import lt.boldadmin.nexus.exception.CollaboratorNotFoundException
 import lt.boldadmin.sektor.backend.exception.handler.CollaboratorNotFoundExceptionHandler
 import org.junit.Before
 import org.junit.Test
@@ -29,7 +26,7 @@ class CollaboratorNotFoundExceptionHandlerTest {
         doReturn(serverHttpResponseMock).`when`(serverWebExchangeMock).response
 
         handler.handleException(serverWebExchangeMock,
-                CollaboratorNotFoundException()
+                CollaboratorNotFoundException("")
         )
 
         verify(serverHttpResponseMock).statusCode = eq(HttpStatus.NOT_FOUND)
@@ -37,7 +34,7 @@ class CollaboratorNotFoundExceptionHandlerTest {
 
     @Test
     fun `Checks if exception type is CollaboratorNotFoundException`() {
-        assertTrue(handler.canHandle(CollaboratorNotFoundException()))
+        assertTrue(handler.canHandle(CollaboratorNotFoundException("")))
     }
 
 }
