@@ -4,7 +4,7 @@ import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import lt.boldadmin.nexus.api.type.valueobject.Message
-import lt.boldadmin.nexus.service.worklog.status.message.WorkLogMessageService
+import lt.boldadmin.nexus.service.worklog.status.message.WorklogMessageService
 import lt.boldadmin.sektor.backend.handler.WorkLogMessageHandler
 import lt.boldadmin.sektor.backend.route.Routes
 import lt.boldadmin.sektor.backend.service.JsonToMapConverter
@@ -27,7 +27,7 @@ import reactor.core.publisher.toMono
 class WorklogMessageHandlerTest {
 
     @Mock
-    private lateinit var workLogMessageServiceSpy: WorkLogMessageService
+    private lateinit var workLogMessageServiceSpy: WorklogMessageService
 
     @Mock
     private lateinit var jsonToMapConverterStub: JsonToMapConverter

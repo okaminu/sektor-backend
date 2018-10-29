@@ -1,7 +1,7 @@
 package lt.boldadmin.sektor.backend.test.unit.aspect
 
 import com.nhaarman.mockito_kotlin.doReturn
-import lt.boldadmin.nexus.service.worklog.WorkLogAuthService
+import lt.boldadmin.nexus.service.worklog.WorklogAuthService
 import lt.boldadmin.sektor.backend.aspect.CollaboratorAuthorizationAspect
 import lt.boldadmin.sektor.backend.exception.WorkLogIntervalDoesNotBelongToCollaboratorException
 import lt.boldadmin.sektor.backend.service.CollaboratorAuthenticationService
@@ -18,7 +18,7 @@ import org.springframework.web.reactive.function.server.ServerRequest
 class CollaboratorAuthorizationAspectTest {
 
     @Mock
-    private lateinit var workLogAuthServiceStub: WorkLogAuthService
+    private lateinit var workLogAuthServiceStub: WorklogAuthService
 
     @Mock
     private lateinit var collaboratorAuthServiceStub: CollaboratorAuthenticationService

@@ -5,14 +5,14 @@ import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import lt.boldadmin.crowbar.IdentityConfirmation
 import lt.boldadmin.nexus.api.type.entity.Collaborator
-import lt.boldadmin.nexus.api.type.entity.WorkLog
+import lt.boldadmin.nexus.api.type.entity.Worklog
 import lt.boldadmin.nexus.api.type.valueobject.Location
 import lt.boldadmin.nexus.service.CollaboratorService
 import lt.boldadmin.nexus.service.worklog.WorkLogService
-import lt.boldadmin.nexus.service.worklog.duration.WorkLogDurationService
-import lt.boldadmin.nexus.service.worklog.status.WorkLogDescriptionService
-import lt.boldadmin.nexus.service.worklog.status.WorkLogStartEndService
-import lt.boldadmin.nexus.service.worklog.status.location.WorkLogLocationService
+import lt.boldadmin.nexus.service.worklog.duration.WorklogDurationService
+import lt.boldadmin.nexus.service.worklog.status.WorklogDescriptionService
+import lt.boldadmin.nexus.service.worklog.status.WorklogStartEndService
+import lt.boldadmin.nexus.service.worklog.status.location.WorklogLocationService
 import lt.boldadmin.sektor.backend.handler.identityconfirmed.WorkLogHandler
 import lt.boldadmin.sektor.backend.route.Routes
 import lt.boldadmin.sektor.backend.service.CollaboratorAuthenticationService
@@ -30,7 +30,7 @@ import kotlin.test.assertTrue
 class WorkLogHandlerTest {
 
     @Mock
-    private lateinit var workLogLocationServiceSpy: WorkLogLocationService
+    private lateinit var workLogLocationServiceSpy: WorklogLocationService
 
     @Mock
     private lateinit var collaboratorServiceStub: CollaboratorService
@@ -42,13 +42,13 @@ class WorkLogHandlerTest {
     private lateinit var workLogServiceStub: WorkLogService
 
     @Mock
-    private lateinit var workLogDurationServiceStub: WorkLogDurationService
+    private lateinit var workLogDurationServiceStub: WorklogDurationService
 
     @Mock
-    private lateinit var workLogStartEndServiceStub: WorkLogStartEndService
+    private lateinit var workLogStartEndServiceStub: WorklogStartEndService
 
     @Mock
-    private lateinit var workLogDescriptionServiceSpy: WorkLogDescriptionService
+    private lateinit var workLogDescriptionServiceSpy: WorklogDescriptionService
 
     private lateinit var webTestClient: WebTestClient
 
@@ -94,7 +94,7 @@ class WorkLogHandlerTest {
     @Suppress("UNCHECKED_CAST")
     fun `Provides worklog interval endpoints`() {
         val expectedIntervalId = "intervalId"
-        val workLogStub: WorkLog = mock()
+        val workLogStub: Worklog = mock()
         val expectedWorkDuration = 1000L
         doReturn(expectedIntervalId).`when`(workLogStub).intervalId
         doReturn(listOf(workLogStub)).`when`(workLogServiceStub).getIntervalEndpoints(expectedIntervalId)
@@ -123,8 +123,8 @@ class WorkLogHandlerTest {
     fun `Provides worklog interval ids by collaborator`() {
         val expectedIntervalId1 = "id1"
         val expectedIntervalId2 = "id2"
-        val workLogStub1: WorkLog = mock()
-        val workLogStub2: WorkLog = mock()
+        val workLogStub1: Worklog = mock()
+        val workLogStub2: Worklog = mock()
         doReturn(listOf(workLogStub1, workLogStub1, workLogStub2)).`when`(workLogServiceStub).getByCollaboratorId(USER_ID)
         doReturn(expectedIntervalId1).`when`(workLogStub1).intervalId
         doReturn(expectedIntervalId2).`when`(workLogStub2).intervalId
