@@ -2,10 +2,10 @@ package lt.boldadmin.sektor.backend.handler.identityconfirmed
 
 import lt.boldadmin.nexus.api.type.valueobject.Location
 import lt.boldadmin.nexus.service.worklog.WorkLogService
-import lt.boldadmin.nexus.service.worklog.duration.WorkLogDurationService
-import lt.boldadmin.nexus.service.worklog.status.WorkLogDescriptionService
-import lt.boldadmin.nexus.service.worklog.status.WorkLogStartEndService
-import lt.boldadmin.nexus.service.worklog.status.location.WorkLogLocationService
+import lt.boldadmin.nexus.service.worklog.duration.WorklogDurationService
+import lt.boldadmin.nexus.service.worklog.status.WorklogDescriptionService
+import lt.boldadmin.nexus.service.worklog.status.WorklogStartEndService
+import lt.boldadmin.nexus.service.worklog.status.location.WorklogLocationService
 import lt.boldadmin.sektor.backend.service.CollaboratorAuthenticationService
 import org.springframework.web.reactive.function.BodyInserters.fromObject
 import org.springframework.web.reactive.function.server.*
@@ -13,12 +13,12 @@ import org.springframework.web.reactive.function.server.ServerResponse.ok
 import reactor.core.publisher.Mono
 
 open class WorkLogHandler(
-    private val workLogLocationService: WorkLogLocationService,
+    private val workLogLocationService: WorklogLocationService,
     private val collaboratorAuthService: CollaboratorAuthenticationService,
     private val workLogService: WorkLogService,
-    private val workLogStartEndService: WorkLogStartEndService,
-    private val workLogDescriptionService: WorkLogDescriptionService,
-    private val workLogDurationService: WorkLogDurationService
+    private val workLogStartEndService: WorklogStartEndService,
+    private val workLogDescriptionService: WorklogDescriptionService,
+    private val workLogDurationService: WorklogDurationService
 ) {
     open fun getIntervalIdsByCollaborator(req: ServerRequest) =
         ok().body(

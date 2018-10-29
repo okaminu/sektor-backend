@@ -1,6 +1,6 @@
 package lt.boldadmin.sektor.backend.aspect
 
-import lt.boldadmin.nexus.service.worklog.WorkLogAuthService
+import lt.boldadmin.nexus.service.worklog.WorklogAuthService
 import lt.boldadmin.sektor.backend.exception.WorkLogIntervalDoesNotBelongToCollaboratorException
 import lt.boldadmin.sektor.backend.service.CollaboratorAuthenticationService
 import org.aspectj.lang.annotation.Aspect
@@ -12,7 +12,7 @@ import org.springframework.web.reactive.function.server.ServerRequest
 @Order(1)
 class CollaboratorAuthorizationAspect(
     private val collaboratorAuthService: CollaboratorAuthenticationService,
-    private val workLogAuthService: WorkLogAuthService
+    private val workLogAuthService: WorklogAuthService
 ) {
 
     @Before("execution(* lt.boldadmin.sektor.backend.handler.identityconfirmed.WorkLogHandler.*ByIntervalId(..))" +
