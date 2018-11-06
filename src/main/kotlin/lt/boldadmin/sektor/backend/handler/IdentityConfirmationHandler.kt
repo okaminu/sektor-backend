@@ -2,7 +2,7 @@ package lt.boldadmin.sektor.backend.handler
 
 import lt.boldadmin.crowbar.IdentityConfirmation
 import lt.boldadmin.crowbar.type.entity.UserConfirmationCode
-import lt.boldadmin.nexus.service.CollaboratorService
+import lt.boldadmin.nexus.api.service.CollaboratorService
 import org.springframework.web.reactive.function.BodyInserters.fromObject
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse

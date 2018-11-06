@@ -1,6 +1,6 @@
 package lt.boldadmin.sektor.backend.aspect
 
-import lt.boldadmin.nexus.service.worklog.WorklogAuthService
+import lt.boldadmin.nexus.api.service.worklog.WorklogAuthService
 import lt.boldadmin.sektor.backend.exception.WorkLogIntervalDoesNotBelongToCollaboratorException
 import lt.boldadmin.sektor.backend.service.CollaboratorAuthenticationService
 import org.aspectj.lang.annotation.Aspect

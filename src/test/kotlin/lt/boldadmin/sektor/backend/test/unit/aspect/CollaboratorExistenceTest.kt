@@ -2,6 +2,7 @@ package lt.boldadmin.sektor.backend.test.unit.aspect
 
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.verify
+import lt.boldadmin.nexus.api.exception.CollaboratorNotFoundException
 import lt.boldadmin.nexus.service.CollaboratorService
 import lt.boldadmin.sektor.backend.aspect.CollaboratorExistenceAspect
 import lt.boldadmin.sektor.backend.service.CollaboratorAuthenticationService
