@@ -3,8 +3,8 @@ package lt.boldadmin.sektor.backend.test.unit.handler
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
-import lt.boldadmin.nexus.api.service.worklog.status.message.WorklogMessageService
 import lt.boldadmin.nexus.api.type.valueobject.Message
+import lt.boldadmin.nexus.service.worklog.status.message.WorklogMessageService
 import lt.boldadmin.sektor.backend.handler.WorkLogMessageHandler
 import lt.boldadmin.sektor.backend.route.Routes
 import lt.boldadmin.sektor.backend.service.JsonToMapConverter

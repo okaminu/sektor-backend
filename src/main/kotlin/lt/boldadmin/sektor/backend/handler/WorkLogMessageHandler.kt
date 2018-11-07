@@ -1,7 +1,7 @@
 package lt.boldadmin.sektor.backend.handler
 
-import lt.boldadmin.nexus.api.service.worklog.status.message.WorklogMessageService
 import lt.boldadmin.nexus.api.type.valueobject.Message
+import lt.boldadmin.nexus.service.worklog.status.message.WorklogMessageService
 import lt.boldadmin.sektor.backend.service.JsonToMapConverter
 import org.springframework.http.HttpMethod
 import org.springframework.web.reactive.function.client.WebClient
