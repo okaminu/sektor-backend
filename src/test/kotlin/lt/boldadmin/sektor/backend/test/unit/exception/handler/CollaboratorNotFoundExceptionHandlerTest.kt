@@ -1,6 +1,7 @@
 package lt.boldadmin.sektor.backend.test.unit.exception.handler
 
 import com.nhaarman.mockito_kotlin.*
+import lt.boldadmin.nexus.exception.CollaboratorNotFoundException
 import lt.boldadmin.sektor.backend.exception.handler.CollaboratorNotFoundExceptionHandler
 import org.junit.Before
 import org.junit.Test
