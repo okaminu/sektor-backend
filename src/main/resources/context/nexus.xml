@@ -14,6 +14,9 @@
     </context:component-scan>
 
     <bean id="validatorToExceptionConverter" class="lt.boldadmin.nexus.exception.converter.ValidatorToExceptionConverter"/>
+    <bean id="uniqueProjectNameValidator" class="lt.boldadmin.nexus.api.validator.UniqueProjectNameValidator">
+        <property name="userService" ref="userService"/>
+    </bean>
 
 </beans>
 
