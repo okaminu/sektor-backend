@@ -19,6 +19,9 @@ mainClassName = 'lt.boldadmin.sektor.backend.ApplicationKt'
 
 defaultTasks 'run'
 
+group = gradle.ext.group
+version = gradle.ext.version
+
 shadowJar {
     mergeServiceFiles('META-INF/spring.*')
 }
