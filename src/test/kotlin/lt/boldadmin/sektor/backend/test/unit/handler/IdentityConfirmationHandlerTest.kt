@@ -4,7 +4,7 @@ import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import lt.boldadmin.crowbar.IdentityConfirmation
-import lt.boldadmin.nexus.service.CollaboratorService
+import lt.boldadmin.nexus.api.service.CollaboratorService
 import lt.boldadmin.nexus.api.type.entity.Collaborator
 import lt.boldadmin.sektor.backend.handler.IdentityConfirmationHandler
 import lt.boldadmin.sektor.backend.route.Routes
