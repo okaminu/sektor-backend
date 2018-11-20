@@ -1,7 +1,7 @@
 package lt.boldadmin.sektor.backend.aspect
 
-import lt.boldadmin.nexus.exception.CollaboratorNotFoundException
-import lt.boldadmin.nexus.service.CollaboratorService
+import lt.boldadmin.nexus.api.exception.CollaboratorNotFoundException
+import lt.boldadmin.nexus.api.service.CollaboratorService
 import lt.boldadmin.sektor.backend.service.CollaboratorAuthenticationService
 import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.annotation.Before

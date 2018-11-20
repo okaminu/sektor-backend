@@ -1,6 +1,6 @@
 package lt.boldadmin.sektor.backend.exception.handler
 
-import lt.boldadmin.nexus.exception.CollaboratorNotFoundException
+import lt.boldadmin.nexus.api.exception.CollaboratorNotFoundException
 import org.springframework.http.HttpStatus
 import org.springframework.web.server.ServerWebExchange
 
