@@ -1,7 +1,7 @@
 package lt.boldadmin.sektor.backend.test.unit.aspect
 
 import com.nhaarman.mockito_kotlin.doReturn
-import lt.boldadmin.nexus.service.worklog.WorklogAuthService
+import lt.boldadmin.nexus.api.service.worklog.WorklogAuthService
 import lt.boldadmin.sektor.backend.aspect.CollaboratorAuthorizationAspect
 import lt.boldadmin.sektor.backend.exception.WorkLogIntervalDoesNotBelongToCollaboratorException
 import lt.boldadmin.sektor.backend.service.CollaboratorAuthenticationService
