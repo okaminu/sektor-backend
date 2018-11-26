@@ -30,9 +30,9 @@ open class WorkLogHandler(
     open fun getProjectNameOfStartedWork(req: ServerRequest): Mono<ServerResponse> =
         ok().body(
             fromObject(
-                workLogStartEndService.getProjectNameOfStartedWork(
+                workLogStartEndService.getProjectOfStartedWork(
                     collaboratorAuthService.getCollaboratorId(req)
-                )
+                ).name
             )
         )
 

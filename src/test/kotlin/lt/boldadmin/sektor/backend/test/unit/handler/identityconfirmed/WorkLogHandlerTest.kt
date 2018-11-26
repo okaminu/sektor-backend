@@ -147,7 +147,7 @@ class WorkLogHandlerTest {
     @Test
     fun `Provides project name of started work`() {
         val expectedProjectName = "ProjectName"
-        doReturn(expectedProjectName).`when`(workLogStartEndServiceStub).getProjectNameOfStartedWork(USER_ID)
+        doReturn(expectedProjectName).`when`(workLogStartEndServiceStub).getProjectOfStartedWork(USER_ID).name
 
         val projectNameResponse = webTestClient.get()
             .uri("/worklog/project-name-of-started-work")
