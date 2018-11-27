@@ -11,6 +11,7 @@ import lt.boldadmin.nexus.api.service.worklog.status.WorklogDescriptionService
 import lt.boldadmin.nexus.api.service.worklog.status.WorklogStartEndService
 import lt.boldadmin.nexus.api.service.worklog.status.location.WorklogLocationService
 import lt.boldadmin.nexus.api.type.entity.Collaborator
+import lt.boldadmin.nexus.api.type.entity.Project
 import lt.boldadmin.nexus.api.type.entity.Worklog
 import lt.boldadmin.nexus.api.type.valueobject.Location
 import lt.boldadmin.sektor.backend.handler.identityconfirmed.WorkLogHandler
@@ -146,8 +147,8 @@ class WorkLogHandlerTest {
 
     @Test
     fun `Provides project name of started work`() {
-        val expectedProjectName = "ProjectName"
-        doReturn(expectedProjectName).`when`(workLogStartEndServiceStub).getProjectOfStartedWork(USER_ID).name
+        val expectedProject = Project(name = "projectName")
+        doReturn(expectedProject).`when`(workLogStartEndServiceStub).getProjectOfStartedWork(USER_ID)
 
         val projectNameResponse = webTestClient.get()
             .uri("/worklog/project-name-of-started-work")
@@ -161,7 +162,7 @@ class WorkLogHandlerTest {
             .expectBody(String::class.java)
             .returnResult()
 
-        assertEquals(expectedProjectName, projectNameResponse.responseBody)
+        assertEquals(expectedProject.name, projectNameResponse.responseBody)
     }
 
     @Test
