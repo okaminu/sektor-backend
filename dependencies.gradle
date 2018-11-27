@@ -28,8 +28,8 @@ dependencies {
     runtime "lt.boldadmin.nexus:nexus-aws-pinpoint-plugin:$gradle.ext.version"
     runtime "lt.boldadmin.nexus:nexus-mongodb-plugin:$gradle.ext.version"
 
-    implementation "lt.boldadmin.crowbar:crowbar:1.3.0"
-    runtime "lt.boldadmin.crowbar:crowbar-aws-sns-plugin:1.3.0"
+    implementation "lt.boldadmin.crowbar:crowbar:$gradle.ext.version"
+    runtime "lt.boldadmin.crowbar:crowbar-aws-sns-plugin:$gradle.ext.version"
 
     implementation "org.hibernate:hibernate-validator:5.2.4.Final"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
