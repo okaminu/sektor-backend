@@ -18,5 +18,13 @@
         <property name="userService" ref="userService"/>
     </bean>
 
+    <bean id="collaboratorService" class="lt.boldadmin.nexus.service.collaborator.CollaboratorService">
+        <property name="collaboratorUpdate">
+            <list>
+                <ref bean="worklogEndOnCollaboratorUpdate" />
+            </list>
+        </property>
+    </bean>
+
 </beans>
 
