@@ -19,7 +19,7 @@
     </bean>
 
     <bean id="collaboratorService" class="lt.boldadmin.nexus.service.collaborator.CollaboratorService">
-        <property name="collaboratorUpdate">
+        <property name="beforeUpdateFunctions">
             <list>
                 <ref bean="worklogEndOnCollaboratorUpdate" />
             </list>
