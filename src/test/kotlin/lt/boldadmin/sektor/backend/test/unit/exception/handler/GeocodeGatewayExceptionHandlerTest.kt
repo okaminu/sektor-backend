@@ -30,11 +30,10 @@ class GeocodeGatewayExceptionHandlerTest {
 
     @Test
     fun `Handles exception`() {
-        val serverWebExchangeStub = mock<ServerWebExchange>()
-        val serverHttpResponseDummy = mock<ServerHttpResponse>()
-        doReturn(serverHttpResponseDummy).`when`(serverWebExchangeStub).response
+        val exchangeStub: ServerWebExchange = mock()
+        doReturn(mock<ServerHttpResponse>()).`when`(exchangeStub).response
 
-        val response = handler.handle(serverWebExchangeStub, GeocodeGatewayException(""))
+        val response = handler.handle(exchangeStub, GeocodeGatewayException(""))
 
         assertEquals(Mono.empty(), response)
     }
@@ -42,30 +41,29 @@ class GeocodeGatewayExceptionHandlerTest {
     @Test
     fun `Returns error when exception could not be handled`() {
         expectedException.expect(Exception::class.java)
-        val templateExceptionHandlerStub: TemplateExceptionHandler = spy()
-        doReturn(false).`when`(templateExceptionHandlerStub).canHandle(any())
+        doReturn(false).`when`(mock<TemplateExceptionHandler>()).canHandle(any())
 
         val response = handler.handle(mock(), mock<Exception>())
         response.block()
     }
     @Test
     fun `Logs an exception`() {
-        val errorSpy = mock<Exception>()
+        val exceptionSpy: Exception = mock()
 
-        handler.handle(mock(), errorSpy)
+        handler.handle(mock(), exceptionSpy)
 
-        verify(errorSpy).printStackTrace()
+        verify(exceptionSpy).printStackTrace()
     }
 
     @Test
     fun `Sets http response status for GeocodeGatewayException`() {
-        val serverWebExchangeMock = mock<ServerWebExchange>()
-        val serverHttpResponseMock = mock<ServerHttpResponse>()
-        doReturn(serverHttpResponseMock).`when`(serverWebExchangeMock).response
+        val exchangeStub: ServerWebExchange = mock()
+        val httpResponseSpy: ServerHttpResponse = mock()
+        doReturn(httpResponseSpy).`when`(exchangeStub).response
 
-        handler.handleException(serverWebExchangeMock, GeocodeGatewayException("message"))
+        handler.handleException(exchangeStub, GeocodeGatewayException("message"))
 
-        verify(serverHttpResponseMock).statusCode = eq(HttpStatus.INTERNAL_SERVER_ERROR)
+        verify(httpResponseSpy).statusCode = eq(HttpStatus.INTERNAL_SERVER_ERROR)
     }
 
     @Test
