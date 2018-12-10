@@ -1,6 +1,6 @@
 apply plugin: "jacoco"
 jacoco {
-    toolVersion = "0.8.0"
+    toolVersion = "0.8.2"
 }
 
 def fileFilter = ['**/beans/*', '**/config/serializer/*', '**/*$*$*.*', '**/ApplicationKt*', '**/JsonToMapConverter*',
@@ -23,7 +23,7 @@ jacocoTestCoverageVerification {
             limit {
                 element = 'BUNDLE'
                 counter = "LINE"
-                minimum = 1
+                minimum = 0.99
             }
         }
 
