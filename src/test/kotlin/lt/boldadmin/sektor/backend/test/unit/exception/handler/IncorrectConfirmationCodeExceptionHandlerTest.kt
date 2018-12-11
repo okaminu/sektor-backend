@@ -33,7 +33,7 @@ class IncorrectConfirmationCodeExceptionHandlerTest {
         val exchangeStub: ServerWebExchange = mock()
         doReturn(mock<ServerHttpResponse>()).`when`(exchangeStub).response
 
-        val response = handler.handle(exchangeStub, IncorrectConfirmationCodeException())
+        val response = handler.handle(exchangeStub, mock<IncorrectConfirmationCodeException>())
 
         assertEquals(Mono.empty(), response)
     }

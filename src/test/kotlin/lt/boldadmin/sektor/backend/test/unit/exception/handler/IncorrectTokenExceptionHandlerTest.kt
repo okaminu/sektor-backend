@@ -33,7 +33,7 @@ class IncorrectTokenExceptionHandlerTest {
         val exchangeStub: ServerWebExchange = mock()
         doReturn(mock<ServerHttpResponse>()).`when`(exchangeStub).response
 
-        val response = handler.handle(exchangeStub, IncorrectTokenException())
+        val response = handler.handle(exchangeStub, mock<IncorrectTokenException>())
 
         assertEquals(Mono.empty(), response)
     }

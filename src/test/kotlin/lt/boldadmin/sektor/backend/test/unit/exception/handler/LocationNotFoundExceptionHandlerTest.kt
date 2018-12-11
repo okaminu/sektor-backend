@@ -33,7 +33,7 @@ class LocationNotFoundExceptionHandlerTest {
         val exchangeStub: ServerWebExchange = mock()
         doReturn(mock<ServerHttpResponse>()).`when`(exchangeStub).response
 
-        val response = handler.handle(exchangeStub, LocationNotFoundException(""))
+        val response = handler.handle(exchangeStub, mock<LocationNotFoundException>())
 
         assertEquals(Mono.empty(), response)
     }

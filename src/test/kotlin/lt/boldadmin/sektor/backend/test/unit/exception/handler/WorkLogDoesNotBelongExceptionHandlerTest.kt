@@ -33,7 +33,7 @@ class WorkLogDoesNotBelongExceptionHandlerTest {
         val exchangeStub: ServerWebExchange = mock()
         doReturn(mock<ServerHttpResponse>()).`when`(exchangeStub).response
 
-        val response = handler.handle(exchangeStub, WorkLogIntervalDoesNotBelongToCollaboratorException())
+        val response = handler.handle(exchangeStub, mock<WorkLogIntervalDoesNotBelongToCollaboratorException>())
 
         assertEquals(Mono.empty(), response)
     }

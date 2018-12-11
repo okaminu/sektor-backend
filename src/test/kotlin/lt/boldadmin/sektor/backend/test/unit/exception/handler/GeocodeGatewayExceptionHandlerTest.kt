@@ -33,7 +33,7 @@ class GeocodeGatewayExceptionHandlerTest {
         val exchangeStub: ServerWebExchange = mock()
         doReturn(mock<ServerHttpResponse>()).`when`(exchangeStub).response
 
-        val response = handler.handle(exchangeStub, GeocodeGatewayException(""))
+        val response = handler.handle(exchangeStub, mock<GeocodeGatewayException>())
 
         assertEquals(Mono.empty(), response)
     }
