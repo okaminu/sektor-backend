@@ -14,16 +14,16 @@ class NexusBeanFactoryTest {
         val contextStub: GenericApplicationContext = mock()
         val startTimeUpdateDummy: CollaboratorUpdateListener = mock()
         val endTimeUpdateDummy: CollaboratorUpdateListener = mock()
-        val expectedMap = mutableMapOf(
+        val expectedListenersMap = mutableMapOf(
             "workTime.startOfDayInMinutes" to startTimeUpdateDummy,
             "workTime.endOfDayInMinutes" to endTimeUpdateDummy
         )
         doReturn(startTimeUpdateDummy, endTimeUpdateDummy).`when`(contextStub)
             .getBean(any<String>(), eq(CollaboratorUpdateListener::class.java))
 
-        val actualMap = NexusBeanFactory(contextStub).createCollaboratorUpdateListenerProvider().invoke()
+        val actualListenersMap = NexusBeanFactory(contextStub).createCollaboratorUpdateListenerProvider().invoke()
 
-        assertEquals(expectedMap, actualMap)
+        assertEquals(expectedListenersMap, actualListenersMap)
     }
 
 }
