@@ -11,7 +11,7 @@ class NexusBeanFactory(private var context: GenericApplicationContext) {
     @Bean
     fun createCollaboratorUpdateListenerProvider() =
         {
-            mutableMapOf(
+            mapOf(
                 "workTime.startOfDayInMinutes" to context.getBean<CollaboratorUpdateListener>(
                     "collaboratorWorkTimeStartUpdateListener",
                     CollaboratorUpdateListener::class.java
