@@ -33,7 +33,7 @@ class CollaboratorNotFoundExceptionHandlerTest {
         val exchangeStub: ServerWebExchange = mock()
         doReturn(mock<ServerHttpResponse>()).`when`(exchangeStub).response
 
-        val response = handler.handle(exchangeStub, CollaboratorNotFoundException(""))
+        val response = handler.handle(exchangeStub, mock<CollaboratorNotFoundException>())
 
         assertEquals(Mono.empty(), response)
     }
