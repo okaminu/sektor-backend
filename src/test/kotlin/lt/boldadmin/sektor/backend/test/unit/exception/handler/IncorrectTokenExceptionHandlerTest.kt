@@ -33,7 +33,7 @@ class IncorrectTokenExceptionHandlerTest {
         val exchangeStub: ServerWebExchange = mock()
         doReturn(mock<ServerHttpResponse>()).`when`(exchangeStub).response
 
-        val response = handler.handle(exchangeStub, mock<IncorrectTokenException>())
+        val response = handler.handle(exchangeStub, IncorrectTokenException())
 
         assertEquals(Mono.empty(), response)
     }
@@ -48,11 +48,11 @@ class IncorrectTokenExceptionHandlerTest {
     }
     @Test
     fun `Logs an exception`() {
-        val exceptionSpy: Exception = mock()
+        val exceptionSpy = ExceptionSpy()
 
         handler.handle(mock(), exceptionSpy)
 
-        verify(exceptionSpy).printStackTrace()
+        assertTrue { exceptionSpy.wasPrintStackTraceCalled }
     }
 
     @Test
@@ -71,4 +71,12 @@ class IncorrectTokenExceptionHandlerTest {
         assertTrue(handler.canHandle(IncorrectTokenException()))
     }
 
+    class ExceptionSpy: Exception() {
+        var wasPrintStackTraceCalled: Boolean = false
+            private set
+
+        override fun printStackTrace() {
+            wasPrintStackTraceCalled = true
+        }
+    }
 }
