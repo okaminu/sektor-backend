@@ -14,13 +14,8 @@
 
     <aop:aspectj-autoproxy/>
 
-    <import resource="plugin/crowbar.xml"/>
 
     <mongo:repositories base-package="lt.boldadmin.sektor.backend.repository"/>
-
-    <context:component-scan base-package="lt.boldadmin.nexus.plugin.backendclient" >
-        <context:include-filter type="regex" expression="lt.boldadmin.nexus.plugin.backendclient.service.*"/>
-    </context:component-scan>
 
     <context:annotation-config />
 
@@ -33,4 +28,6 @@
         <context:include-filter type="regex" expression="lt.boldadmin.sektor.backend.service.*"/>
     </context:component-scan>
 
+    <import resource="plugin/crowbar.xml"/>
+    <import resource="plugin/nexus-backend-client.xml"/>
 </beans>
