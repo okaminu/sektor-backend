@@ -1,3 +1,3 @@
 package lt.boldadmin.sektor.backend.exception
 
-class WorkLogIntervalDoesNotBelongToCollaboratorException: RuntimeException()
+object WorkLogIntervalDoesNotBelongToCollaboratorException: RuntimeException()

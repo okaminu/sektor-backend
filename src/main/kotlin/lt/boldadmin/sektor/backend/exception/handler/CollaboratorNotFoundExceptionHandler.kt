@@ -4,7 +4,7 @@ import lt.boldadmin.nexus.api.exception.CollaboratorNotFoundException
 import org.springframework.http.HttpStatus
 import org.springframework.web.server.ServerWebExchange
 
-class CollaboratorNotFoundExceptionHandler : TemplateExceptionHandler() {
+object CollaboratorNotFoundExceptionHandler : TemplateExceptionHandler() {
 
     override fun canHandle(ex: Throwable) = ex is CollaboratorNotFoundException
 

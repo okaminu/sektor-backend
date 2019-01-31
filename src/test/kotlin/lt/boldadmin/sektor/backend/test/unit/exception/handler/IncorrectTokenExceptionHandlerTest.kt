@@ -25,7 +25,7 @@ class IncorrectTokenExceptionHandlerTest {
 
     @Before
     fun `Set up`() {
-        handler = IncorrectTokenExceptionHandler()
+        handler = IncorrectTokenExceptionHandler
     }
 
     @Test
@@ -33,7 +33,7 @@ class IncorrectTokenExceptionHandlerTest {
         val exchangeStub: ServerWebExchange = mock()
         doReturn(mock<ServerHttpResponse>()).`when`(exchangeStub).response
 
-        val response = handler.handle(exchangeStub, IncorrectTokenException())
+        val response = handler.handle(exchangeStub, IncorrectTokenException)
 
         assertEquals(Mono.empty(), response)
     }
@@ -61,14 +61,14 @@ class IncorrectTokenExceptionHandlerTest {
         val httpResponseSpy: ServerHttpResponse = mock()
         doReturn(httpResponseSpy).`when`(exchangeStub).response
 
-        handler.handleException(exchangeStub, IncorrectTokenException())
+        handler.handleException(exchangeStub, IncorrectTokenException)
 
         verify(httpResponseSpy).statusCode = eq(HttpStatus.UNAUTHORIZED)
     }
 
     @Test
     fun `Checks if exception type is IncorrectTokenException`() {
-        assertTrue(handler.canHandle(IncorrectTokenException()))
+        assertTrue(handler.canHandle(IncorrectTokenException))
     }
 
     class ExceptionSpy: Exception() {

@@ -4,7 +4,7 @@ import lt.boldadmin.sektor.backend.exception.IncorrectTokenException
 import org.springframework.http.HttpStatus
 import org.springframework.web.server.ServerWebExchange
 
-class IncorrectTokenExceptionHandler : TemplateExceptionHandler() {
+object IncorrectTokenExceptionHandler : TemplateExceptionHandler() {
 
     override fun canHandle(ex: Throwable) = ex is IncorrectTokenException
 

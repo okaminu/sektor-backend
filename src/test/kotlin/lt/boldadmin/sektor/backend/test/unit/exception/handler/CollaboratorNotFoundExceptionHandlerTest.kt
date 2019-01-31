@@ -25,7 +25,7 @@ class CollaboratorNotFoundExceptionHandlerTest {
 
     @Before
     fun `Set up`() {
-        handler = CollaboratorNotFoundExceptionHandler()
+        handler = CollaboratorNotFoundExceptionHandler
     }
 
     @Test

@@ -25,7 +25,7 @@ class IncorrectConfirmationCodeExceptionHandlerTest {
 
     @Before
     fun `Set up`() {
-        handler = IncorrectConfirmationCodeExceptionHandler()
+        handler = IncorrectConfirmationCodeExceptionHandler
     }
 
     @Test
@@ -33,7 +33,7 @@ class IncorrectConfirmationCodeExceptionHandlerTest {
         val exchangeStub: ServerWebExchange = mock()
         doReturn(mock<ServerHttpResponse>()).`when`(exchangeStub).response
 
-        val response = handler.handle(exchangeStub, IncorrectConfirmationCodeException())
+        val response = handler.handle(exchangeStub, IncorrectConfirmationCodeException)
 
         assertEquals(Mono.empty(), response)
     }
@@ -61,14 +61,14 @@ class IncorrectConfirmationCodeExceptionHandlerTest {
         val httpResponseSpy: ServerHttpResponse = mock()
         doReturn(httpResponseSpy).`when`(exchangeStub).response
 
-        handler.handleException(exchangeStub, IncorrectConfirmationCodeException())
+        handler.handleException(exchangeStub, IncorrectConfirmationCodeException)
 
         verify(httpResponseSpy).statusCode = eq(HttpStatus.UNAUTHORIZED)
     }
 
     @Test
     fun `Checks if exception type is IncorrectConfirmationCodeException`() {
-        assertTrue(handler.canHandle(IncorrectConfirmationCodeException()))
+        assertTrue(handler.canHandle(IncorrectConfirmationCodeException))
     }
 
     class ExceptionSpy: Exception() {

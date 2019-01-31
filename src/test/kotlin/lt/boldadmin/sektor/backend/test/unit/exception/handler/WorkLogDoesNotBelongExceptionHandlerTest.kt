@@ -25,7 +25,7 @@ class WorkLogDoesNotBelongExceptionHandlerTest {
 
     @Before
     fun `Set up`() {
-        handler = WorkLogDoesNotBelongExceptionHandler()
+        handler = WorkLogDoesNotBelongExceptionHandler
     }
 
     @Test
@@ -33,7 +33,7 @@ class WorkLogDoesNotBelongExceptionHandlerTest {
         val exchangeStub: ServerWebExchange = mock()
         doReturn(mock<ServerHttpResponse>()).`when`(exchangeStub).response
 
-        val response = handler.handle(exchangeStub, WorkLogIntervalDoesNotBelongToCollaboratorException())
+        val response = handler.handle(exchangeStub, WorkLogIntervalDoesNotBelongToCollaboratorException)
 
         assertEquals(Mono.empty(), response)
     }
@@ -61,14 +61,14 @@ class WorkLogDoesNotBelongExceptionHandlerTest {
         val httpResponseSpy: ServerHttpResponse = mock()
         doReturn(httpResponseSpy).`when`(exchangeStub).response
 
-        handler.handleException(exchangeStub, WorkLogIntervalDoesNotBelongToCollaboratorException())
+        handler.handleException(exchangeStub, WorkLogIntervalDoesNotBelongToCollaboratorException)
 
         verify(httpResponseSpy).statusCode = eq(HttpStatus.UNAUTHORIZED)
     }
 
     @Test
     fun `Checks if exception type is WorkLogDoesNotBelongExceptionHandler`() {
-        assertTrue(handler.canHandle(WorkLogIntervalDoesNotBelongToCollaboratorException()))
+        assertTrue(handler.canHandle(WorkLogIntervalDoesNotBelongToCollaboratorException))
     }
 
     class ExceptionSpy: Exception() {

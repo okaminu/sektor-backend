@@ -4,7 +4,7 @@ import lt.boldadmin.sektor.backend.exception.WorkLogIntervalDoesNotBelongToColla
 import org.springframework.http.HttpStatus
 import org.springframework.web.server.ServerWebExchange
 
-class WorkLogDoesNotBelongExceptionHandler : TemplateExceptionHandler() {
+object WorkLogDoesNotBelongExceptionHandler : TemplateExceptionHandler() {
 
     override fun canHandle(ex: Throwable) = ex is WorkLogIntervalDoesNotBelongToCollaboratorException
 

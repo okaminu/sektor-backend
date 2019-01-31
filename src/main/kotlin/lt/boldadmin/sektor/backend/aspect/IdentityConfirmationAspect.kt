@@ -17,7 +17,7 @@ class IdentityConfirmationAspect(private val identityConfirmation: IdentityConfi
         val header = getHeader(req)
 
         if (header.isEmpty() || !identityConfirmation.doesTokenExist(header[0]))
-            throw IncorrectTokenException()
+            throw IncorrectTokenException
     }
 
 
@@ -26,7 +26,7 @@ class IdentityConfirmationAspect(private val identityConfirmation: IdentityConfi
         val code = req.pathVariable("code")
 
         if (!identityConfirmation.doesUserByCodeExist(code))
-            throw IncorrectConfirmationCodeException()
+            throw IncorrectConfirmationCodeException
     }
 
     private fun getHeader(req: ServerRequest) = req.headers().header("auth-token")

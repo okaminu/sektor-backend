@@ -4,7 +4,7 @@ import lt.boldadmin.sektor.backend.exception.IncorrectConfirmationCodeException
 import org.springframework.http.HttpStatus
 import org.springframework.web.server.ServerWebExchange
 
-class IncorrectConfirmationCodeExceptionHandler : TemplateExceptionHandler() {
+object IncorrectConfirmationCodeExceptionHandler : TemplateExceptionHandler() {
 
     override fun canHandle(ex: Throwable) = ex is IncorrectConfirmationCodeException
 
