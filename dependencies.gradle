@@ -35,7 +35,6 @@ dependencies {
     implementation "org.springframework:spring-aspects"
     implementation "org.springframework:spring-webflux"
     implementation "org.springframework.data:spring-data-mongodb"
-    implementation "org.springframework.data:spring-data-redis"
     implementation "org.springframework:spring-context"
 
     implementation 'io.lettuce:lettuce-core:5.0.5.RELEASE'

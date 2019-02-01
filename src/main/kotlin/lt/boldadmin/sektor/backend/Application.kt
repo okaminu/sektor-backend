@@ -1,7 +1,6 @@
 package lt.boldadmin.sektor.backend
 
 import lt.boldadmin.sektor.backend.factory.beans
-import lt.boldadmin.sektor.backend.factory.redisBeans
 import org.springframework.beans.factory.getBean
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader
 import org.springframework.context.support.GenericApplicationContext
@@ -24,7 +23,6 @@ fun main(args: Array<String>) {
 
 private fun initializeBeans(context: GenericApplicationContext) {
     beans().initialize(context)
-    redisBeans().initialize(context)
     XmlBeanDefinitionReader(context).loadBeanDefinitions("classpath:context/context.xml")
 }
 
