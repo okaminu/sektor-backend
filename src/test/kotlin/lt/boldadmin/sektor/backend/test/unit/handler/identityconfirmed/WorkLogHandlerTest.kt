@@ -225,7 +225,6 @@ class WorkLogHandlerTest {
             .returnResult()
 
         assertTrue(hasWorkStartedResponse.responseBody!!)
-
     }
 
     @Test
@@ -250,7 +249,7 @@ class WorkLogHandlerTest {
 
     companion object {
         private const val USER_ID = "userId"
-        private const val AUTH_TOKEN = "asda454s6d"
+        private const val AUTH_TOKEN = "as454s6d"
         private val collaborator = Collaborator()
     }
 }
