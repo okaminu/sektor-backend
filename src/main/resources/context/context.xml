@@ -10,7 +10,7 @@
     http://www.springframework.org/schema/context/spring-context.xsd
     http://www.springframework.org/schema/aop
     http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo.xsd"
-       default-lazy-init="true" default-autowire="constructor">
+       default-lazy-init="true">
 
     <aop:aspectj-autoproxy/>
 
