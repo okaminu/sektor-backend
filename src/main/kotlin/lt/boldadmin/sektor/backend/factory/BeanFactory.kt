@@ -10,7 +10,6 @@ import org.springframework.data.mongodb.core.SimpleMongoDbFactory
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.reactive.CorsWebFilter
 import org.springframework.web.reactive.function.client.WebClient
-import java.util.*
 
 fun beans() = beans {
 
@@ -22,14 +21,13 @@ fun beans() = beans {
 
     bean("mongoClient") {
         val environment = ref<Environment>()
-        MongoClient(ServerAddress(environment["MONGO_HOST"]), ArrayList<MongoCredential>().apply {
-            add(
-                MongoCredential.createCredential(
-                    environment["MONGO_USERNAME"], environment["MONGO_AUTH_DATABASE"],
-                    environment["MONGO_PASSWORD"].toCharArray()
-                )
-            )
-        })
+        MongoClient(
+            ServerAddress(environment["MONGO_HOST"]), MongoCredential.createCredential(
+            environment["MONGO_USERNAME"], environment["MONGO_AUTH_DATABASE"],
+            environment["MONGO_PASSWORD"].toCharArray()
+        ),
+            MongoClientOptions.builder().build()
+        )
     }
 
     bean("messageSource") {
