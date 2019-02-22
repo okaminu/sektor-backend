@@ -7,7 +7,6 @@ import lt.boldadmin.crowbar.IdentityConfirmation
 import lt.boldadmin.nexus.api.service.CollaboratorService
 import lt.boldadmin.nexus.api.service.worklog.WorklogService
 import lt.boldadmin.nexus.api.service.worklog.duration.WorklogDurationService
-import lt.boldadmin.nexus.api.service.worklog.status.WorklogDescriptionService
 import lt.boldadmin.nexus.api.service.worklog.status.WorklogStartEndService
 import lt.boldadmin.nexus.api.service.worklog.status.location.WorklogLocationService
 import lt.boldadmin.nexus.api.type.entity.Collaborator
@@ -48,9 +47,6 @@ class WorkLogHandlerTest {
     @Mock
     private lateinit var workLogStartEndServiceStub: WorklogStartEndService
 
-    @Mock
-    private lateinit var workLogDescriptionServiceSpy: WorklogDescriptionService
-
     private lateinit var webTestClient: WebTestClient
 
     @Before
@@ -61,7 +57,6 @@ class WorkLogHandlerTest {
             collaboratorAuthService,
             worklogServiceStub,
             workLogStartEndServiceStub,
-            workLogDescriptionServiceSpy,
             workLogDurationServiceStub
         )
         val routerFunction = Routes(workLogHandler, mock(), mock(), mock()).router()
@@ -166,27 +161,6 @@ class WorkLogHandlerTest {
     }
 
     @Test
-    fun `Provides worklog description`() {
-        val intervalId = "intervalId"
-        val expectedDescription = "Description"
-        doReturn(expectedDescription).`when`(workLogDescriptionServiceSpy).getDescription(intervalId)
-
-        val descriptionResponse = webTestClient.get()
-            .uri("/worklog/interval/$intervalId/description")
-            .header(
-                "auth-token",
-                AUTH_TOKEN
-            )
-            .exchange()
-            .expectStatus()
-            .isOk
-            .expectBody(String::class.java)
-            .returnResult()
-
-        assertEquals(expectedDescription, descriptionResponse.responseBody!!.toString())
-    }
-
-    @Test
     fun `Provides work durations sum`() {
         val intervalIds = listOf("id1", "id2")
         val intervalIdsInUri = "id1,id2"
@@ -225,26 +199,6 @@ class WorkLogHandlerTest {
             .returnResult()
 
         assertTrue(hasWorkStartedResponse.responseBody!!)
-    }
-
-    @Test
-    fun `Updates worklog description`() {
-        val updatedDescription = "Updated Description"
-        val intervalId = "intervalId"
-
-        webTestClient.post()
-            .uri("/worklog/interval/$intervalId/update-description")
-            .header(
-                "auth-token",
-                AUTH_TOKEN
-            )
-            .body(updatedDescription.toMono(), String::class.java)
-            .exchange()
-            .expectStatus()
-            .isOk
-            .expectBody().isEmpty
-
-        verify(workLogDescriptionServiceSpy).updateDescription(intervalId, updatedDescription)
     }
 
     companion object {
