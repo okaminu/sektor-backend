@@ -15,9 +15,6 @@ fun workLogRoutes(
         GET("/has-work-started", workLogHandler::hasWorkStarted)
         POST("/log-by-location", workLogHandler::logByLocation)
         POST("/log-by-message", workLogMessageHandler::logByMessage)
-        "/interval".nest {
-            GET("/{intervalId}/endpoints", workLogHandler::getIntervalEndpointsByIntervalId)
-            GET("/{intervalIds}/durations-sum", workLogHandler::getDurationsSumByIntervalIds)
-        }
+        GET("/interval/{intervalId}/endpoints", workLogHandler::getIntervalEndpointsByIntervalId)
     }
 }
