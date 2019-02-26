@@ -161,28 +161,6 @@ class WorkLogHandlerTest {
     }
 
     @Test
-    fun `Provides work durations sum`() {
-        val intervalIds = listOf("id1", "id2")
-        val intervalIdsInUri = "id1,id2"
-        val expectedDurationsSum = 1000L
-        doReturn(expectedDurationsSum).`when`(workLogDurationServiceStub).sumWorkDurations(intervalIds)
-
-        val durationSumResponse = webTestClient.get()
-            .uri("/worklog/interval/$intervalIdsInUri/durations-sum")
-            .header(
-                "auth-token",
-                AUTH_TOKEN
-            )
-            .exchange()
-            .expectStatus()
-            .isOk
-            .expectBody(Long::class.java)
-            .returnResult()
-
-        assertEquals(expectedDurationsSum, durationSumResponse.responseBody!!.toLong())
-    }
-
-    @Test
     fun `Provides work status`() {
         doReturn(true).`when`(workLogStartEndServiceStub).hasWorkStarted(USER_ID)
 
