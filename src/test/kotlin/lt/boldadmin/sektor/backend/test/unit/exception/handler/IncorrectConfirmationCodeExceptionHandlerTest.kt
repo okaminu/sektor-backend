@@ -1,6 +1,6 @@
 package lt.boldadmin.sektor.backend.test.unit.exception.handler
 
-import com.nhaarman.mockito_kotlin.*
+import com.nhaarman.mockitokotlin2.*
 import lt.boldadmin.sektor.backend.exception.IncorrectConfirmationCodeException
 import lt.boldadmin.sektor.backend.exception.handler.IncorrectConfirmationCodeExceptionHandler
 import lt.boldadmin.sektor.backend.exception.handler.TemplateExceptionHandler
