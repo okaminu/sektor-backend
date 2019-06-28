@@ -14,7 +14,7 @@ import org.springframework.web.reactive.function.client.WebClient
 fun beans() = beans {
 
     bean("mongoTemplate") {
-        MongoTemplate(SimpleMongoDbFactory(ref(), ref<Environment>()["MONGO_DATABASE"])).apply {
+        MongoTemplate(SimpleMongoDbFactory(ref(), ref<Environment>()["MONGO_DATABASE"]!!)).apply {
             setWriteConcern(WriteConcern.ACKNOWLEDGED)
         }
     }
@@ -23,8 +23,8 @@ fun beans() = beans {
         val environment = ref<Environment>()
         MongoClient(
             ServerAddress(environment["MONGO_HOST"]), MongoCredential.createCredential(
-            environment["MONGO_USERNAME"], environment["MONGO_AUTH_DATABASE"],
-            environment["MONGO_PASSWORD"].toCharArray()
+            environment["MONGO_USERNAME"]!!, environment["MONGO_AUTH_DATABASE"]!!,
+            environment["MONGO_PASSWORD"]!!.toCharArray()
         ),
             MongoClientOptions.builder().build()
         )

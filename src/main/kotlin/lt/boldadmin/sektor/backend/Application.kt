@@ -7,7 +7,7 @@ import org.springframework.context.support.GenericApplicationContext
 import org.springframework.http.server.reactive.ReactorHttpHandlerAdapter
 import org.springframework.web.cors.reactive.CorsWebFilter
 import org.springframework.web.server.adapter.WebHttpHandlerBuilder
-import reactor.ipc.netty.http.server.HttpServer
+import reactor.netty.http.server.HttpServer
 
 
 fun main(args: Array<String>) {
@@ -18,7 +18,7 @@ fun main(args: Array<String>) {
 
     val httpHandler = getWebHttpHandler(context)
 
-    HttpServer.create(8090).startAndAwait(ReactorHttpHandlerAdapter(httpHandler))
+    HttpServer.create().port(8070).handle(ReactorHttpHandlerAdapter(httpHandler))
 }
 
 private fun initializeBeans(context: GenericApplicationContext) {
