@@ -4,7 +4,7 @@ import lt.boldadmin.nexus.api.service.worklog.WorklogService
 import lt.boldadmin.nexus.api.service.worklog.duration.WorklogDurationService
 import lt.boldadmin.nexus.api.service.worklog.status.WorklogStartEndService
 import lt.boldadmin.nexus.api.service.worklog.status.location.WorklogLocationService
-import lt.boldadmin.nexus.api.type.valueobject.Location
+import lt.boldadmin.nexus.api.type.valueobject.Coordinates
 import lt.boldadmin.sektor.backend.service.CollaboratorAuthenticationService
 import org.springframework.web.reactive.function.BodyInserters.fromObject
 import org.springframework.web.reactive.function.server.*
@@ -44,7 +44,7 @@ open class WorkLogHandler(
         )
 
     open fun logByLocation(req: ServerRequest): Mono<ServerResponse> =
-        req.bodyToMono<Location>()
+        req.bodyToMono<Coordinates>()
             .doOnNext { workLogLocationService.logWork(collaboratorAuthService.getCollaborator(req), it) }
             .flatMap { ok().build() }
 

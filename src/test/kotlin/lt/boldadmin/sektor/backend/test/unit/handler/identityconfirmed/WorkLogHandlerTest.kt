@@ -12,7 +12,7 @@ import lt.boldadmin.nexus.api.service.worklog.status.location.WorklogLocationSer
 import lt.boldadmin.nexus.api.type.entity.Collaborator
 import lt.boldadmin.nexus.api.type.entity.Project
 import lt.boldadmin.nexus.api.type.entity.Worklog
-import lt.boldadmin.nexus.api.type.valueobject.Location
+import lt.boldadmin.nexus.api.type.valueobject.Coordinates
 import lt.boldadmin.sektor.backend.handler.identityconfirmed.WorkLogHandler
 import lt.boldadmin.sektor.backend.route.Routes
 import lt.boldadmin.sektor.backend.service.CollaboratorAuthenticationService
@@ -69,7 +69,7 @@ class WorkLogHandlerTest {
 
     @Test
     fun `Logs work by given location`() {
-        val location = Location(1.1, 1.2)
+        val coordinates = Coordinates(1.1, 1.2)
 
         webTestClient.post()
             .uri("/worklog/log-by-location")
@@ -77,13 +77,13 @@ class WorkLogHandlerTest {
                 "auth-token",
                 AUTH_TOKEN
             )
-            .body(location.toMono(), Location::class.java)
+            .body(coordinates.toMono(), Coordinates::class.java)
             .exchange()
             .expectStatus()
             .isOk
             .expectBody().isEmpty
 
-        verify(workLogLocationServiceSpy).logWork(collaborator, location)
+        verify(workLogLocationServiceSpy).logWork(collaborator, coordinates)
     }
 
     @Test
