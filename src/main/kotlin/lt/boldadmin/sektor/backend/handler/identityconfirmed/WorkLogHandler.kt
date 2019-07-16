@@ -1,30 +1,21 @@
 package lt.boldadmin.sektor.backend.handler.identityconfirmed
 
-import lt.boldadmin.nexus.api.service.worklog.WorklogService
-import lt.boldadmin.nexus.api.service.worklog.duration.WorklogDurationService
 import lt.boldadmin.nexus.api.service.worklog.status.WorklogStartEndService
 import lt.boldadmin.nexus.api.service.worklog.status.location.WorklogLocationService
 import lt.boldadmin.nexus.api.type.valueobject.Coordinates
 import lt.boldadmin.sektor.backend.service.CollaboratorAuthenticationService
 import org.springframework.web.reactive.function.BodyInserters.fromObject
-import org.springframework.web.reactive.function.server.*
+import org.springframework.web.reactive.function.server.ServerRequest
+import org.springframework.web.reactive.function.server.ServerResponse
 import org.springframework.web.reactive.function.server.ServerResponse.ok
+import org.springframework.web.reactive.function.server.bodyToMono
 import reactor.core.publisher.Mono
 
 open class WorkLogHandler(
     private val workLogLocationService: WorklogLocationService,
     private val collaboratorAuthService: CollaboratorAuthenticationService,
-    private val worklogService: WorklogService,
-    private val workLogStartEndService: WorklogStartEndService,
-    private val workLogDurationService: WorklogDurationService
+    private val workLogStartEndService: WorklogStartEndService
 ) {
-    open fun getIntervalIdsByCollaborator(req: ServerRequest) =
-        ok().body(
-            Mono.just(worklogService.getByCollaboratorId(collaboratorAuthService.getCollaboratorId(req))
-                .map { it.intervalId }
-                .distinct())
-        )
-
     open fun getProjectNameOfStartedWork(req: ServerRequest): Mono<ServerResponse> =
         ok().body(
             fromObject(
@@ -47,14 +38,4 @@ open class WorkLogHandler(
         req.bodyToMono<Coordinates>()
             .doOnNext { workLogLocationService.logWork(collaboratorAuthService.getCollaborator(req), it) }
             .flatMap { ok().build() }
-
-    open fun getIntervalEndpointsByIntervalId(req: ServerRequest) =
-        ok().body(
-            Mono.just(
-                mapOf(
-                    "workLogs" to worklogService.getIntervalEndpoints(req.pathVariable("intervalId")),
-                    "workDuration" to workLogDurationService.measureDuration(req.pathVariable("intervalId"))
-                )
-            )
-        )
 }
