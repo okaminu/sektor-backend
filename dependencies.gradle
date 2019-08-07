@@ -15,12 +15,6 @@ repositories {
     }
 }
 
-dependencyManagement {
-    imports {
-        mavenBom 'org.springframework.boot:spring-boot-dependencies:2.1.6.RELEASE'
-    }
-}
-
 dependencies {
     implementation "lt.boldadmin.nexus:nexus-api:$gradle.ext.version"
     runtime "lt.boldadmin.nexus:nexus-backend-client-plugin:$gradle.ext.version"
@@ -37,7 +31,7 @@ dependencies {
     implementation "org.springframework.data:spring-data-mongodb"
     implementation "org.springframework:spring-context"
 
-    implementation 'io.lettuce:lettuce-core:5.1.7.RELEASE'
+    implementation 'io.lettuce:lettuce-core:5.1.8.RELEASE'
 
     implementation "io.projectreactor.netty:reactor-netty"
 
@@ -51,11 +45,14 @@ dependencies {
     runtime "com.sun.xml.bind:jaxb-core:2.3.0.1"
     runtime "com.sun.xml.bind:jaxb-impl:2.3.2"
     runtime "javax.activation:activation:1.1.1"
+    runtime "org.glassfish:javax.el:3.0.0"
+
 
     testImplementation "org.springframework:spring-test"
-    testImplementation "junit:junit:4.12"
-    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+
+    testImplementation "org.junit.jupiter:junit-jupiter:5.5.1"
+    testImplementation 'org.mockito:mockito-junit-jupiter:3.0.0'
+
+    testImplementation "org.mockito:mockito-core:3.0.0"
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0"
-    testImplementation "org.mockito:mockito-core:2.28.2"
-    testImplementation "net.bytebuddy:byte-buddy:1.9.13"
 }

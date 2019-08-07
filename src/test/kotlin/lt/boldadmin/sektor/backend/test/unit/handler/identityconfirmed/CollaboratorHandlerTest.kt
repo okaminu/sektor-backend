@@ -10,15 +10,15 @@ import lt.boldadmin.nexus.api.type.valueobject.TimeRange
 import lt.boldadmin.sektor.backend.handler.identityconfirmed.CollaboratorHandler
 import lt.boldadmin.sektor.backend.route.Routes
 import lt.boldadmin.sektor.backend.service.CollaboratorAuthenticationService
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
-import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.junit.jupiter.MockitoExtension
 import org.springframework.test.web.reactive.server.WebTestClient
-import kotlin.test.assertEquals
 
-@RunWith(MockitoJUnitRunner::class)
+@ExtendWith(MockitoExtension::class)
 class CollaboratorHandlerTest {
 
     @Mock
@@ -29,7 +29,7 @@ class CollaboratorHandlerTest {
 
     private lateinit var collaboratorHandler: CollaboratorHandler
 
-    @Before
+    @BeforeEach
     fun setUp() {
         val collaboratorAuthService = CollaboratorAuthenticationService(
                 collaboratorServiceStub,

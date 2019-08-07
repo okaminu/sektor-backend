@@ -5,16 +5,15 @@ import lt.boldadmin.nexus.api.service.worklog.WorklogAuthService
 import lt.boldadmin.sektor.backend.aspect.CollaboratorAuthorizationAspect
 import lt.boldadmin.sektor.backend.exception.WorkLogIntervalDoesNotBelongToCollaboratorException
 import lt.boldadmin.sektor.backend.service.CollaboratorAuthenticationService
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
-import org.junit.rules.ExpectedException
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
-import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.junit.jupiter.MockitoExtension
 import org.springframework.web.reactive.function.server.ServerRequest
 
-@RunWith(MockitoJUnitRunner::class)
+@ExtendWith(MockitoExtension::class)
 class CollaboratorAuthorizationAspectTest {
 
     @Mock
@@ -26,13 +25,9 @@ class CollaboratorAuthorizationAspectTest {
     @Mock
     private lateinit var serverRequestStub: ServerRequest
 
-    @Rule
-    @JvmField
-    val expectedException = ExpectedException.none()!!
-
     private lateinit var aspect: CollaboratorAuthorizationAspect
 
-    @Before
+    @BeforeEach
     fun setUp() {
         aspect = CollaboratorAuthorizationAspect(collaboratorAuthServiceStub, workLogAuthServiceStub)
 
@@ -45,9 +40,9 @@ class CollaboratorAuthorizationAspectTest {
         doReturn(intervalId).`when`(serverRequestStub).pathVariable("intervalId")
         doReturn(false).`when`(workLogAuthServiceStub).doesCollaboratorHaveWorkLogInterval(COLLABORATOR_ID, intervalId)
 
-        expectedException.expect(WorkLogIntervalDoesNotBelongToCollaboratorException::class.java)
-
-        aspect.collaboratorHasWorkLogIntervalAdvice(serverRequestStub)
+        assertThrows(WorkLogIntervalDoesNotBelongToCollaboratorException::class.java) {
+            aspect.collaboratorHasWorkLogIntervalAdvice(serverRequestStub)
+        }
     }
 
     @Test
@@ -66,9 +61,9 @@ class CollaboratorAuthorizationAspectTest {
         doReturn(intervalIdsString).`when`(serverRequestStub).pathVariable("intervalIds")
         doReturn(false).`when`(workLogAuthServiceStub).doesCollaboratorHaveWorkLogIntervals(COLLABORATOR_ID, intervalIds)
 
-        expectedException.expect(WorkLogIntervalDoesNotBelongToCollaboratorException::class.java)
-
-        aspect.collaboratorHasWorkLogIntervalsAdvice(serverRequestStub)
+        assertThrows(WorkLogIntervalDoesNotBelongToCollaboratorException::class.java) {
+            aspect.collaboratorHasWorkLogIntervalsAdvice(serverRequestStub)
+        }
     }
 
     @Test
