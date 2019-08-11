@@ -17,7 +17,7 @@ fun main() {
 
     val httpHandler = getWebHttpHandler(context)
 
-    HttpServer.create().port(8070).handle(ReactorHttpHandlerAdapter(httpHandler)).bindNow().apply {
+    HttpServer.create().port(8090).handle(ReactorHttpHandlerAdapter(httpHandler)).bindNow().apply {
         onDispose().block()
     }
 }
