@@ -10,5 +10,4 @@
     <bean id="identityConfirmation" class="lt.boldadmin.crowbar.IdentityConfirmation"/>
     <bean id="awsSnsGatewayAdapter" class="lt.boldadmin.crowbar.plugin.aws.sns.AwsSnsMessageGatewayAdapter"/>
 
-
 </beans>
