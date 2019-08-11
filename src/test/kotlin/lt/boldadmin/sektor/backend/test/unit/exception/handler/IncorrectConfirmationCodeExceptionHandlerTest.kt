@@ -40,6 +40,7 @@ class IncorrectConfirmationCodeExceptionHandlerTest {
             response.block()
         }
     }
+
     @Test
     fun `Logs an exception`() {
         val exceptionSpy = ExceptionSpy()
