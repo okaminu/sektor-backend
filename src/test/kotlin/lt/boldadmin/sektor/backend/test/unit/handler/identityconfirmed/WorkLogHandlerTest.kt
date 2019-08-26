@@ -5,8 +5,6 @@ import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import lt.boldadmin.crowbar.IdentityConfirmation
 import lt.boldadmin.nexus.api.service.CollaboratorService
-import lt.boldadmin.nexus.api.service.worklog.WorklogService
-import lt.boldadmin.nexus.api.service.worklog.duration.WorklogDurationService
 import lt.boldadmin.nexus.api.service.worklog.status.WorklogStartEndService
 import lt.boldadmin.nexus.api.service.worklog.status.location.WorklogLocationService
 import lt.boldadmin.nexus.api.type.entity.Collaborator
@@ -36,12 +34,6 @@ class WorkLogHandlerTest {
 
     @Mock
     private lateinit var identityConfirmationStub: IdentityConfirmation
-
-    @Mock
-    private lateinit var worklogServiceStub: WorklogService
-
-    @Mock
-    private lateinit var workLogDurationServiceStub: WorklogDurationService
 
     @Mock
     private lateinit var workLogStartEndServiceStub: WorklogStartEndService
@@ -131,5 +123,3 @@ class WorkLogHandlerTest {
         private val collaborator = Collaborator()
     }
 }
-
-private typealias WorkLogAsJson = Map<String, String>
