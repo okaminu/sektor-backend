@@ -9,7 +9,6 @@ import lt.boldadmin.nexus.api.service.worklog.WorklogService
 import lt.boldadmin.nexus.api.service.worklog.duration.WorklogDurationService
 import lt.boldadmin.nexus.api.service.worklog.status.WorklogStartEndService
 import lt.boldadmin.nexus.api.service.worklog.status.location.WorklogLocationService
-import lt.boldadmin.nexus.api.type.entity.Collaborator
 import lt.boldadmin.nexus.api.type.entity.Project
 import lt.boldadmin.nexus.api.type.entity.Worklog
 import lt.boldadmin.nexus.api.type.valueobject.Coordinates
@@ -63,8 +62,7 @@ class WorkLogHandlerTest {
         webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
 
 
-        doReturn(USER_ID).`when`(identityConfirmationStub).getUserIdByToken(AUTH_TOKEN)
-        doReturn(collaborator).`when`(collaboratorServiceStub).getById(USER_ID)
+        doReturn(COLLABORATOR_ID).`when`(identityConfirmationStub).getUserIdByToken(AUTH_TOKEN)
     }
 
     @Test
@@ -83,7 +81,7 @@ class WorkLogHandlerTest {
             .isOk
             .expectBody().isEmpty
 
-        verify(workLogLocationServiceSpy).logWork(collaborator, coordinates)
+        verify(workLogLocationServiceSpy).logWork(COLLABORATOR_ID, coordinates)
     }
 
     @Test
@@ -121,7 +119,9 @@ class WorkLogHandlerTest {
         val expectedIntervalId2 = "id2"
         val workLogStub1: Worklog = mock()
         val workLogStub2: Worklog = mock()
-        doReturn(listOf(workLogStub1, workLogStub1, workLogStub2)).`when`(worklogServiceStub).getByCollaboratorId(USER_ID)
+        doReturn(listOf(workLogStub1, workLogStub1, workLogStub2))
+            .`when`(worklogServiceStub)
+            .getByCollaboratorId(COLLABORATOR_ID)
         doReturn(expectedIntervalId1).`when`(workLogStub1).intervalId
         doReturn(expectedIntervalId2).`when`(workLogStub2).intervalId
 
@@ -143,7 +143,7 @@ class WorkLogHandlerTest {
     @Test
     fun `Provides project name of started work`() {
         val expectedProject = Project(name = "projectName")
-        doReturn(expectedProject).`when`(workLogStartEndServiceStub).getProjectOfStartedWork(USER_ID)
+        doReturn(expectedProject).`when`(workLogStartEndServiceStub).getProjectOfStartedWork(COLLABORATOR_ID)
 
         val projectNameResponse = webTestClient.get()
             .uri("/worklog/project-name-of-started-work")
@@ -162,7 +162,7 @@ class WorkLogHandlerTest {
 
     @Test
     fun `Provides work status`() {
-        doReturn(true).`when`(workLogStartEndServiceStub).hasWorkStarted(USER_ID)
+        doReturn(true).`when`(workLogStartEndServiceStub).hasWorkStarted(COLLABORATOR_ID)
 
         val hasWorkStartedResponse = webTestClient.get()
             .uri("/worklog/has-work-started")
@@ -180,9 +180,8 @@ class WorkLogHandlerTest {
     }
 
     companion object {
-        private const val USER_ID = "userId"
+        private const val COLLABORATOR_ID = "collabId"
         private const val AUTH_TOKEN = "as454s6d"
-        private val collaborator = Collaborator()
     }
 }
 

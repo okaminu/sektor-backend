@@ -45,7 +45,7 @@ open class WorkLogHandler(
 
     open fun logByLocation(req: ServerRequest): Mono<ServerResponse> =
         req.bodyToMono<Coordinates>()
-            .doOnNext { workLogLocationService.logWork(collaboratorAuthService.getCollaborator(req), it) }
+            .doOnNext { workLogLocationService.logWork(collaboratorAuthService.getCollaboratorId(req), it) }
             .flatMap { ok().build() }
 
     open fun getIntervalEndpointsByIntervalId(req: ServerRequest) =

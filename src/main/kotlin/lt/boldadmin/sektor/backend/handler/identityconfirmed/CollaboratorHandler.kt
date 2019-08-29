@@ -11,5 +11,4 @@ open class CollaboratorHandler(private val collaboratorAuthService: Collaborator
 
     open fun getWorkTime(req: ServerRequest): Mono<ServerResponse> =
         ok().body(fromObject(collaboratorAuthService.getCollaborator(req).workTime))
-
 }
