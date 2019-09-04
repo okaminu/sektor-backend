@@ -3,16 +3,15 @@ package lt.boldadmin.sektor.backend.handler.identityconfirmed
 import lt.boldadmin.nexus.api.service.worklog.WorklogService
 import lt.boldadmin.nexus.api.service.worklog.duration.WorklogDurationService
 import lt.boldadmin.nexus.api.service.worklog.status.WorklogStartEndService
-import lt.boldadmin.nexus.api.service.worklog.status.location.WorklogLocationService
-import lt.boldadmin.nexus.api.type.valueobject.Coordinates
 import lt.boldadmin.sektor.backend.service.CollaboratorAuthenticationService
 import org.springframework.web.reactive.function.BodyInserters.fromObject
-import org.springframework.web.reactive.function.server.*
+import org.springframework.web.reactive.function.server.ServerRequest
+import org.springframework.web.reactive.function.server.ServerResponse
 import org.springframework.web.reactive.function.server.ServerResponse.ok
+import org.springframework.web.reactive.function.server.body
 import reactor.core.publisher.Mono
 
-open class WorkLogHandler(
-    private val workLogLocationService: WorklogLocationService,
+open class WorklogHandler(
     private val collaboratorAuthService: CollaboratorAuthenticationService,
     private val worklogService: WorklogService,
     private val workLogStartEndService: WorklogStartEndService,
@@ -42,11 +41,6 @@ open class WorkLogHandler(
                 )
             )
         )
-
-    open fun logByLocation(req: ServerRequest): Mono<ServerResponse> =
-        req.bodyToMono<Coordinates>()
-            .doOnNext { workLogLocationService.logWork(collaboratorAuthService.getCollaboratorId(req), it) }
-            .flatMap { ok().build() }
 
     open fun getIntervalEndpointsByIntervalId(req: ServerRequest) =
         ok().body(

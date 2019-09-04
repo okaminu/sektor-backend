@@ -5,7 +5,7 @@ import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import lt.boldadmin.nexus.api.service.worklog.status.message.WorklogMessageService
 import lt.boldadmin.nexus.api.type.valueobject.Message
-import lt.boldadmin.sektor.backend.handler.WorkLogMessageHandler
+import lt.boldadmin.sektor.backend.handler.CollaboratorMessageHandler
 import lt.boldadmin.sektor.backend.route.Routes
 import lt.boldadmin.sektor.backend.service.JsonToMapConverter
 import org.junit.Before
@@ -24,7 +24,7 @@ import reactor.core.publisher.toMono
 
 @Suppress("UnassignedFluxMonoInstance")
 @RunWith(MockitoJUnitRunner::class)
-class WorklogMessageHandlerTest {
+class CollaboratorMessageHandlerTest {
 
     @Mock
     private lateinit var workLogMessageServiceSpy: WorklogMessageService
@@ -39,7 +39,7 @@ class WorklogMessageHandlerTest {
 
     @Before
     fun `Set up`() {
-        val workLogMessageHandler = WorkLogMessageHandler(
+        val collaboratorMessageHandler = CollaboratorMessageHandler(
             workLogMessageServiceSpy,
             jsonToMapConverterStub,
             webClientSpy
@@ -47,7 +47,7 @@ class WorklogMessageHandlerTest {
 
         handlerWebClient = WebTestClient
             .bindToRouterFunction(
-                Routes(mock(), mock(), mock(), workLogMessageHandler).router()
+                Routes(mock(), mock(), collaboratorMessageHandler, mock()).router()
             ).build()
     }
 
@@ -76,7 +76,7 @@ class WorklogMessageHandlerTest {
     }
 
     @Test
-    fun `Logs work when notification arrives`() {
+    fun `Updates collaborator location when notification arrives`() {
         val jsonBody = "{'key': 'value'}"
         val jsonMessage = "{'message': 'contents'}"
         val bodyMap = mapOf("Type" to "Notification", "Message" to jsonMessage)
@@ -96,7 +96,7 @@ class WorklogMessageHandlerTest {
 
     private fun postToHandlerWebClient(jsonBody: String) {
         handlerWebClient.post()
-            .uri("/worklog/log-by-message")
+            .uri("/collaborator/location/message")
             .body(jsonBody.toMono(), String::class.java)
             .exchange()
             .expectStatus()

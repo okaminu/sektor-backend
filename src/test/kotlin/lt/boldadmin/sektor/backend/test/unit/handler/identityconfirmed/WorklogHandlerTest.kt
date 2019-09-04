@@ -2,17 +2,14 @@ package lt.boldadmin.sektor.backend.test.unit.handler.identityconfirmed
 
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.verify
 import lt.boldadmin.crowbar.IdentityConfirmation
 import lt.boldadmin.nexus.api.service.CollaboratorService
 import lt.boldadmin.nexus.api.service.worklog.WorklogService
 import lt.boldadmin.nexus.api.service.worklog.duration.WorklogDurationService
 import lt.boldadmin.nexus.api.service.worklog.status.WorklogStartEndService
-import lt.boldadmin.nexus.api.service.worklog.status.location.WorklogLocationService
 import lt.boldadmin.nexus.api.type.entity.Project
 import lt.boldadmin.nexus.api.type.entity.Worklog
-import lt.boldadmin.nexus.api.type.valueobject.Coordinates
-import lt.boldadmin.sektor.backend.handler.identityconfirmed.WorkLogHandler
+import lt.boldadmin.sektor.backend.handler.identityconfirmed.WorklogHandler
 import lt.boldadmin.sektor.backend.route.Routes
 import lt.boldadmin.sektor.backend.service.CollaboratorAuthenticationService
 import org.junit.Before
@@ -21,15 +18,11 @@ import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 import org.springframework.test.web.reactive.server.WebTestClient
-import reactor.core.publisher.toMono
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 @RunWith(MockitoJUnitRunner::class)
-class WorkLogHandlerTest {
-
-    @Mock
-    private lateinit var workLogLocationServiceSpy: WorklogLocationService
+class WorklogHandlerTest {
 
     @Mock
     private lateinit var collaboratorServiceStub: CollaboratorService
@@ -50,9 +43,11 @@ class WorkLogHandlerTest {
 
     @Before
     fun setUp() {
-        val collaboratorAuthService = CollaboratorAuthenticationService(collaboratorServiceStub, identityConfirmationStub)
-        val workLogHandler = WorkLogHandler(
-            workLogLocationServiceSpy,
+        val collaboratorAuthService = CollaboratorAuthenticationService(
+            collaboratorServiceStub,
+            identityConfirmationStub
+        )
+        val workLogHandler = WorklogHandler(
             collaboratorAuthService,
             worklogServiceStub,
             workLogStartEndServiceStub,
@@ -65,24 +60,7 @@ class WorkLogHandlerTest {
         doReturn(COLLABORATOR_ID).`when`(identityConfirmationStub).getUserIdByToken(AUTH_TOKEN)
     }
 
-    @Test
-    fun `Logs work by given location`() {
-        val coordinates = Coordinates(1.1, 1.2)
 
-        webTestClient.post()
-            .uri("/worklog/log-by-location")
-            .header(
-                "auth-token",
-                AUTH_TOKEN
-            )
-            .body(coordinates.toMono(), Coordinates::class.java)
-            .exchange()
-            .expectStatus()
-            .isOk
-            .expectBody().isEmpty
-
-        verify(workLogLocationServiceSpy).logWork(COLLABORATOR_ID, coordinates)
-    }
 
     @Test
     @Suppress("UNCHECKED_CAST")
@@ -108,7 +86,7 @@ class WorkLogHandlerTest {
 
         assertEquals(
             expectedIntervalId,
-            (intervalEndpointsResponse.responseBody!!["workLogs"] as List<WorkLogAsJson>)[0]["intervalId"]
+            (intervalEndpointsResponse.responseBody!!["workLogs"] as List<Map<String, String>>)[0]["intervalId"]
         )
         assertEquals(expectedWorkDuration, (intervalEndpointsResponse.responseBody!!["workDuration"] as Int).toLong())
     }
@@ -184,5 +162,3 @@ class WorkLogHandlerTest {
         private const val AUTH_TOKEN = "as454s6d"
     }
 }
-
-private typealias WorkLogAsJson = Map<String, String>

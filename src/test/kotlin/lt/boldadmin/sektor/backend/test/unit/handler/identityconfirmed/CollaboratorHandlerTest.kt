@@ -1,11 +1,13 @@
 package lt.boldadmin.sektor.backend.test.unit.handler.identityconfirmed
 
-import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.verify
 import lt.boldadmin.crowbar.IdentityConfirmation
 import lt.boldadmin.nexus.api.service.CollaboratorService
+import lt.boldadmin.nexus.api.service.worklog.status.location.WorklogLocationService
 import lt.boldadmin.nexus.api.type.entity.Collaborator
+import lt.boldadmin.nexus.api.type.valueobject.Coordinates
 import lt.boldadmin.nexus.api.type.valueobject.TimeRange
 import lt.boldadmin.sektor.backend.handler.identityconfirmed.CollaboratorHandler
 import lt.boldadmin.sektor.backend.route.Routes
@@ -16,6 +18,7 @@ import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 import org.springframework.test.web.reactive.server.WebTestClient
+import reactor.core.publisher.toMono
 import kotlin.test.assertEquals
 
 @RunWith(MockitoJUnitRunner::class)
@@ -27,7 +30,11 @@ class CollaboratorHandlerTest {
     @Mock
     private lateinit var identityConfirmationStub: IdentityConfirmation
 
-    private lateinit var collaboratorHandler: CollaboratorHandler
+    @Mock
+    private lateinit var worklogLocationServiceStub: WorklogLocationService
+
+    private lateinit var webTestClient: WebTestClient
+
 
     @Before
     fun setUp() {
@@ -36,23 +43,20 @@ class CollaboratorHandlerTest {
                 identityConfirmationStub
         )
 
-        collaboratorHandler = CollaboratorHandler(collaboratorAuthService)
-
+        val collaboratorHandler = CollaboratorHandler(collaboratorAuthService, worklogLocationServiceStub)
+        val routerFunction = Routes(mock(), collaboratorHandler, mock(), mock()).router()
+        webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
+        doReturn(USER_ID).`when`(identityConfirmationStub).getUserIdByToken(AUTH_TOKEN)
     }
 
     @Test
     fun `Takes collaborator work time`() {
         val workTime = TimeRange(0, 1)
-        doReturn(USER_ID).`when`(identityConfirmationStub).getUserIdByToken(any())
         doReturn(Collaborator().apply { this.workTime = workTime }).`when`(collaboratorServiceStub).getById(USER_ID)
 
-        val routerFunction = Routes(mock(), collaboratorHandler, mock(), mock()).router()
-        val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
         val workTimeResponseBody = webTestClient.get()
                 .uri("/collaborator/workTime")
-                .header("auth-token",
-                    AUTH_TOKEN
-                )
+                .header("auth-token", AUTH_TOKEN)
                 .exchange()
                 .expectStatus()
                 .isOk
@@ -60,7 +64,22 @@ class CollaboratorHandlerTest {
                 .returnResult()
 
         assertEquals(workTime, workTimeResponseBody.responseBody)
+    }
 
+    @Test
+    fun `Updates collaborator location`() {
+        val coordinates = Coordinates(1.1, 1.2)
+
+        webTestClient.post()
+            .uri("/collaborator/location/coordinates")
+            .header("auth-token", AUTH_TOKEN)
+            .body(coordinates.toMono(), Coordinates::class.java)
+            .exchange()
+            .expectStatus()
+            .isOk
+            .expectBody().isEmpty
+
+        verify(worklogLocationServiceStub).logWork(USER_ID, coordinates)
     }
 
     companion object {

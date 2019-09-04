@@ -11,13 +11,13 @@ import org.springframework.web.reactive.function.server.ServerResponse.ok
 import org.springframework.web.reactive.function.server.bodyToMono
 import reactor.core.publisher.Mono
 
-open class WorkLogMessageHandler(
+open class CollaboratorMessageHandler(
     private val workLogMessageService: WorklogMessageService,
     private val jsonToMapConverter: JsonToMapConverter,
     private val webClient: WebClient
 ) {
 
-    open fun logByMessage(req: ServerRequest): Mono<ServerResponse> =
+    open fun updateLocationByMessage(req: ServerRequest): Mono<ServerResponse> =
         req.bodyToMono<String>()
             .doOnNext {
                 val requestBodyMap = jsonToMapConverter.convert(it)
