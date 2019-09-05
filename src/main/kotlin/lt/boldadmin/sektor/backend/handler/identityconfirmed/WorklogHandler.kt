@@ -1,8 +1,8 @@
 package lt.boldadmin.sektor.backend.handler.identityconfirmed
 
+import lt.boldadmin.nexus.api.service.worklog.WorklogDurationService
 import lt.boldadmin.nexus.api.service.worklog.WorklogService
-import lt.boldadmin.nexus.api.service.worklog.duration.WorklogDurationService
-import lt.boldadmin.nexus.api.service.worklog.status.WorklogStartEndService
+import lt.boldadmin.nexus.api.service.worklog.WorklogStartEndService
 import lt.boldadmin.sektor.backend.service.CollaboratorAuthenticationService
 import org.springframework.web.reactive.function.BodyInserters.fromObject
 import org.springframework.web.reactive.function.server.ServerRequest

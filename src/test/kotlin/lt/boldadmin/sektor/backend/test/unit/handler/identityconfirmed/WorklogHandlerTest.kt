@@ -4,9 +4,9 @@ import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import lt.boldadmin.crowbar.IdentityConfirmation
 import lt.boldadmin.nexus.api.service.CollaboratorService
+import lt.boldadmin.nexus.api.service.worklog.WorklogDurationService
 import lt.boldadmin.nexus.api.service.worklog.WorklogService
-import lt.boldadmin.nexus.api.service.worklog.duration.WorklogDurationService
-import lt.boldadmin.nexus.api.service.worklog.status.WorklogStartEndService
+import lt.boldadmin.nexus.api.service.worklog.WorklogStartEndService
 import lt.boldadmin.nexus.api.type.entity.Project
 import lt.boldadmin.nexus.api.type.entity.Worklog
 import lt.boldadmin.sektor.backend.handler.identityconfirmed.WorklogHandler
