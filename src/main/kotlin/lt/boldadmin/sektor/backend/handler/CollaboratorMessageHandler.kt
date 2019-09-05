@@ -1,6 +1,6 @@
 package lt.boldadmin.sektor.backend.handler
 
-import lt.boldadmin.nexus.api.service.worklog.status.message.WorklogMessageService
+import lt.boldadmin.nexus.api.event.publisher.CollaboratorLocationPublisher
 import lt.boldadmin.nexus.api.type.valueobject.Message
 import lt.boldadmin.sektor.backend.service.JsonToMapConverter
 import org.springframework.http.HttpMethod
@@ -12,7 +12,7 @@ import org.springframework.web.reactive.function.server.bodyToMono
 import reactor.core.publisher.Mono
 
 open class CollaboratorMessageHandler(
-    private val workLogMessageService: WorklogMessageService,
+    private val publisher: CollaboratorLocationPublisher,
     private val jsonToMapConverter: JsonToMapConverter,
     private val webClient: WebClient
 ) {
@@ -27,7 +27,7 @@ open class CollaboratorMessageHandler(
 
 
                 if (requestBodyMap["Type"] == "Notification")
-                    workLogMessageService.logWork(convertMessage(requestBodyMap["Message"]!!))
+                    publisher.publish(convertMessage(requestBodyMap["Message"]!!))
 
             }.flatMap { ok().build() }
 

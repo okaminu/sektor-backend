@@ -3,7 +3,7 @@ package lt.boldadmin.sektor.backend.test.unit.handler
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
-import lt.boldadmin.nexus.api.service.worklog.status.message.WorklogMessageService
+import lt.boldadmin.nexus.api.event.publisher.CollaboratorLocationPublisher
 import lt.boldadmin.nexus.api.type.valueobject.Message
 import lt.boldadmin.sektor.backend.handler.CollaboratorMessageHandler
 import lt.boldadmin.sektor.backend.route.Routes
@@ -27,7 +27,7 @@ import reactor.core.publisher.toMono
 class CollaboratorMessageHandlerTest {
 
     @Mock
-    private lateinit var workLogMessageServiceSpy: WorklogMessageService
+    private lateinit var collaboratorLocationPublisherSpy: CollaboratorLocationPublisher
 
     @Mock
     private lateinit var jsonToMapConverterStub: JsonToMapConverter
@@ -40,7 +40,7 @@ class CollaboratorMessageHandlerTest {
     @Before
     fun `Set up`() {
         val collaboratorMessageHandler = CollaboratorMessageHandler(
-            workLogMessageServiceSpy,
+            collaboratorLocationPublisherSpy,
             jsonToMapConverterStub,
             webClientSpy
         )
@@ -91,7 +91,7 @@ class CollaboratorMessageHandlerTest {
 
         postToHandlerWebClient(jsonBody)
 
-        verify(workLogMessageServiceSpy).logWork(convertMessage(messageMap))
+        verify(collaboratorLocationPublisherSpy).publish(convertMessage(messageMap))
     }
 
     private fun postToHandlerWebClient(jsonBody: String) {

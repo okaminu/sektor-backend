@@ -4,8 +4,8 @@ import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import lt.boldadmin.crowbar.IdentityConfirmation
+import lt.boldadmin.nexus.api.event.publisher.CollaboratorLocationPublisher
 import lt.boldadmin.nexus.api.service.CollaboratorService
-import lt.boldadmin.nexus.api.service.worklog.status.location.WorklogLocationService
 import lt.boldadmin.nexus.api.type.entity.Collaborator
 import lt.boldadmin.nexus.api.type.valueobject.Coordinates
 import lt.boldadmin.nexus.api.type.valueobject.TimeRange
@@ -31,7 +31,7 @@ class CollaboratorHandlerTest {
     private lateinit var identityConfirmationStub: IdentityConfirmation
 
     @Mock
-    private lateinit var worklogLocationServiceStub: WorklogLocationService
+    private lateinit var collaboratorLocationPublisherSpy: CollaboratorLocationPublisher
 
     private lateinit var webTestClient: WebTestClient
 
@@ -43,7 +43,7 @@ class CollaboratorHandlerTest {
                 identityConfirmationStub
         )
 
-        val collaboratorHandler = CollaboratorHandler(collaboratorAuthService, worklogLocationServiceStub)
+        val collaboratorHandler = CollaboratorHandler(collaboratorAuthService, collaboratorLocationPublisherSpy)
         val routerFunction = Routes(mock(), collaboratorHandler, mock(), mock()).router()
         webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
         doReturn(USER_ID).`when`(identityConfirmationStub).getUserIdByToken(AUTH_TOKEN)
@@ -79,7 +79,7 @@ class CollaboratorHandlerTest {
             .isOk
             .expectBody().isEmpty
 
-        verify(worklogLocationServiceStub).logWork(USER_ID, coordinates)
+        verify(collaboratorLocationPublisherSpy).publish(USER_ID, coordinates)
     }
 
     companion object {
