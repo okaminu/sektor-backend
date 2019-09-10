@@ -1,8 +1,8 @@
 package lt.boldadmin.sektor.backend.test.unit.handler.identityconfirmed
 
-import com.nhaarman.mockito_kotlin.doReturn
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockitokotlin2.doReturn
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.verify
 import lt.boldadmin.crowbar.IdentityConfirmation
 import lt.boldadmin.nexus.api.service.CollaboratorService
 import lt.boldadmin.nexus.api.service.worklog.status.WorklogStartEndService
@@ -13,18 +13,18 @@ import lt.boldadmin.nexus.api.type.valueobject.Coordinates
 import lt.boldadmin.sektor.backend.handler.identityconfirmed.WorkLogHandler
 import lt.boldadmin.sektor.backend.route.Routes
 import lt.boldadmin.sektor.backend.service.CollaboratorAuthenticationService
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
-import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.junit.jupiter.MockitoExtension
 import org.springframework.test.web.reactive.server.WebTestClient
 import reactor.core.publisher.toMono
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
-@RunWith(MockitoJUnitRunner::class)
-class WorkLogHandlerTest {
+@ExtendWith(MockitoExtension::class)
+class WorklogHandlerTest {
 
     @Mock
     private lateinit var workLogLocationServiceSpy: WorklogLocationService
@@ -40,7 +40,7 @@ class WorkLogHandlerTest {
 
     private lateinit var webTestClient: WebTestClient
 
-    @Before
+    @BeforeEach
     fun setUp() {
         val collaboratorAuthService = CollaboratorAuthenticationService(
             collaboratorServiceStub,
@@ -53,15 +53,13 @@ class WorkLogHandlerTest {
         )
         val routerFunction = Routes(workLogHandler, mock(), mock(), mock()).router()
         webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
-
-
-        doReturn(USER_ID).`when`(identityConfirmationStub).getUserIdByToken(AUTH_TOKEN)
-        doReturn(collaborator).`when`(collaboratorServiceStub).getById(USER_ID)
     }
 
     @Test
     fun `Logs work by given location`() {
         val coordinates = Coordinates(1.1, 1.2)
+        doReturn(USER_ID).`when`(identityConfirmationStub).getUserIdByToken(AUTH_TOKEN)
+        doReturn(collaborator).`when`(collaboratorServiceStub).getById(USER_ID)
 
         webTestClient.post()
             .uri("/worklog/log-by-location")
@@ -82,6 +80,7 @@ class WorkLogHandlerTest {
     fun `Provides project name of started work`() {
         val expectedProject = Project(name = "projectName")
         doReturn(expectedProject).`when`(workLogStartEndServiceStub).getProjectOfStartedWork(USER_ID)
+        doReturn(USER_ID).`when`(identityConfirmationStub).getUserIdByToken(AUTH_TOKEN)
 
         val projectNameResponse = webTestClient.get()
             .uri("/worklog/project-name-of-started-work")
@@ -101,6 +100,7 @@ class WorkLogHandlerTest {
     @Test
     fun `Provides work status`() {
         doReturn(true).`when`(workLogStartEndServiceStub).hasWorkStarted(USER_ID)
+        doReturn(USER_ID).`when`(identityConfirmationStub).getUserIdByToken(AUTH_TOKEN)
 
         val hasWorkStartedResponse = webTestClient.get()
             .uri("/worklog/has-work-started")

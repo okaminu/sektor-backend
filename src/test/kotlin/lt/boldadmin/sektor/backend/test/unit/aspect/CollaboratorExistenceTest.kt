@@ -1,21 +1,20 @@
 package lt.boldadmin.sektor.backend.test.unit.aspect
 
-import com.nhaarman.mockito_kotlin.doReturn
-import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockitokotlin2.doReturn
+import com.nhaarman.mockitokotlin2.verify
 import lt.boldadmin.nexus.api.exception.CollaboratorNotFoundException
 import lt.boldadmin.nexus.api.service.CollaboratorService
 import lt.boldadmin.sektor.backend.aspect.CollaboratorExistenceAspect
 import lt.boldadmin.sektor.backend.service.CollaboratorAuthenticationService
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
-import org.junit.rules.ExpectedException
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
-import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.junit.jupiter.MockitoExtension
 import org.springframework.web.reactive.function.server.ServerRequest
 
-@RunWith(MockitoJUnitRunner::class)
+@ExtendWith(MockitoExtension::class)
 class CollaboratorExistenceTest {
 
     @Mock
@@ -27,13 +26,9 @@ class CollaboratorExistenceTest {
     @Mock
     private lateinit var serverRequestStub: ServerRequest
 
-    @Rule
-    @JvmField
-    val expectedException = ExpectedException.none()!!
-
     private lateinit var collaboratorAspect: CollaboratorExistenceAspect
 
-    @Before
+    @BeforeEach
     fun `Set up`() {
         collaboratorAspect = CollaboratorExistenceAspect(
             collaboratorServiceSpy, collaboratorAuthServiceStub
@@ -52,11 +47,12 @@ class CollaboratorExistenceTest {
 
     @Test
     fun `Throws exception if collaborator is not found by mobile number`() {
-        expectedException.expect(CollaboratorNotFoundException::class.java)
         doReturn(MOBILE_NUMBER).`when`(serverRequestStub).pathVariable("mobileNumber")
         doReturn(false).`when`(collaboratorServiceSpy).existsByMobileNumber(MOBILE_NUMBER)
 
-        collaboratorAspect.collaboratorExistsByMobileNumberAdvice(serverRequestStub)
+        assertThrows(CollaboratorNotFoundException::class.java) {
+            collaboratorAspect.collaboratorExistsByMobileNumberAdvice(serverRequestStub)
+        }
     }
 
     @Test
@@ -71,11 +67,12 @@ class CollaboratorExistenceTest {
 
     @Test
     fun `Throws exception if collaborator is not found by id`() {
-        expectedException.expect(CollaboratorNotFoundException::class.java)
         mockHeaderResponse()
         doReturn(false).`when`(collaboratorServiceSpy).existsById(COLLABORATOR_ID)
 
-        collaboratorAspect.collaboratorExistsByIdAdvice(serverRequestStub)
+        assertThrows(CollaboratorNotFoundException::class.java) {
+            collaboratorAspect.collaboratorExistsByIdAdvice(serverRequestStub)
+        }
     }
 
     private fun mockHeaderResponse() {

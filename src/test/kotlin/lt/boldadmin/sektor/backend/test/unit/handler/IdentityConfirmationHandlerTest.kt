@@ -1,22 +1,22 @@
 package lt.boldadmin.sektor.backend.test.unit.handler
 
-import com.nhaarman.mockito_kotlin.doReturn
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockitokotlin2.doReturn
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.verify
 import lt.boldadmin.crowbar.IdentityConfirmation
 import lt.boldadmin.nexus.api.service.CollaboratorService
 import lt.boldadmin.nexus.api.type.entity.Collaborator
 import lt.boldadmin.sektor.backend.handler.IdentityConfirmationHandler
 import lt.boldadmin.sektor.backend.route.Routes
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
-import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.junit.jupiter.MockitoExtension
 import org.springframework.test.web.reactive.server.WebTestClient
-import kotlin.test.assertEquals
 
-@RunWith(MockitoJUnitRunner::class)
+@ExtendWith(MockitoExtension::class)
 class IdentityConfirmationHandlerTest {
 
     @Mock
@@ -27,7 +27,7 @@ class IdentityConfirmationHandlerTest {
 
     private lateinit var identityConfirmationHandler: IdentityConfirmationHandler
 
-    @Before
+    @BeforeEach
     fun `Set up`() {
         identityConfirmationHandler = IdentityConfirmationHandler(
                 identityConfirmationMock,
@@ -48,7 +48,7 @@ class IdentityConfirmationHandlerTest {
                 Routes(mock(), mock(), identityConfirmationHandler, mock()).router()
             ).build()
         webTestClient.post()
-            .uri("collaborator/identity-confirmation/code/request/${collaborator.mobileNumber}")
+            .uri("/collaborator/identity-confirmation/code/request/${collaborator.mobileNumber}")
             .exchange()
             .expectStatus()
             .isOk
@@ -71,7 +71,7 @@ class IdentityConfirmationHandlerTest {
                 Routes(mock(), mock(), identityConfirmationHandler, mock()).router()
             ).build()
         val returnResult = webTestClient.post()
-            .uri("collaborator/identity-confirmation/code/confirm/$confirmationCode")
+            .uri("/collaborator/identity-confirmation/code/confirm/$confirmationCode")
             .exchange()
             .expectStatus()
             .isOk
