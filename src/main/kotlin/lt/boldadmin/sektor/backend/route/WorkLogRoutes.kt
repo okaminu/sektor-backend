@@ -10,11 +10,9 @@ fun workLogRoutes(
     workLogMessageHandler: WorkLogMessageHandler
 ): RouterFunctionDsl.() -> Unit = {
     accept(APPLICATION_JSON).nest {
-        GET("/collaborator/interval-ids", workLogHandler::getIntervalIdsByCollaborator)
         GET("/project-name-of-started-work", workLogHandler::getProjectNameOfStartedWork)
         GET("/has-work-started", workLogHandler::hasWorkStarted)
         POST("/log-by-location", workLogHandler::logByLocation)
         POST("/log-by-message", workLogMessageHandler::logByMessage)
-        GET("/interval/{intervalId}/endpoints", workLogHandler::getIntervalEndpointsByIntervalId)
     }
 }
