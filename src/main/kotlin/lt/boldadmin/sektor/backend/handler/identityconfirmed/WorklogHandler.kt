@@ -1,5 +1,8 @@
 package lt.boldadmin.sektor.backend.handler.identityconfirmed
 
+import lt.boldadmin.nexus.api.service.worklog.status.WorklogStartEndService
+import lt.boldadmin.nexus.api.service.worklog.status.location.WorklogLocationService
+import lt.boldadmin.nexus.api.type.valueobject.Coordinates
 import lt.boldadmin.nexus.api.service.worklog.WorklogDurationService
 import lt.boldadmin.nexus.api.service.worklog.WorklogService
 import lt.boldadmin.nexus.api.service.worklog.WorklogStartEndService
@@ -8,22 +11,14 @@ import org.springframework.web.reactive.function.BodyInserters.fromObject
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
 import org.springframework.web.reactive.function.server.ServerResponse.ok
+import org.springframework.web.reactive.function.server.bodyToMono
 import org.springframework.web.reactive.function.server.body
 import reactor.core.publisher.Mono
 
 open class WorklogHandler(
     private val collaboratorAuthService: CollaboratorAuthenticationService,
-    private val worklogService: WorklogService,
-    private val workLogStartEndService: WorklogStartEndService,
-    private val workLogDurationService: WorklogDurationService
+    private val workLogStartEndService: WorklogStartEndService
 ) {
-    open fun getIntervalIdsByCollaborator(req: ServerRequest) =
-        ok().body(
-            Mono.just(worklogService.getByCollaboratorId(collaboratorAuthService.getCollaboratorId(req))
-                .map { it.intervalId }
-                .distinct())
-        )
-
     open fun getProjectNameOfStartedWork(req: ServerRequest): Mono<ServerResponse> =
         ok().body(
             fromObject(

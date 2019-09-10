@@ -11,7 +11,8 @@
     <context:component-scan base-package="lt.boldadmin.nexus.plugin.backendclient" >
         <context:include-filter type="regex" expression="lt.boldadmin.nexus.plugin.backendclient.service.*"/>
         <context:include-filter type="regex" expression="lt.boldadmin.nexus.plugin.backendclient.httpclient.*"/>
-        <context:include-filter type="regex" expression="lt.boldadmin.nexus.plugin.backendclient.kafka.*"/>
+        <context:exclude-filter type="regex"
+                                expression="lt.boldadmin.nexus.plugin.backendclient.service.*ExtensionKt"/>
     </context:component-scan>
 
     <bean factory-bean="httpClientFactory" factory-method="create"/>
