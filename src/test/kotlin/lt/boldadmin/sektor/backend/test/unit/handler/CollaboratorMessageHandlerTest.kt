@@ -3,7 +3,7 @@ package lt.boldadmin.sektor.backend.test.unit.handler
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
-import lt.boldadmin.nexus.api.event.publisher.CollaboratorLocationPublisher
+import lt.boldadmin.nexus.api.event.Publisher
 import lt.boldadmin.nexus.api.type.valueobject.Message
 import lt.boldadmin.sektor.backend.handler.CollaboratorMessageHandler
 import lt.boldadmin.sektor.backend.route.Routes
@@ -27,7 +27,7 @@ import reactor.core.publisher.toMono
 class CollaboratorMessageHandlerTest {
 
     @Mock
-    private lateinit var collaboratorLocationPublisherSpy: CollaboratorLocationPublisher
+    private lateinit var collaboratorLocationPublisherSpy: Publisher
 
     @Mock
     private lateinit var jsonToMapConverterStub: JsonToMapConverter

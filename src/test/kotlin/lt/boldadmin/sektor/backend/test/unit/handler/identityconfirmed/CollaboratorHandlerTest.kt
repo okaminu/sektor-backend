@@ -4,7 +4,7 @@ import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import lt.boldadmin.crowbar.IdentityConfirmation
-import lt.boldadmin.nexus.api.event.publisher.CollaboratorLocationPublisher
+import lt.boldadmin.nexus.api.event.Publisher
 import lt.boldadmin.nexus.api.service.CollaboratorService
 import lt.boldadmin.nexus.api.type.entity.Collaborator
 import lt.boldadmin.nexus.api.type.valueobject.Coordinates
@@ -31,7 +31,7 @@ class CollaboratorHandlerTest {
     private lateinit var identityConfirmationStub: IdentityConfirmation
 
     @Mock
-    private lateinit var collaboratorLocationPublisherSpy: CollaboratorLocationPublisher
+    private lateinit var collaboratorLocationPublisherSpy: Publisher
 
     private lateinit var webTestClient: WebTestClient
 
