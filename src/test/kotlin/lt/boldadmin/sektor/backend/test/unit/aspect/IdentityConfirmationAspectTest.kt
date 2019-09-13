@@ -1,21 +1,20 @@
 package lt.boldadmin.sektor.backend.test.unit.aspect
 
-import com.nhaarman.mockito_kotlin.doReturn
-import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockitokotlin2.doReturn
+import com.nhaarman.mockitokotlin2.verify
 import lt.boldadmin.crowbar.IdentityConfirmation
 import lt.boldadmin.sektor.backend.aspect.IdentityConfirmationAspect
 import lt.boldadmin.sektor.backend.exception.IncorrectConfirmationCodeException
 import lt.boldadmin.sektor.backend.exception.IncorrectTokenException
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
-import org.junit.rules.ExpectedException
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
-import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.junit.jupiter.MockitoExtension
 import org.springframework.web.reactive.function.server.ServerRequest
 
-@RunWith(MockitoJUnitRunner::class)
+@ExtendWith(MockitoExtension::class)
 class IdentityConfirmationAspectTest {
 
     @Mock
@@ -26,13 +25,9 @@ class IdentityConfirmationAspectTest {
     @Mock
     private lateinit var serverRequestMock: ServerRequest
 
-    @Rule
-    @JvmField
-    val expectedException = ExpectedException.none()!!
-
     private lateinit var identityConfirmationAspect: IdentityConfirmationAspect
 
-    @Before
+    @BeforeEach
     fun `Set up`() {
         identityConfirmationAspect = IdentityConfirmationAspect(
                 identityConfirmationMock
@@ -51,20 +46,22 @@ class IdentityConfirmationAspectTest {
 
     @Test
     fun `Throws exception when authentication token is not found`() {
-        expectedException.expect(IncorrectTokenException::class.java)
         mockHeaderResponse()
         doReturn(false).`when`(identityConfirmationMock).doesTokenExist(HEADER_LIST[0])
 
-        identityConfirmationAspect.tokenExistsAdvice(serverRequestMock)
+        assertThrows(IncorrectTokenException::class.java) {
+            identityConfirmationAspect.tokenExistsAdvice(serverRequestMock)
+        }
     }
 
     @Test
     fun `Throws exception when authentication token is not provided`() {
-        expectedException.expect(IncorrectTokenException::class.java)
         doReturn(headersMock).`when`(serverRequestMock).headers()
         doReturn(emptyList<String>()).`when`(headersMock).header("auth-token")
 
-        identityConfirmationAspect.tokenExistsAdvice(serverRequestMock)
+        assertThrows(IncorrectTokenException::class.java) {
+            identityConfirmationAspect.tokenExistsAdvice(serverRequestMock)
+        }
     }
 
     @Test
@@ -80,11 +77,12 @@ class IdentityConfirmationAspectTest {
 
     @Test
     fun `Throws exception when confirmation code is incorrect`() {
-        expectedException.expect(IncorrectConfirmationCodeException::class.java)
         doReturn(false).`when`(identityConfirmationMock).doesUserByCodeExist("confirmationCode")
         doReturn("confirmationCode").`when`(serverRequestMock).pathVariable("code")
 
-        identityConfirmationAspect.confirmationCodeUserExistsAdvice(serverRequestMock)
+        assertThrows(IncorrectConfirmationCodeException::class.java) {
+            identityConfirmationAspect.confirmationCodeUserExistsAdvice(serverRequestMock)
+        }
     }
 
     private fun mockHeaderResponse() {

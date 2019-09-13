@@ -1,7 +1,8 @@
 package lt.boldadmin.sektor.backend.test.unit.handler.identityconfirmed
 
-import com.nhaarman.mockito_kotlin.doReturn
-import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockitokotlin2.doReturn
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.verify
 import lt.boldadmin.crowbar.IdentityConfirmation
 import lt.boldadmin.nexus.api.service.CollaboratorService
 import lt.boldadmin.nexus.api.service.worklog.WorklogDurationService
@@ -12,16 +13,19 @@ import lt.boldadmin.nexus.api.type.entity.Worklog
 import lt.boldadmin.sektor.backend.handler.identityconfirmed.WorklogHandler
 import lt.boldadmin.sektor.backend.route.Routes
 import lt.boldadmin.sektor.backend.service.CollaboratorAuthenticationService
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
-import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.junit.jupiter.MockitoExtension
 import org.springframework.test.web.reactive.server.WebTestClient
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
+import reactor.core.publisher.toMono
 
-@RunWith(MockitoJUnitRunner::class)
+@ExtendWith(MockitoExtension::class)
 class WorklogHandlerTest {
 
     @Mock
@@ -41,7 +45,7 @@ class WorklogHandlerTest {
 
     private lateinit var webTestClient: WebTestClient
 
-    @Before
+    @BeforeEach
     fun setUp() {
         val collaboratorAuthService = CollaboratorAuthenticationService(
             collaboratorServiceStub,
@@ -141,6 +145,7 @@ class WorklogHandlerTest {
     @Test
     fun `Provides work status`() {
         doReturn(true).`when`(workLogStartEndServiceStub).hasWorkStarted(COLLABORATOR_ID)
+        doReturn(USER_ID).`when`(identityConfirmationStub).getUserIdByToken(AUTH_TOKEN)
 
         val hasWorkStartedResponse = webTestClient.get()
             .uri("/worklog/has-work-started")

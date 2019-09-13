@@ -1,8 +1,8 @@
 package lt.boldadmin.sektor.backend.test.unit.handler.identityconfirmed
 
-import com.nhaarman.mockito_kotlin.doReturn
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.doReturn
+import com.nhaarman.mockitokotlin2.mock
 import lt.boldadmin.crowbar.IdentityConfirmation
 import lt.boldadmin.nexus.api.event.Publisher
 import lt.boldadmin.nexus.api.service.CollaboratorService
@@ -12,16 +12,16 @@ import lt.boldadmin.nexus.api.type.valueobject.TimeRange
 import lt.boldadmin.sektor.backend.handler.identityconfirmed.CollaboratorHandler
 import lt.boldadmin.sektor.backend.route.Routes
 import lt.boldadmin.sektor.backend.service.CollaboratorAuthenticationService
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
-import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.junit.jupiter.MockitoExtension
 import org.springframework.test.web.reactive.server.WebTestClient
-import reactor.core.publisher.toMono
 import kotlin.test.assertEquals
 
-@RunWith(MockitoJUnitRunner::class)
+@ExtendWith(MockitoExtension::class)
 class CollaboratorHandlerTest {
 
     @Mock
@@ -36,7 +36,7 @@ class CollaboratorHandlerTest {
     private lateinit var webTestClient: WebTestClient
 
 
-    @Before
+    @BeforeEach
     fun setUp() {
         val collaboratorAuthService = CollaboratorAuthenticationService(
                 collaboratorServiceStub,
