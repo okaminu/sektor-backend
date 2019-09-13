@@ -3,9 +3,9 @@ package lt.boldadmin.sektor.backend.test.unit.handler
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
-import lt.boldadmin.nexus.api.service.worklog.status.message.WorklogMessageService
+import lt.boldadmin.nexus.api.event.publisher.CollaboratorLocationPublisher
 import lt.boldadmin.nexus.api.type.valueobject.Message
-import lt.boldadmin.sektor.backend.handler.WorkLogMessageHandler
+import lt.boldadmin.sektor.backend.handler.CollaboratorMessageHandler
 import lt.boldadmin.sektor.backend.route.Routes
 import lt.boldadmin.sektor.backend.service.JsonToMapConverter
 import org.junit.jupiter.api.BeforeEach
@@ -27,7 +27,7 @@ import reactor.core.publisher.toMono
 class CollaboratorMessageHandlerTest {
 
     @Mock
-    private lateinit var collaboratorLocationPublisherSpy: Publisher
+    private lateinit var collaboratorLocationPublisherSpy: CollaboratorLocationPublisher
 
     @Mock
     private lateinit var jsonToMapConverterStub: JsonToMapConverter

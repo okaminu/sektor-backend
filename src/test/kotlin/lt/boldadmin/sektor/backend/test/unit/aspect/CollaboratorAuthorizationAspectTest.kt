@@ -54,28 +54,6 @@ class CollaboratorAuthorizationAspectTest {
         aspect.collaboratorHasWorkLogIntervalAdvice(serverRequestStub)
     }
 
-    @Test
-    fun `Throws exception when one of the work logs don't belong to collaborator`() {
-        val intervalIds = listOf("11", "22")
-        val intervalIdsString = "${intervalIds[0]},${intervalIds[1]}"
-        doReturn(intervalIdsString).`when`(serverRequestStub).pathVariable("intervalIds")
-        doReturn(false).`when`(workLogAuthServiceStub).doesCollaboratorHaveWorkLogIntervals(COLLABORATOR_ID, intervalIds)
-
-        assertThrows(WorkLogIntervalDoesNotBelongToCollaboratorException::class.java) {
-            aspect.collaboratorHasWorkLogIntervalsAdvice(serverRequestStub)
-        }
-    }
-
-    @Test
-    fun `Does not throw exception when work logs belong to collaborator`() {
-        val intervalIds = listOf("11", "22")
-        val intervalIdsString = "${intervalIds[0]},${intervalIds[1]}"
-        doReturn(intervalIdsString).`when`(serverRequestStub).pathVariable("intervalIds")
-        doReturn(true).`when`(workLogAuthServiceStub).doesCollaboratorHaveWorkLogIntervals(COLLABORATOR_ID, intervalIds)
-
-        aspect.collaboratorHasWorkLogIntervalsAdvice(serverRequestStub)
-    }
-
     companion object {
         const val COLLABORATOR_ID = "collaboratorId"
     }

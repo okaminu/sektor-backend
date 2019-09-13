@@ -1,10 +1,10 @@
 package lt.boldadmin.sektor.backend.test.unit.handler.identityconfirmed
 
-import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.verify
 import lt.boldadmin.crowbar.IdentityConfirmation
-import lt.boldadmin.nexus.api.event.Publisher
+import lt.boldadmin.nexus.api.event.publisher.CollaboratorLocationPublisher
 import lt.boldadmin.nexus.api.service.CollaboratorService
 import lt.boldadmin.nexus.api.type.entity.Collaborator
 import lt.boldadmin.nexus.api.type.valueobject.Coordinates
@@ -19,7 +19,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 import org.springframework.test.web.reactive.server.WebTestClient
-import kotlin.test.assertEquals
+import reactor.core.publisher.toMono
 
 @ExtendWith(MockitoExtension::class)
 class CollaboratorHandlerTest {
@@ -31,7 +31,7 @@ class CollaboratorHandlerTest {
     private lateinit var identityConfirmationStub: IdentityConfirmation
 
     @Mock
-    private lateinit var collaboratorLocationPublisherSpy: Publisher
+    private lateinit var collaboratorLocationPublisherSpy: CollaboratorLocationPublisher
 
     private lateinit var webTestClient: WebTestClient
 

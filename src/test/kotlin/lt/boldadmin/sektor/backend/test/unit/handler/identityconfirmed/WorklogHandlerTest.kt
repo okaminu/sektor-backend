@@ -2,14 +2,12 @@ package lt.boldadmin.sektor.backend.test.unit.handler.identityconfirmed
 
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
 import lt.boldadmin.crowbar.IdentityConfirmation
 import lt.boldadmin.nexus.api.service.CollaboratorService
 import lt.boldadmin.nexus.api.service.worklog.WorklogDurationService
 import lt.boldadmin.nexus.api.service.worklog.WorklogService
 import lt.boldadmin.nexus.api.service.worklog.WorklogStartEndService
 import lt.boldadmin.nexus.api.type.entity.Project
-import lt.boldadmin.nexus.api.type.entity.Worklog
 import lt.boldadmin.sektor.backend.handler.identityconfirmed.WorklogHandler
 import lt.boldadmin.sektor.backend.route.Routes
 import lt.boldadmin.sektor.backend.service.CollaboratorAuthenticationService
@@ -21,9 +19,6 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 import org.springframework.test.web.reactive.server.WebTestClient
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
-import reactor.core.publisher.toMono
 
 @ExtendWith(MockitoExtension::class)
 class WorklogHandlerTest {
@@ -51,81 +46,16 @@ class WorklogHandlerTest {
             collaboratorServiceStub,
             identityConfirmationStub
         )
-        val workLogHandler = WorklogHandler(
-            collaboratorAuthService,
-            worklogServiceStub,
-            workLogStartEndServiceStub,
-            workLogDurationServiceStub
-        )
+        val workLogHandler = WorklogHandler(collaboratorAuthService, workLogStartEndServiceStub)
         val routerFunction = Routes(workLogHandler, mock(), mock(), mock()).router()
         webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
-
-
-        doReturn(COLLABORATOR_ID).`when`(identityConfirmationStub).getUserIdByToken(AUTH_TOKEN)
-    }
-
-
-
-    @Test
-    @Suppress("UNCHECKED_CAST")
-    fun `Provides worklog interval endpoints`() {
-        val expectedIntervalId = "intervalId"
-        val workLogStub: Worklog = mock()
-        val expectedWorkDuration = 1000L
-        doReturn(expectedIntervalId).`when`(workLogStub).intervalId
-        doReturn(listOf(workLogStub)).`when`(worklogServiceStub).getIntervalEndpoints(expectedIntervalId)
-        doReturn(expectedWorkDuration).`when`(workLogDurationServiceStub).measureDuration(expectedIntervalId)
-
-        val intervalEndpointsResponse = webTestClient.get()
-            .uri("/worklog/interval/$expectedIntervalId/endpoints")
-            .header(
-                "auth-token",
-                AUTH_TOKEN
-            )
-            .exchange()
-            .expectStatus()
-            .isOk
-            .expectBody(Map::class.java)
-            .returnResult()
-
-        assertEquals(
-            expectedIntervalId,
-            (intervalEndpointsResponse.responseBody!!["workLogs"] as List<Map<String, String>>)[0]["intervalId"]
-        )
-        assertEquals(expectedWorkDuration, (intervalEndpointsResponse.responseBody!!["workDuration"] as Int).toLong())
-    }
-
-    @Test
-    fun `Provides worklog interval ids by collaborator`() {
-        val expectedIntervalId1 = "id1"
-        val expectedIntervalId2 = "id2"
-        val workLogStub1: Worklog = mock()
-        val workLogStub2: Worklog = mock()
-        doReturn(listOf(workLogStub1, workLogStub1, workLogStub2))
-            .`when`(worklogServiceStub)
-            .getByCollaboratorId(COLLABORATOR_ID)
-        doReturn(expectedIntervalId1).`when`(workLogStub1).intervalId
-        doReturn(expectedIntervalId2).`when`(workLogStub2).intervalId
-
-        val intervalIdsResponse = webTestClient.get()
-            .uri("/worklog/collaborator/interval-ids")
-            .header(
-                "auth-token",
-                AUTH_TOKEN
-            )
-            .exchange()
-            .expectStatus()
-            .isOk
-            .expectBody(Collection::class.java)
-            .returnResult()
-
-        assertEquals(listOf(expectedIntervalId1, expectedIntervalId2), intervalIdsResponse.responseBody)
     }
 
     @Test
     fun `Provides project name of started work`() {
         val expectedProject = Project(name = "projectName")
         doReturn(expectedProject).`when`(workLogStartEndServiceStub).getProjectOfStartedWork(COLLABORATOR_ID)
+        doReturn(COLLABORATOR_ID).`when`(identityConfirmationStub).getUserIdByToken(AUTH_TOKEN)
 
         val projectNameResponse = webTestClient.get()
             .uri("/worklog/project-name-of-started-work")
@@ -145,7 +75,7 @@ class WorklogHandlerTest {
     @Test
     fun `Provides work status`() {
         doReturn(true).`when`(workLogStartEndServiceStub).hasWorkStarted(COLLABORATOR_ID)
-        doReturn(USER_ID).`when`(identityConfirmationStub).getUserIdByToken(AUTH_TOKEN)
+        doReturn(COLLABORATOR_ID).`when`(identityConfirmationStub).getUserIdByToken(AUTH_TOKEN)
 
         val hasWorkStartedResponse = webTestClient.get()
             .uri("/worklog/has-work-started")
