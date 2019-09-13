@@ -6,7 +6,7 @@ import lt.boldadmin.crowbar.IdentityConfirmation
 import lt.boldadmin.nexus.api.service.CollaboratorService
 import lt.boldadmin.nexus.api.service.worklog.WorklogDurationService
 import lt.boldadmin.nexus.api.service.worklog.WorklogService
-import lt.boldadmin.nexus.api.service.worklog.WorklogStartEndService
+import lt.boldadmin.nexus.api.service.worklog.WorklogStatusService
 import lt.boldadmin.nexus.api.type.entity.Project
 import lt.boldadmin.sektor.backend.handler.identityconfirmed.WorklogHandler
 import lt.boldadmin.sektor.backend.route.Routes
@@ -36,7 +36,7 @@ class WorklogHandlerTest {
     private lateinit var workLogDurationServiceStub: WorklogDurationService
 
     @Mock
-    private lateinit var workLogStartEndServiceStub: WorklogStartEndService
+    private lateinit var workLogStatusServiceStub: WorklogStatusService
 
     private lateinit var webTestClient: WebTestClient
 
@@ -46,7 +46,7 @@ class WorklogHandlerTest {
             collaboratorServiceStub,
             identityConfirmationStub
         )
-        val workLogHandler = WorklogHandler(collaboratorAuthService, workLogStartEndServiceStub)
+        val workLogHandler = WorklogHandler(collaboratorAuthService, workLogStatusServiceStub)
         val routerFunction = Routes(workLogHandler, mock(), mock(), mock()).router()
         webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
     }
@@ -54,7 +54,7 @@ class WorklogHandlerTest {
     @Test
     fun `Provides project name of started work`() {
         val expectedProject = Project(name = "projectName")
-        doReturn(expectedProject).`when`(workLogStartEndServiceStub).getProjectOfStartedWork(COLLABORATOR_ID)
+        doReturn(expectedProject).`when`(workLogStatusServiceStub).getProjectOfStartedWork(COLLABORATOR_ID)
         doReturn(COLLABORATOR_ID).`when`(identityConfirmationStub).getUserIdByToken(AUTH_TOKEN)
 
         val projectNameResponse = webTestClient.get()
@@ -74,7 +74,7 @@ class WorklogHandlerTest {
 
     @Test
     fun `Provides work status`() {
-        doReturn(true).`when`(workLogStartEndServiceStub).hasWorkStarted(COLLABORATOR_ID)
+        doReturn(true).`when`(workLogStatusServiceStub).hasWorkStarted(COLLABORATOR_ID)
         doReturn(COLLABORATOR_ID).`when`(identityConfirmationStub).getUserIdByToken(AUTH_TOKEN)
 
         val hasWorkStartedResponse = webTestClient.get()

@@ -1,6 +1,6 @@
 package lt.boldadmin.sektor.backend.handler.identityconfirmed
 
-import lt.boldadmin.nexus.api.service.worklog.WorklogStartEndService
+import lt.boldadmin.nexus.api.service.worklog.WorklogStatusService
 import lt.boldadmin.sektor.backend.service.CollaboratorAuthenticationService
 import org.springframework.web.reactive.function.BodyInserters.fromObject
 import org.springframework.web.reactive.function.server.ServerRequest
@@ -10,13 +10,13 @@ import reactor.core.publisher.Mono
 
 open class WorklogHandler(
     private val collaboratorAuthService: CollaboratorAuthenticationService,
-    private val workLogStartEndService: WorklogStartEndService
+    private val workLogStatusService: WorklogStatusService
 ) {
 
     open fun getProjectNameOfStartedWork(req: ServerRequest): Mono<ServerResponse> =
         ok().body(
             fromObject(
-                workLogStartEndService.getProjectOfStartedWork(
+                workLogStatusService.getProjectOfStartedWork(
                     collaboratorAuthService.getCollaboratorId(req)
                 ).name
             )
@@ -25,7 +25,7 @@ open class WorklogHandler(
     open fun hasWorkStarted(req: ServerRequest): Mono<ServerResponse> =
         ok().body(
             fromObject(
-                workLogStartEndService.hasWorkStarted(
+                workLogStatusService.hasWorkStarted(
                     collaboratorAuthService.getCollaboratorId(req)
                 )
             )
