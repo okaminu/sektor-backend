@@ -26,7 +26,7 @@ dependencyManagement {
 dependencies {
     implementation "lt.boldadmin.nexus:nexus-api:$gradle.ext.version"
     runtime "lt.boldadmin.nexus:nexus-backend-client-plugin:$gradle.ext.version"
-    runtime "lt.boldadmin.nexus:nexus-event-kafka-plugin:$gradle.ext.version"
+    runtime "lt.boldadmin.nexus:nexus-kafka-plugin:$gradle.ext.version"
     runtime "org.apache.kafka:kafka-clients:2.3.0"
 
     implementation "lt.boldadmin.crowbar:crowbar:$gradle.ext.version"
