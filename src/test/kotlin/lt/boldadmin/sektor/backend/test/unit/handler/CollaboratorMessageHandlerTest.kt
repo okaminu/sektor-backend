@@ -3,7 +3,7 @@ package lt.boldadmin.sektor.backend.test.unit.handler
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
-import lt.boldadmin.nexus.api.event.publisher.CollaboratorLocationPublisher
+import lt.boldadmin.nexus.api.event.publisher.CollaboratorMessagePublisher
 import lt.boldadmin.nexus.api.type.valueobject.Message
 import lt.boldadmin.sektor.backend.handler.CollaboratorMessageHandler
 import lt.boldadmin.sektor.backend.route.Routes
@@ -27,7 +27,7 @@ import reactor.core.publisher.toMono
 class CollaboratorMessageHandlerTest {
 
     @Mock
-    private lateinit var collaboratorLocationPublisherSpy: CollaboratorLocationPublisher
+    private lateinit var collaboratorMessagePublisherSpy: CollaboratorMessagePublisher
 
     @Mock
     private lateinit var jsonToMapConverterStub: JsonToMapConverter
@@ -40,7 +40,7 @@ class CollaboratorMessageHandlerTest {
     @BeforeEach
     fun `Set up`() {
         val collaboratorMessageHandler = CollaboratorMessageHandler(
-            collaboratorLocationPublisherSpy,
+            collaboratorMessagePublisherSpy,
             jsonToMapConverterStub,
             webClientSpy
         )
@@ -76,7 +76,7 @@ class CollaboratorMessageHandlerTest {
     }
 
     @Test
-    fun `Updates collaborator location when notification arrives`() {
+    fun `Publishes collaborator message when notification arrives`() {
         val jsonBody = "{'key': 'value'}"
         val jsonMessage = "{'message': 'contents'}"
         val bodyMap = mapOf("Type" to "Notification", "Message" to jsonMessage)
@@ -91,7 +91,7 @@ class CollaboratorMessageHandlerTest {
 
         postToHandlerWebClient(jsonBody)
 
-        verify(collaboratorLocationPublisherSpy).publish(convertMessage(messageMap))
+        verify(collaboratorMessagePublisherSpy).publish(convertMessage(messageMap))
     }
 
     private fun postToHandlerWebClient(jsonBody: String) {

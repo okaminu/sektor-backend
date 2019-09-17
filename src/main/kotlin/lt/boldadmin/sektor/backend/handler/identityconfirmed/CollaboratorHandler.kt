@@ -1,6 +1,6 @@
 package lt.boldadmin.sektor.backend.handler.identityconfirmed
 
-import lt.boldadmin.nexus.api.event.publisher.CollaboratorLocationPublisher
+import lt.boldadmin.nexus.api.event.publisher.CollaboratorCoordinatesPublisher
 import lt.boldadmin.nexus.api.type.valueobject.Coordinates
 import lt.boldadmin.sektor.backend.service.CollaboratorAuthenticationService
 import org.springframework.web.reactive.function.BodyInserters.fromObject
@@ -12,7 +12,7 @@ import reactor.core.publisher.Mono
 
 open class CollaboratorHandler(
     private val service: CollaboratorAuthenticationService,
-    private val publisher: CollaboratorLocationPublisher
+    private val publisher: CollaboratorCoordinatesPublisher
 ) {
 
     open fun getWorkTime(req: ServerRequest): Mono<ServerResponse> =

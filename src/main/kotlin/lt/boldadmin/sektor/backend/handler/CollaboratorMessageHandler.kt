@@ -1,6 +1,6 @@
 package lt.boldadmin.sektor.backend.handler
 
-import lt.boldadmin.nexus.api.event.publisher.CollaboratorLocationPublisher
+import lt.boldadmin.nexus.api.event.publisher.CollaboratorMessagePublisher
 import lt.boldadmin.nexus.api.type.valueobject.Message
 import lt.boldadmin.sektor.backend.service.JsonToMapConverter
 import org.springframework.http.HttpMethod
@@ -12,7 +12,7 @@ import org.springframework.web.reactive.function.server.bodyToMono
 import reactor.core.publisher.Mono
 
 open class CollaboratorMessageHandler(
-    private val publisher: CollaboratorLocationPublisher,
+    private val publisher: CollaboratorMessagePublisher,
     private val jsonToMapConverter: JsonToMapConverter,
     private val webClient: WebClient
 ) {
