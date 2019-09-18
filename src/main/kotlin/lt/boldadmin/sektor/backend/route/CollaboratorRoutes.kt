@@ -6,7 +6,8 @@ import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.web.reactive.function.server.RouterFunctionDsl
 
 fun collaboratorRoutes(
-    collaboratorHandler: CollaboratorHandler, identityConfirmationHandler: IdentityConfirmationHandler
+    collaboratorHandler: CollaboratorHandler,
+    identityConfirmationHandler: IdentityConfirmationHandler
 ): RouterFunctionDsl.() -> Unit = {
     accept(APPLICATION_JSON).nest {
         GET("/workTime", collaboratorHandler::getWorkTime)
