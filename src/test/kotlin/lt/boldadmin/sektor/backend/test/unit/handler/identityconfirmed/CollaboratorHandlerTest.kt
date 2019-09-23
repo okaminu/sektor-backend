@@ -5,8 +5,8 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import lt.boldadmin.crowbar.IdentityConfirmation
 import lt.boldadmin.nexus.api.event.publisher.CollaboratorCoordinatesPublisher
-import lt.boldadmin.nexus.api.service.CollaboratorService
-import lt.boldadmin.nexus.api.type.entity.Collaborator
+import lt.boldadmin.nexus.api.service.collaborator.CollaboratorService
+import lt.boldadmin.nexus.api.type.entity.collaborator.Collaborator
 import lt.boldadmin.nexus.api.type.valueobject.Coordinates
 import lt.boldadmin.nexus.api.type.valueobject.TimeRange
 import lt.boldadmin.sektor.backend.handler.identityconfirmed.CollaboratorHandler

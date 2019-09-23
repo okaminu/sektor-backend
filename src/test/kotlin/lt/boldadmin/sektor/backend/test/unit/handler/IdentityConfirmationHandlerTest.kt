@@ -4,8 +4,8 @@ import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import lt.boldadmin.crowbar.IdentityConfirmation
-import lt.boldadmin.nexus.api.service.CollaboratorService
-import lt.boldadmin.nexus.api.type.entity.Collaborator
+import lt.boldadmin.nexus.api.service.collaborator.CollaboratorService
+import lt.boldadmin.nexus.api.type.entity.collaborator.Collaborator
 import lt.boldadmin.sektor.backend.handler.IdentityConfirmationHandler
 import lt.boldadmin.sektor.backend.route.Routes
 import org.junit.jupiter.api.Assertions.assertEquals

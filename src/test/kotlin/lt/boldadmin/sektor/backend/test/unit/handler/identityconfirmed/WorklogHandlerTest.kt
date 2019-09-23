@@ -3,7 +3,7 @@ package lt.boldadmin.sektor.backend.test.unit.handler.identityconfirmed
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import lt.boldadmin.crowbar.IdentityConfirmation
-import lt.boldadmin.nexus.api.service.CollaboratorService
+import lt.boldadmin.nexus.api.service.collaborator.CollaboratorService
 import lt.boldadmin.nexus.api.service.worklog.WorklogDurationService
 import lt.boldadmin.nexus.api.service.worklog.WorklogService
 import lt.boldadmin.nexus.api.service.worklog.WorklogStatusService
