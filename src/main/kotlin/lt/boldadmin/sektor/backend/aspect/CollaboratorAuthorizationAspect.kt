@@ -27,8 +27,8 @@ class CollaboratorAuthorizationAspect(
         " && args(req)")
     fun collaboratorHasWorkLogIntervalsAdvice(req: ServerRequest) {
         val collaboratorId = collaboratorAuthService.getCollaboratorId(req)
-        if (!workLogAuthService.doesCollaboratorHaveWorkLogIntervals(collaboratorId, req.pathVariable("intervalIds")
-                .split(","))
+        if (!workLogAuthService
+                .doesCollaboratorHaveWorkLogIntervals(collaboratorId, req.pathVariable("intervalIds").split(","))
         )
             throw WorkLogIntervalDoesNotBelongToCollaboratorException
     }
