@@ -10,13 +10,13 @@ import reactor.core.publisher.Mono
 
 open class WorklogHandler(
     private val collaboratorAuthService: CollaboratorAuthenticationService,
-    private val workLogStatusService: WorklogStatusService
+    private val worklogStatusService: WorklogStatusService
 ) {
 
     open fun getProjectNameOfStartedWork(req: ServerRequest): Mono<ServerResponse> =
         ok().body(
             fromObject(
-                workLogStatusService.getProjectOfStartedWork(
+                worklogStatusService.getProjectOfStartedWork(
                     collaboratorAuthService.getCollaboratorId(req)
                 ).name
             )
@@ -25,7 +25,7 @@ open class WorklogHandler(
     open fun hasWorkStarted(req: ServerRequest): Mono<ServerResponse> =
         ok().body(
             fromObject(
-                workLogStatusService.hasWorkStarted(
+                worklogStatusService.hasWorkStarted(
                     collaboratorAuthService.getCollaboratorId(req)
                 )
             )

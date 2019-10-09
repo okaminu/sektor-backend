@@ -11,7 +11,6 @@ import reactor.netty.http.server.HttpServer
 
 
 fun main(args: Array<String>) {
-
     val context = GenericApplicationContext()
     initializeBeans(context)
     context.refresh()

@@ -31,7 +31,7 @@ class CollaboratorHandlerTest {
     private lateinit var identityConfirmationStub: IdentityConfirmation
 
     @Mock
-    private lateinit var collaboratorCoordinatesPublisherSpy: CollaboratorCoordinatesPublisher
+    private lateinit var coordinatesPublisherSpy: CollaboratorCoordinatesPublisher
 
     private lateinit var webTestClient: WebTestClient
 
@@ -43,7 +43,7 @@ class CollaboratorHandlerTest {
                 identityConfirmationStub
         )
 
-        val collaboratorHandler = CollaboratorHandler(collaboratorAuthService, collaboratorCoordinatesPublisherSpy)
+        val collaboratorHandler = CollaboratorHandler(collaboratorAuthService, coordinatesPublisherSpy)
         val routerFunction = Routes(mock(), collaboratorHandler, mock(), mock()).router()
         webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
         doReturn(USER_ID).`when`(identityConfirmationStub).getUserIdByToken(AUTH_TOKEN)
@@ -79,7 +79,7 @@ class CollaboratorHandlerTest {
             .isOk
             .expectBody().isEmpty
 
-        verify(collaboratorCoordinatesPublisherSpy).publish(USER_ID, coordinates)
+        verify(coordinatesPublisherSpy).publish(USER_ID, coordinates)
     }
 
     companion object {
