@@ -59,7 +59,8 @@ class CollaboratorAuthorizationAspectTest {
         val intervalIds = listOf("11", "22")
         val intervalIdsString = "${intervalIds[0]},${intervalIds[1]}"
         doReturn(intervalIdsString).`when`(serverRequestStub).pathVariable("intervalIds")
-        doReturn(false).`when`(workLogAuthServiceStub).doesCollaboratorHaveWorkLogIntervals(COLLABORATOR_ID, intervalIds)
+        doReturn(false)
+            .`when`(workLogAuthServiceStub).doesCollaboratorHaveWorkLogIntervals(COLLABORATOR_ID, intervalIds)
 
         assertThrows(WorkLogIntervalDoesNotBelongToCollaboratorException::class.java) {
             aspect.collaboratorHasWorkLogIntervalsAdvice(serverRequestStub)

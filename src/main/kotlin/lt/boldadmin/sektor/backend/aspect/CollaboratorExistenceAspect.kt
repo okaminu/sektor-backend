@@ -12,7 +12,8 @@ import org.springframework.web.reactive.function.server.ServerRequest
 @Order(1)
 class CollaboratorExistenceAspect(
     private val collaboratorService: CollaboratorService,
-    private val collaboratorAuthService: CollaboratorAuthenticationService) {
+    private val collaboratorAuthService: CollaboratorAuthenticationService
+) {
 
     @Before("execution(* lt.boldadmin.sektor.backend.handler.IdentityConfirmationHandler.requestCode(..)) && args(req)")
     fun collaboratorExistsByMobileNumberAdvice(req: ServerRequest) {
