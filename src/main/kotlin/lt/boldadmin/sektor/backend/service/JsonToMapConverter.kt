@@ -5,5 +5,5 @@ import com.fasterxml.jackson.databind.ObjectMapper
 
 object JsonToMapConverter {
     internal fun convert(json: String) =
-        ObjectMapper().readValue<Map<String, String>>(json, object: TypeReference<Map<String, String>>(){})
+        ObjectMapper().readValue<Map<String, String>>(json, object: TypeReference<Map<String, String>>() {})
 }
