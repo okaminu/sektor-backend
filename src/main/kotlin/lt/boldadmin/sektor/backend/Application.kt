@@ -10,7 +10,7 @@ import org.springframework.web.server.adapter.WebHttpHandlerBuilder
 import reactor.netty.http.server.HttpServer
 
 
-fun main() {
+fun main(args: Array<String>) {
     val context = GenericApplicationContext()
     initializeBeans(context)
     context.refresh()

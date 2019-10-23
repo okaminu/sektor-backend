@@ -1,7 +1,7 @@
 package lt.boldadmin.sektor.backend.service
 
 import lt.boldadmin.crowbar.IdentityConfirmation
-import lt.boldadmin.nexus.api.service.CollaboratorService
+import lt.boldadmin.nexus.api.service.collaborator.CollaboratorService
 import org.springframework.web.reactive.function.server.ServerRequest
 
 class CollaboratorAuthenticationService(

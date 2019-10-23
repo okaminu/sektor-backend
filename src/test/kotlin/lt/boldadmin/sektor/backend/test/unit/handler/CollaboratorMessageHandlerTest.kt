@@ -3,9 +3,9 @@ package lt.boldadmin.sektor.backend.test.unit.handler
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
-import lt.boldadmin.nexus.api.service.worklog.status.message.WorklogMessageService
+import lt.boldadmin.nexus.api.event.publisher.CollaboratorMessagePublisher
 import lt.boldadmin.nexus.api.type.valueobject.Message
-import lt.boldadmin.sektor.backend.handler.WorkLogMessageHandler
+import lt.boldadmin.sektor.backend.handler.CollaboratorMessageHandler
 import lt.boldadmin.sektor.backend.route.Routes
 import lt.boldadmin.sektor.backend.service.JsonToMapConverter
 import org.junit.jupiter.api.BeforeEach
@@ -24,10 +24,10 @@ import reactor.core.publisher.toMono
 
 @Suppress("UnassignedFluxMonoInstance")
 @ExtendWith(MockitoExtension::class)
-class WorklogMessageHandlerTest {
+class CollaboratorMessageHandlerTest {
 
     @Mock
-    private lateinit var workLogMessageServiceSpy: WorklogMessageService
+    private lateinit var collaboratorMessagePublisherSpy: CollaboratorMessagePublisher
 
     @Mock
     private lateinit var jsonToMapConverterStub: JsonToMapConverter
@@ -39,15 +39,15 @@ class WorklogMessageHandlerTest {
 
     @BeforeEach
     fun `Set up`() {
-        val workLogMessageHandler = WorkLogMessageHandler(
-            workLogMessageServiceSpy,
+        val collaboratorMessageHandler = CollaboratorMessageHandler(
+            collaboratorMessagePublisherSpy,
             jsonToMapConverterStub,
             webClientSpy
         )
 
         handlerWebClient = WebTestClient
             .bindToRouterFunction(
-                Routes(mock(), mock(), mock(), workLogMessageHandler).router()
+                Routes(mock(), mock(), collaboratorMessageHandler, mock()).router()
             ).build()
     }
 
@@ -76,7 +76,7 @@ class WorklogMessageHandlerTest {
     }
 
     @Test
-    fun `Logs work when notification arrives`() {
+    fun `Publishes collaborator message when notification arrives`() {
         val jsonBody = "{'key': 'value'}"
         val jsonMessage = "{'message': 'contents'}"
         val bodyMap = mapOf("Type" to "Notification", "Message" to jsonMessage)
@@ -91,12 +91,12 @@ class WorklogMessageHandlerTest {
 
         postToHandlerWebClient(jsonBody)
 
-        verify(workLogMessageServiceSpy).logWork(convertMessage(messageMap))
+        verify(collaboratorMessagePublisherSpy).publish(convertMessage(messageMap))
     }
 
     private fun postToHandlerWebClient(jsonBody: String) {
         handlerWebClient.post()
-            .uri("/worklog/log-by-message")
+            .uri("/collaborator/location/message")
             .body(jsonBody.toMono(), String::class.java)
             .exchange()
             .expectStatus()

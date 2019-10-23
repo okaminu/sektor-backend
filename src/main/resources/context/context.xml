@@ -29,5 +29,6 @@
     </context:component-scan>
 
     <import resource="plugin/crowbar.xml"/>
+    <import resource="plugin/nexus-kafka-plugin.xml"/>
     <import resource="plugin/nexus-backend-client.xml"/>
 </beans>
