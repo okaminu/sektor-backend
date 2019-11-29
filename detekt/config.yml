@@ -74,6 +74,7 @@ complexity:
     ignoreDeprecated: false
     ignorePrivate: false
     ignoreOverridden: false
+    excludes: "**/*Step.kt"
 
 empty-blocks:
   active: true
@@ -401,7 +402,9 @@ style:
   ForbiddenVoid:
     active: false
     ignoreOverridden: false
-  FunctionOnlyReturningConstant:
+    excludes: "**/*Step.kt"
+
+FunctionOnlyReturningConstant:
     active: false
     ignoreOverridableFunction: true
     excludedFunctions: 'describeContents'
