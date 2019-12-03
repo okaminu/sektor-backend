@@ -402,9 +402,7 @@ style:
   ForbiddenVoid:
     active: false
     ignoreOverridden: false
-    excludes: "**/*Step.kt"
-
-FunctionOnlyReturningConstant:
+  FunctionOnlyReturningConstant:
     active: false
     ignoreOverridableFunction: true
     excludedFunctions: 'describeContents'
