@@ -19,7 +19,6 @@ open class IdentityConfirmationHandler(
             .doOnNext { identityConfirmation.sendConfirmationCode(getCollaborator(it).id, it) }
             .flatMap { ok().build() }
 
-
     open fun confirmCode(req: ServerRequest): Mono<ServerResponse> =
         Mono.just(req.pathVariable("code"))
             .map { UserConfirmationCode(identityConfirmation.getUserIdByCode(it), it) }

@@ -20,7 +20,6 @@ class IdentityConfirmationAspect(private val identityConfirmation: IdentityConfi
             throw IncorrectTokenException
     }
 
-
     @Before("execution(* lt.boldadmin.sektor.backend.handler.IdentityConfirmationHandler.confirmCode(..)) && args(req)")
     fun confirmationCodeUserExistsAdvice(req: ServerRequest) {
         val code = req.pathVariable("code")

@@ -35,7 +35,6 @@ class CollaboratorHandlerTest {
 
     private lateinit var webTestClient: WebTestClient
 
-
     @BeforeEach
     fun setUp() {
         val collaboratorAuthService = CollaboratorAuthenticationService(
