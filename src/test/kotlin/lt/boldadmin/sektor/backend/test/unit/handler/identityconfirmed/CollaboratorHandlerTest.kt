@@ -51,7 +51,7 @@ class CollaboratorHandlerTest {
 
     @Test
     fun `Takes collaborator work time`() {
-        val workTime = TimeRange(0, 1)
+        val workTime = arrayOf(TimeRange(0, 1))
         doReturn(Collaborator().apply { this.workTime = workTime }).`when`(collaboratorServiceStub).getById(USER_ID)
 
         val workTimeResponseBody = webTestClient.get()
@@ -63,7 +63,7 @@ class CollaboratorHandlerTest {
                 .expectBody(TimeRange::class.java)
                 .returnResult()
 
-        assertEquals(workTime, workTimeResponseBody.responseBody)
+        assertEquals(workTime[0], workTimeResponseBody.responseBody)
     }
 
     @Test
