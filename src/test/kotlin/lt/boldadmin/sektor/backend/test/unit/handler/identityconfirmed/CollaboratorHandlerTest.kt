@@ -51,7 +51,7 @@ class CollaboratorHandlerTest {
 
     @Test
     fun `Takes collaborator work time`() {
-        val workTime = arrayOf(TimeRange(0, 1))
+        val workTime = listOf(TimeRange(0, 1))
         doReturn(Collaborator().apply { this.workTime = workTime }).`when`(collaboratorServiceStub).getById(USER_ID)
 
         val workTimeResponseBody = webTestClient.get()
