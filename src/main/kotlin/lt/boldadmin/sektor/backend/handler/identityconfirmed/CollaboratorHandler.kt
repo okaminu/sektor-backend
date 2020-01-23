@@ -16,7 +16,7 @@ open class CollaboratorHandler(
 ) {
 
     open fun getWorkTime(req: ServerRequest): Mono<ServerResponse> =
-        ok().body(fromObject(service.getCollaborator(req).workTime[0]))
+        ok().body(fromObject(service.getCollaborator(req).workWeek[0].time))
 
     open fun updateLocationByCoordinates(req: ServerRequest): Mono<ServerResponse> =
         req.bodyToMono<Coordinates>()

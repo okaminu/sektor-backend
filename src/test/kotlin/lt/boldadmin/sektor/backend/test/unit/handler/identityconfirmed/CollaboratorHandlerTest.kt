@@ -9,6 +9,7 @@ import lt.boldadmin.nexus.api.service.collaborator.CollaboratorService
 import lt.boldadmin.nexus.api.type.entity.Collaborator
 import lt.boldadmin.nexus.api.type.valueobject.Coordinates
 import lt.boldadmin.nexus.api.type.valueobject.TimeRange
+import lt.boldadmin.nexus.api.type.valueobject.WorkDay
 import lt.boldadmin.sektor.backend.handler.identityconfirmed.CollaboratorHandler
 import lt.boldadmin.sektor.backend.route.Routes
 import lt.boldadmin.sektor.backend.service.CollaboratorAuthenticationService
@@ -51,8 +52,8 @@ class CollaboratorHandlerTest {
 
     @Test
     fun `Takes collaborator work time`() {
-        val workTime = listOf(TimeRange(0, 1))
-        doReturn(Collaborator().apply { this.workTime = workTime }).`when`(collaboratorServiceStub).getById(USER_ID)
+        val workWeek = listOf(WorkDay(TimeRange(0, 1)))
+        doReturn(Collaborator().apply { this.workWeek = workWeek }).`when`(collaboratorServiceStub).getById(USER_ID)
 
         val workTimeResponseBody = webTestClient.get()
                 .uri("/collaborator/workTime")
@@ -63,7 +64,7 @@ class CollaboratorHandlerTest {
                 .expectBody(TimeRange::class.java)
                 .returnResult()
 
-        assertEquals(workTime[0], workTimeResponseBody.responseBody)
+        assertEquals(workWeek[0].time, workTimeResponseBody.responseBody)
     }
 
     @Test
