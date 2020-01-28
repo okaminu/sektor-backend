@@ -7,7 +7,6 @@ import lt.boldadmin.crowbar.IdentityConfirmation
 import lt.boldadmin.nexus.api.event.publisher.CollaboratorCoordinatesPublisher
 import lt.boldadmin.nexus.api.service.collaborator.CollaboratorService
 import lt.boldadmin.nexus.api.type.entity.Collaborator
-import lt.boldadmin.nexus.api.type.extension.get
 import lt.boldadmin.nexus.api.type.valueobject.Coordinates
 import lt.boldadmin.nexus.api.type.valueobject.TimeRange
 import lt.boldadmin.nexus.api.type.valueobject.WorkDay
@@ -20,9 +19,10 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
+import org.springframework.core.ParameterizedTypeReference
 import org.springframework.test.web.reactive.server.WebTestClient
 import reactor.core.publisher.toMono
-import java.time.DayOfWeek.MONDAY
+import java.util.*
 
 @ExtendWith(MockitoExtension::class)
 class CollaboratorHandlerTest {
@@ -42,8 +42,8 @@ class CollaboratorHandlerTest {
     @BeforeEach
     fun setUp() {
         val collaboratorAuthService = CollaboratorAuthenticationService(
-                collaboratorServiceStub,
-                identityConfirmationStub
+            collaboratorServiceStub,
+            identityConfirmationStub
         )
 
         val collaboratorHandler = CollaboratorHandler(collaboratorAuthService, coordinatesPublisherSpy)
@@ -54,19 +54,19 @@ class CollaboratorHandlerTest {
 
     @Test
     fun `Takes collaborator work time`() {
-        val workWeek = sortedSetOf(WorkDay(TimeRange(0, 1)))
+        val workWeek = sortedSetOf(WorkDay(TimeRange(0, 1), false, 1), WorkDay(TimeRange(0, 1), true, 0))
         doReturn(Collaborator().apply { this.workWeek = workWeek }).`when`(collaboratorServiceStub).getById(USER_ID)
 
         val workTimeResponseBody = webTestClient.get()
-                .uri("/collaborator/workTime")
-                .header("auth-token", AUTH_TOKEN)
-                .exchange()
-                .expectStatus()
-                .isOk
-                .expectBody(TimeRange::class.java)
-                .returnResult()
+            .uri("/collaborator/workTime")
+            .header("auth-token", AUTH_TOKEN)
+            .exchange()
+            .expectStatus()
+            .isOk
+            .expectBody(object : ParameterizedTypeReference<SortedSet<WorkDay>>() {})
+            .returnResult()
 
-        assertEquals(workWeek[MONDAY].time, workTimeResponseBody.responseBody)
+        assertEquals(workWeek, workTimeResponseBody.responseBody)
     }
 
     @Test
