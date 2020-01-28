@@ -22,6 +22,7 @@ import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 import org.springframework.test.web.reactive.server.WebTestClient
 import reactor.core.publisher.toMono
+import java.time.DayOfWeek.MONDAY
 
 @ExtendWith(MockitoExtension::class)
 class CollaboratorHandlerTest {
@@ -65,7 +66,7 @@ class CollaboratorHandlerTest {
                 .expectBody(TimeRange::class.java)
                 .returnResult()
 
-        assertEquals(workWeek[0].time, workTimeResponseBody.responseBody)
+        assertEquals(workWeek[MONDAY].time, workTimeResponseBody.responseBody)
     }
 
     @Test

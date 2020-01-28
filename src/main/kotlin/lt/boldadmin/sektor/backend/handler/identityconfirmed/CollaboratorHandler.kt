@@ -1,8 +1,8 @@
 package lt.boldadmin.sektor.backend.handler.identityconfirmed
 
 import lt.boldadmin.nexus.api.event.publisher.CollaboratorCoordinatesPublisher
-import lt.boldadmin.nexus.api.type.valueobject.Coordinates
 import lt.boldadmin.nexus.api.type.extension.get
+import lt.boldadmin.nexus.api.type.valueobject.Coordinates
 import lt.boldadmin.sektor.backend.service.CollaboratorAuthenticationService
 import org.springframework.web.reactive.function.BodyInserters.fromObject
 import org.springframework.web.reactive.function.server.ServerRequest
@@ -10,6 +10,7 @@ import org.springframework.web.reactive.function.server.ServerResponse
 import org.springframework.web.reactive.function.server.ServerResponse.ok
 import org.springframework.web.reactive.function.server.bodyToMono
 import reactor.core.publisher.Mono
+import java.time.DayOfWeek.MONDAY
 
 open class CollaboratorHandler(
     private val service: CollaboratorAuthenticationService,
@@ -17,7 +18,7 @@ open class CollaboratorHandler(
 ) {
 
     open fun getWorkTime(req: ServerRequest): Mono<ServerResponse> =
-        ok().body(fromObject(service.getCollaborator(req).workWeek[0].time))
+        ok().body(fromObject(service.getCollaborator(req).workWeek[MONDAY].time))
 
     open fun updateLocationByCoordinates(req: ServerRequest): Mono<ServerResponse> =
         req.bodyToMono<Coordinates>()
