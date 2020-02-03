@@ -8,8 +8,8 @@ import lt.boldadmin.nexus.api.event.publisher.CollaboratorCoordinatesPublisher
 import lt.boldadmin.nexus.api.service.collaborator.CollaboratorService
 import lt.boldadmin.nexus.api.type.entity.Collaborator
 import lt.boldadmin.nexus.api.type.valueobject.Coordinates
-import lt.boldadmin.nexus.api.type.valueobject.DayTime
-import lt.boldadmin.nexus.api.type.valueobject.TimeRange
+import lt.boldadmin.nexus.api.type.valueobject.Day
+import lt.boldadmin.nexus.api.type.valueobject.MinuteRange
 import lt.boldadmin.sektor.backend.handler.identityconfirmed.CollaboratorHandler
 import lt.boldadmin.sektor.backend.route.Routes
 import lt.boldadmin.sektor.backend.service.CollaboratorAuthenticationService
@@ -54,7 +54,7 @@ class CollaboratorHandlerTest {
 
     @Test
     fun `Takes collaborator work time`() {
-        val workWeek = sortedSetOf(DayTime(TimeRange(0, 1), false, 1), DayTime(TimeRange(0, 1), true, 0))
+        val workWeek = sortedSetOf(Day(MinuteRange(0, 1), false, 1), Day(MinuteRange(0, 1), true, 0))
         doReturn(Collaborator().apply { this.workWeek = workWeek }).`when`(collaboratorServiceStub).getById(USER_ID)
 
         val workTimeResponseBody = webTestClient.get()
@@ -63,7 +63,7 @@ class CollaboratorHandlerTest {
             .exchange()
             .expectStatus()
             .isOk
-            .expectBody(object : ParameterizedTypeReference<SortedSet<DayTime>>() {})
+            .expectBody(object : ParameterizedTypeReference<SortedSet<Day>>() {})
             .returnResult()
 
         assertEquals(workWeek, workTimeResponseBody.responseBody)
