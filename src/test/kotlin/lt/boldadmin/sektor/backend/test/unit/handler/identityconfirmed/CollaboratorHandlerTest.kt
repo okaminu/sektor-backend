@@ -22,6 +22,8 @@ import org.mockito.junit.jupiter.MockitoExtension
 import org.springframework.core.ParameterizedTypeReference
 import org.springframework.test.web.reactive.server.WebTestClient
 import reactor.core.publisher.toMono
+import java.time.DayOfWeek.MONDAY
+import java.time.DayOfWeek.TUESDAY
 import java.util.*
 
 @ExtendWith(MockitoExtension::class)
@@ -54,7 +56,7 @@ class CollaboratorHandlerTest {
 
     @Test
     fun `Takes collaborator work time`() {
-        val workWeek = sortedSetOf(Day(MinuteRange(0, 1), false, 1), Day(MinuteRange(0, 1), true, 0))
+        val workWeek = sortedSetOf(Day(MinuteRange(0, 1), false, TUESDAY), Day(MinuteRange(0, 1), true, MONDAY))
         doReturn(Collaborator().apply { this.workWeek = workWeek }).`when`(collaboratorServiceStub).getById(USER_ID)
 
         val workTimeResponseBody = webTestClient.get()
@@ -63,7 +65,7 @@ class CollaboratorHandlerTest {
             .exchange()
             .expectStatus()
             .isOk
-            .expectBody(object : ParameterizedTypeReference<SortedSet<Day>>() {})
+            .expectBody(object: ParameterizedTypeReference<SortedSet<Day>>() {})
             .returnResult()
 
         assertEquals(workWeek, workTimeResponseBody.responseBody)
