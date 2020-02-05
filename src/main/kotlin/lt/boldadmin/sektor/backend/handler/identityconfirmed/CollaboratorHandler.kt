@@ -15,7 +15,7 @@ open class CollaboratorHandler(
     private val publisher: CollaboratorCoordinatesPublisher
 ) {
 
-    open fun getWorkTime(req: ServerRequest): Mono<ServerResponse> =
+    open fun workWeek(req: ServerRequest): Mono<ServerResponse> =
         ok().body(fromObject(service.getCollaborator(req).workWeek))
 
     open fun updateLocationByCoordinates(req: ServerRequest): Mono<ServerResponse> =

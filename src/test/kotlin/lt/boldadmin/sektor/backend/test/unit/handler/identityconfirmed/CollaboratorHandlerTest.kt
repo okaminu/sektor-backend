@@ -60,7 +60,7 @@ class CollaboratorHandlerTest {
         doReturn(Collaborator().apply { this.workWeek = workWeek }).`when`(collaboratorServiceStub).getById(USER_ID)
 
         val workTimeResponseBody = webTestClient.get()
-            .uri("/collaborator/workTime")
+            .uri("/collaborator/work-week")
             .header("auth-token", AUTH_TOKEN)
             .exchange()
             .expectStatus()

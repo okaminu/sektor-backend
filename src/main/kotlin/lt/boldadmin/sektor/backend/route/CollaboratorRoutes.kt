@@ -12,7 +12,7 @@ fun collaboratorRoutes(
     identityConfirmationHandler: IdentityConfirmationHandler
 ): RouterFunctionDsl.() -> Unit = {
     accept(APPLICATION_JSON).nest {
-        GET("/workTime", collaboratorHandler::getWorkTime)
+        GET("/work-week", collaboratorHandler::workWeek)
         "/location".nest {
             POST("/coordinates", collaboratorHandler::updateLocationByCoordinates)
             POST("/message", collaboratorMessageHandler::updateLocationByMessage)
