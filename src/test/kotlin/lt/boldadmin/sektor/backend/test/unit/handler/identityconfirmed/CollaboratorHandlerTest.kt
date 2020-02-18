@@ -7,9 +7,9 @@ import lt.boldadmin.crowbar.IdentityConfirmation
 import lt.boldadmin.nexus.api.event.publisher.CollaboratorCoordinatesPublisher
 import lt.boldadmin.nexus.api.service.collaborator.CollaboratorService
 import lt.boldadmin.nexus.api.type.entity.Collaborator
-import lt.boldadmin.nexus.api.type.valueobject.Coordinates
-import lt.boldadmin.nexus.api.type.valueobject.DayMinuteInterval
-import lt.boldadmin.nexus.api.type.valueobject.MinuteInterval
+import lt.boldadmin.nexus.api.type.valueobject.location.Coordinates
+import lt.boldadmin.nexus.api.type.valueobject.time.DayMinuteInterval
+import lt.boldadmin.nexus.api.type.valueobject.time.MinuteInterval
 import lt.boldadmin.sektor.backend.handler.identityconfirmed.CollaboratorHandler
 import lt.boldadmin.sektor.backend.route.Routes
 import lt.boldadmin.sektor.backend.service.CollaboratorAuthenticationService
