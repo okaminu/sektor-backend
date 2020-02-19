@@ -55,14 +55,14 @@ class CollaboratorHandlerTest {
     }
 
     @Test
-    fun `Takes collaborator work time`() {
+    fun `Takes collaborator work week`() {
         val workWeek = sortedSetOf(
             DayMinuteInterval(TUESDAY, MinuteInterval(0, 1), false),
             DayMinuteInterval(MONDAY, MinuteInterval(0, 1), true)
         )
         doReturn(Collaborator().apply { this.workWeek = workWeek }).`when`(collaboratorServiceStub).getById(USER_ID)
 
-        val workTimeResponseBody = webTestClient.get()
+        val workWeekResponseBody = webTestClient.get()
             .uri("/collaborator/work-week")
             .header("auth-token", AUTH_TOKEN)
             .exchange()
@@ -71,7 +71,7 @@ class CollaboratorHandlerTest {
             .expectBody(object: ParameterizedTypeReference<SortedSet<DayMinuteInterval>>() {})
             .returnResult()
 
-        assertEquals(workWeek, workTimeResponseBody.responseBody)
+        assertEquals(workWeek, workWeekResponseBody.responseBody)
     }
 
     @Test
