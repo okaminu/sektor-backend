@@ -22,7 +22,6 @@ import org.mockito.junit.jupiter.MockitoExtension
 import org.springframework.core.ParameterizedTypeReference
 import org.springframework.test.web.reactive.server.WebTestClient
 import reactor.core.publisher.toMono
-import java.time.DayOfWeek.MONDAY
 import java.time.DayOfWeek.TUESDAY
 import java.util.*
 
@@ -56,10 +55,7 @@ class CollaboratorHandlerTest {
 
     @Test
     fun `Takes collaborator work week`() {
-        val workWeek = sortedSetOf(
-            DayMinuteInterval(TUESDAY, MinuteInterval(0, 1), false),
-            DayMinuteInterval(MONDAY, MinuteInterval(0, 1), true)
-        )
+        val workWeek = sortedSetOf(DayMinuteInterval(TUESDAY, MinuteInterval(0, 1), false))
         doReturn(Collaborator().apply { this.workWeek = workWeek }).`when`(collaboratorServiceStub).getById(USER_ID)
 
         val workWeekResponseBody = webTestClient.get()
