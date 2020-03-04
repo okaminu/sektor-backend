@@ -6,9 +6,10 @@ import com.nhaarman.mockitokotlin2.verify
 import lt.boldadmin.crowbar.IdentityConfirmation
 import lt.boldadmin.nexus.api.event.publisher.CollaboratorCoordinatesPublisher
 import lt.boldadmin.nexus.api.service.collaborator.CollaboratorService
-import lt.boldadmin.nexus.api.type.entity.collaborator.Collaborator
-import lt.boldadmin.nexus.api.type.valueobject.Coordinates
-import lt.boldadmin.nexus.api.type.valueobject.TimeRange
+import lt.boldadmin.nexus.api.type.entity.Collaborator
+import lt.boldadmin.nexus.api.type.valueobject.location.Coordinates
+import lt.boldadmin.nexus.api.type.valueobject.time.DayMinuteInterval
+import lt.boldadmin.nexus.api.type.valueobject.time.MinuteInterval
 import lt.boldadmin.sektor.backend.handler.identityconfirmed.CollaboratorHandler
 import lt.boldadmin.sektor.backend.route.Routes
 import lt.boldadmin.sektor.backend.service.CollaboratorAuthenticationService
@@ -18,8 +19,11 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
+import org.springframework.core.ParameterizedTypeReference
 import org.springframework.test.web.reactive.server.WebTestClient
 import reactor.core.publisher.toMono
+import java.time.DayOfWeek.TUESDAY
+import java.util.*
 
 @ExtendWith(MockitoExtension::class)
 class CollaboratorHandlerTest {
@@ -39,8 +43,8 @@ class CollaboratorHandlerTest {
     @BeforeEach
     fun setUp() {
         val collaboratorAuthService = CollaboratorAuthenticationService(
-                collaboratorServiceStub,
-                identityConfirmationStub
+            collaboratorServiceStub,
+            identityConfirmationStub
         )
 
         val collaboratorHandler = CollaboratorHandler(collaboratorAuthService, coordinatesPublisherSpy)
@@ -50,20 +54,20 @@ class CollaboratorHandlerTest {
     }
 
     @Test
-    fun `Takes collaborator work time`() {
-        val workTime = TimeRange(0, 1)
-        doReturn(Collaborator().apply { this.workTime = workTime }).`when`(collaboratorServiceStub).getById(USER_ID)
+    fun `Takes collaborator work week`() {
+        val workWeek = sortedSetOf(DayMinuteInterval(TUESDAY, MinuteInterval(0, 1), false))
+        doReturn(Collaborator().apply { this.workWeek = workWeek }).`when`(collaboratorServiceStub).getById(USER_ID)
 
-        val workTimeResponseBody = webTestClient.get()
-                .uri("/collaborator/workTime")
-                .header("auth-token", AUTH_TOKEN)
-                .exchange()
-                .expectStatus()
-                .isOk
-                .expectBody(TimeRange::class.java)
-                .returnResult()
+        val workWeekResponseBody = webTestClient.get()
+            .uri("/collaborator/work-week")
+            .header("auth-token", AUTH_TOKEN)
+            .exchange()
+            .expectStatus()
+            .isOk
+            .expectBody(object: ParameterizedTypeReference<SortedSet<DayMinuteInterval>>() {})
+            .returnResult()
 
-        assertEquals(workTime, workTimeResponseBody.responseBody)
+        assertEquals(workWeek, workWeekResponseBody.responseBody)
     }
 
     @Test
