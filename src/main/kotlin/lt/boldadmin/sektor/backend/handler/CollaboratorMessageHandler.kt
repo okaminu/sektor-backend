@@ -25,7 +25,6 @@ open class CollaboratorMessageHandler(
                 if (requestBodyMap["Type"] == "SubscriptionConfirmation")
                     webClient.method(HttpMethod.GET).uri(requestBodyMap["SubscribeURL"]!!).exchange().block()
 
-
                 if (requestBodyMap["Type"] == "Notification")
                     publisher.publish(convertMessage(requestBodyMap["Message"]!!))
 
