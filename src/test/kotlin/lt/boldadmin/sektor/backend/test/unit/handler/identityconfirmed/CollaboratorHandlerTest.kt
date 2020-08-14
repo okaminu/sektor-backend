@@ -47,15 +47,17 @@ class CollaboratorHandlerTest {
         )
 
         val collaboratorHandler = CollaboratorHandler(collaboratorAuthService, coordinatesPublisherSpy)
-        val routerFunction = Routes(mock(), collaboratorHandler, mock(), mock()).router()
+        val routerFunction = Routes(mock(), collaboratorHandler, mock(), mock(), mock()).router()
         webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
-        doReturn(USER_ID).`when`(identityConfirmationStub).getUserIdByToken(AUTH_TOKEN)
+        doReturn(COLLABORATOR_ID).`when`(identityConfirmationStub).getUserIdByToken(AUTH_TOKEN)
     }
 
     @Test
     fun `Takes collaborator work week`() {
         val workWeek = sortedSetOf(DayMinuteInterval(TUESDAY, MinuteInterval(0, 1), false))
-        doReturn(Collaborator().apply { this.workWeek = workWeek }).`when`(collaboratorServiceStub).getById(USER_ID)
+        doReturn(Collaborator()
+            .apply { this.workWeek = workWeek })
+            .`when`(collaboratorServiceStub).getById(COLLABORATOR_ID)
 
         val workWeekResponseBody = webTestClient.get()
             .uri("/collaborator/work-week")
@@ -82,11 +84,11 @@ class CollaboratorHandlerTest {
             .isOk
             .expectBody().isEmpty
 
-        verify(coordinatesPublisherSpy).publish(USER_ID, coordinates)
+        verify(coordinatesPublisherSpy).publish(COLLABORATOR_ID, coordinates)
     }
 
     companion object {
-        private const val USER_ID = "userId"
+        private const val COLLABORATOR_ID = "collaboratorId"
         private const val AUTH_TOKEN = "asda454s6d"
     }
 }
