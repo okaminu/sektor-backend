@@ -4,8 +4,6 @@ import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import lt.boldadmin.crowbar.IdentityConfirmation
 import lt.boldadmin.nexus.api.service.collaborator.CollaboratorService
-import lt.boldadmin.nexus.api.service.worklog.WorklogDurationService
-import lt.boldadmin.nexus.api.service.worklog.WorklogService
 import lt.boldadmin.nexus.api.service.worklog.WorklogStatusService
 import lt.boldadmin.nexus.api.type.entity.Project
 import lt.boldadmin.sektor.backend.handler.identityconfirmed.WorklogHandler
@@ -30,12 +28,6 @@ class WorklogHandlerTest {
     private lateinit var identityConfirmationStub: IdentityConfirmation
 
     @Mock
-    private lateinit var worklogServiceStub: WorklogService
-
-    @Mock
-    private lateinit var workLogDurationServiceStub: WorklogDurationService
-
-    @Mock
     private lateinit var workLogStatusServiceStub: WorklogStatusService
 
     private lateinit var webTestClient: WebTestClient
@@ -47,7 +39,7 @@ class WorklogHandlerTest {
             identityConfirmationStub
         )
         val worklogHandler = WorklogHandler(collaboratorAuthService, workLogStatusServiceStub)
-        val routerFunction = Routes(worklogHandler, mock(), mock(), mock()).router()
+        val routerFunction = Routes(worklogHandler, mock(), mock(), mock(), mock()).router()
         webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
     }
 

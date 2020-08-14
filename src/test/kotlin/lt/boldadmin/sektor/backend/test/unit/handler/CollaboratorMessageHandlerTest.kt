@@ -47,7 +47,7 @@ class CollaboratorMessageHandlerTest {
 
         handlerWebClient = WebTestClient
             .bindToRouterFunction(
-                Routes(mock(), mock(), collaboratorMessageHandler, mock()).router()
+                Routes(mock(), mock(), collaboratorMessageHandler, mock(), mock()).router()
             ).build()
     }
 
