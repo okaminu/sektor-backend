@@ -1,6 +1,5 @@
 package lt.boldadmin.sektor.backend.route
 
-import lt.boldadmin.sektor.backend.handler.CollaboratorMessageHandler
 import lt.boldadmin.sektor.backend.handler.IdentityConfirmationHandler
 import lt.boldadmin.sektor.backend.handler.identityconfirmed.CollaboratorHandler
 import lt.boldadmin.sektor.backend.handler.identityconfirmed.ProjectHandler
@@ -14,7 +13,6 @@ import org.springframework.web.reactive.function.server.router
 class Routes(
     private val worklogHandler: WorklogHandler,
     private val collaboratorHandler: CollaboratorHandler,
-    private val collaboratorMessageHandler: CollaboratorMessageHandler,
     private val identityConfirmationHandler: IdentityConfirmationHandler,
     private val projectHandler: ProjectHandler
 ) {
@@ -22,7 +20,7 @@ class Routes(
     @Bean
     fun router() = router {
         "/collaborator".nest(
-            collaboratorRoutes(collaboratorHandler, collaboratorMessageHandler, identityConfirmationHandler)
+            collaboratorRoutes(collaboratorHandler, identityConfirmationHandler)
         )
         "/worklog".nest(worklogRoutes(worklogHandler))
         GET("/projects", projectHandler::getProjects)

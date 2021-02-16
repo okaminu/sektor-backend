@@ -42,7 +42,7 @@ class IdentityConfirmationHandlerTest {
 
         val webTestClient = WebTestClient
             .bindToRouterFunction(
-                Routes(mock(), mock(), mock(), identityConfirmationHandler, mock()).router()
+                Routes(mock(), mock(), identityConfirmationHandler, mock()).router()
             ).build()
         webTestClient.post()
             .uri("/collaborator/identity-confirmation/code/request/${collaborator.mobileNumber}")
@@ -65,7 +65,7 @@ class IdentityConfirmationHandlerTest {
 
         val webTestClient = WebTestClient
             .bindToRouterFunction(
-                Routes(mock(), mock(), mock(), identityConfirmationHandler, mock()).router()
+                Routes(mock(), mock(), identityConfirmationHandler, mock()).router()
             ).build()
         val returnResult = webTestClient.post()
             .uri("/collaborator/identity-confirmation/code/confirm/$confirmationCode")
