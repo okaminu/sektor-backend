@@ -47,7 +47,7 @@ class CollaboratorHandlerTest {
         )
 
         val collaboratorHandler = CollaboratorHandler(collaboratorAuthService, coordinatesPublisherSpy)
-        val routerFunction = Routes(mock(), collaboratorHandler, mock(), mock(), mock()).router()
+        val routerFunction = Routes(mock(), collaboratorHandler, mock(), mock()).router()
         webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
         doReturn(COLLABORATOR_ID).`when`(identityConfirmationStub).getUserIdByToken(AUTH_TOKEN)
     }

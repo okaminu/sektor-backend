@@ -39,7 +39,7 @@ class WorklogHandlerTest {
             identityConfirmationStub
         )
         val worklogHandler = WorklogHandler(collaboratorAuthService, workLogStatusServiceStub)
-        val routerFunction = Routes(worklogHandler, mock(), mock(), mock(), mock()).router()
+        val routerFunction = Routes(worklogHandler, mock(), mock(), mock()).router()
         webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
     }
 
