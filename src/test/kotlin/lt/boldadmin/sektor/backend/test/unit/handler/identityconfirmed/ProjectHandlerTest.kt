@@ -41,7 +41,7 @@ class ProjectHandlerTest {
         )
 
         val projectHandler = ProjectHandler(collaboratorAuthService, userServiceStub)
-        val routerFunction = Routes(mock(), mock(), mock(), projectHandler).router()
+        val routerFunction = Routes(mock(), mock(), mock(), mock(), projectHandler).router()
         webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
         doReturn(COLLABORATOR_ID).`when`(identityConfirmationStub).getUserIdByToken(AUTH_TOKEN)
     }
